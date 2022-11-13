@@ -38,6 +38,7 @@ export class Address extends BaseEntity {
     buildingNumber: number,
   ) {
     super();
+
     this.country = country;
     this.city = city;
     this.street = street;

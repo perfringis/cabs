@@ -14,7 +14,7 @@ export class AwardsAccount extends BaseEntity {
   @Column({ nullable: false, type: 'boolean' })
   private isActive: boolean;
 
-  @Column({ nullable: false, default: 0 })
+  @Column({ nullable: false, type: 'bigint', default: 0 })
   private transactions: number;
 
   public getClient(): Client {
