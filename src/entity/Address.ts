@@ -4,31 +4,31 @@ import objectHash from 'object-hash';
 
 @Entity()
 export class Address extends BaseEntity {
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private country: string | null;
 
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private district: string | null;
 
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private city: string | null;
 
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private street: string | null;
 
-  @Column({ nullable: true, type: 'bigint' }) // TODO: change
+  @Column({ nullable: true, type: 'bigint' })
   private buildingNumber: number | null;
 
-  @Column({ nullable: true, type: 'bigint' }) // TODO: change
+  @Column({ nullable: true, type: 'bigint' })
   private additionalNumber: number | null;
 
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private postalCode: string | null;
 
-  @Column({ nullable: true, type: 'varchar' }) // TODO: change
+  @Column({ nullable: true, type: 'varchar' })
   private name: string | null;
 
-  @Column({ nullable: true, type: 'varchar', unique: true }) // TODO: change
+  @Column({ nullable: true, type: 'varchar', unique: true })
   private hash: string | null;
 
   constructor(

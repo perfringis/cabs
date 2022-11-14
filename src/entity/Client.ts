@@ -19,53 +19,58 @@ export enum ClientType {
 
 @Entity()
 export class Client {
-  @Column({ type: 'enum', enum: Type })
-  private type: Type;
+  @Column({ nullable: true, type: 'enum', enum: Type })
+  private type: Type | null;
 
-  @Column()
-  private name: string;
+  @Column({ nullable: true, type: 'varchar' })
+  private name: string | null;
 
-  @Column()
-  private lastName: string;
+  @Column({ nullable: true, type: 'varchar' })
+  private lastName: string | null;
 
-  @Column({ type: 'enum', enum: PaymentType })
-  private defaultPaymentType: PaymentType;
+  @Column({ nullable: true, type: 'enum', enum: PaymentType })
+  private defaultPaymentType: PaymentType | null;
 
-  @Column({ type: 'enum', enum: ClientType, default: ClientType.INDIVIDUAL })
+  @Column({
+    nullable: true,
+    type: 'enum',
+    enum: ClientType,
+    default: ClientType.INDIVIDUAL,
+  })
   private clientType: ClientType;
 
   @OneToMany(() => Claim, (claim) => claim.owner)
   public claims: Claim[];
 
-  public getType(): Type {
+  public getType(): Type | null {
     return this.type;
   }
 
-  public setType(type: Type): void {
+  public setType(type: Type | null): void {
     this.type = type;
   }
 
-  public getName(): string {
+  public getName(): string | null {
     return this.name;
   }
 
-  public setName(name: string): void {
+  public setName(name: string | null): void {
     this.name = name;
   }
 
-  public getLastName(): string {
+  public getLastName(): string | null {
     return this.lastName;
   }
 
-  public setLastName(lastName: string): void {
+  public setLastName(lastName: string | null): void {
     this.lastName = lastName;
   }
 
-  public getDefaultPaymentType(): PaymentType {
+  public getDefaultPaymentType(): PaymentType | null {
     return this.defaultPaymentType;
   }
 
-  public setDefaultPaymentType(defaultPaymentType: PaymentType): void {
+  public setDefaultPaymentType(defaultPaymentType: PaymentType | null): void {
     this.defaultPaymentType = defaultPaymentType;
   }
 
