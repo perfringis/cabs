@@ -41,7 +41,7 @@ export class Claim extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   private incidentDescription: string | null;
 
-  @Column({ nullable: true, type: 'enum', enum: CompletionMode, default: null })
+  @Column({ nullable: true, type: 'enum', enum: CompletionMode })
   private completionMode: CompletionMode | null;
 
   @Column({ nullable: false, type: 'enum', enum: ClaimStatus })

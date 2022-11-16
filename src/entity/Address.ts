@@ -114,6 +114,7 @@ export class Address extends BaseEntity {
   }
 
   public setHash(): void {
+    // TODO: check in future if this will work
     this.hash = objectHash({
       country: this.country,
       district: this.district,

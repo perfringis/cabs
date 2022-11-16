@@ -31,13 +31,8 @@ export class Client {
   @Column({ nullable: true, type: 'enum', enum: PaymentType })
   private defaultPaymentType: PaymentType | null;
 
-  @Column({
-    nullable: true,
-    type: 'enum',
-    enum: ClientType,
-    default: ClientType.INDIVIDUAL,
-  })
-  private clientType: ClientType;
+  @Column({ nullable: true, type: 'enum', enum: ClientType })
+  private clientType: ClientType | null;
 
   @OneToMany(() => Claim, (claim) => claim.owner)
   public claims: Claim[];
@@ -74,11 +69,11 @@ export class Client {
     this.defaultPaymentType = defaultPaymentType;
   }
 
-  public getClientType(): ClientType {
+  public getClientType(): ClientType | null {
     return this.clientType;
   }
 
-  public setClientType(clientType: ClientType): void {
+  public setClientType(clientType: ClientType | null): void {
     this.clientType = clientType;
   }
 

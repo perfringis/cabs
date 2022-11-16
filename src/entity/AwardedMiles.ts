@@ -11,11 +11,10 @@ export class AwardedMiles extends BaseEntity {
   // 1. miles + expirationDate -> VO przykrywające logikę walidacji, czy nie przekroczono daty ważności punktów
   // 2. wydzielenie interfejsu Miles -> różne VO z różną logiką, np. ExpirableMiles, NonExpirableMiles, LinearExpirableMiles
 
-  // @ManyToOne(() => Client, (client) => client.awardedMiles) // check
   @ManyToOne(() => Client)
-  public client: Client;
+  public client: Client; // create clientId column
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'bigint' })
   private miles: number;
 
   @Column({ nullable: false, type: 'bigint', default: Date.now() })
@@ -30,8 +29,7 @@ export class AwardedMiles extends BaseEntity {
   // @ManyToOne(() => Transit, (transit) => transit.awardedMiles)
   // creates transitId column
   @ManyToOne(() => Transit)
-  // private transit: Transit;
-  public transit: Transit | null;
+  public transit: Transit | null; // create transitId column
 
   public getClient(): Client {
     return this.client;
