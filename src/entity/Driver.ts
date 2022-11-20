@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { DriverAttribute } from './DriverAttribute';
 import { DriverFee } from './DriverFee';
 import { Transit } from './Transit';
@@ -14,6 +14,7 @@ export enum DriverType {
   REGULAR = 'regular',
 }
 
+@Entity()
 export class Driver extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: DriverType })
   private type: DriverType | null;
@@ -45,5 +46,4 @@ export class Driver extends BaseEntity {
 
   @OneToMany(() => Transit, (transit) => transit.driver)
   public transits: Transit[];
-  
 }

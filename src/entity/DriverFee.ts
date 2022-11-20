@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Driver } from './Driver';
 
 export enum FeeType {
@@ -7,6 +7,7 @@ export enum FeeType {
   PERCENTAGE = 'percentage',
 }
 
+@Entity()
 export class DriverFee extends BaseEntity {
   @Column({ nullable: false, type: 'enum', enum: FeeType })
   private feeType: FeeType;

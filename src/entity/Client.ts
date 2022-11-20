@@ -1,3 +1,4 @@
+import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Claim } from './Claim';
 
@@ -18,7 +19,7 @@ export enum ClientType {
 }
 
 @Entity()
-export class Client {
+export class Client extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: Type })
   private type: Type | null;
 
