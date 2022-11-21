@@ -46,8 +46,9 @@ export class Driver extends BaseEntity {
   @JoinColumn({ name: 'fee_id' })
   public fee: DriverFee;
 
-  // @OneToMany(() => DriverAttribute, (driverAttribute) => driverAttribute.driver)
+  @OneToMany(() => DriverAttribute, (driverAttribute) => driverAttribute.driver)
   // public attributes: DriverAttribute[];
+  public attributes: Set<DriverAttribute>;
 
   // @OneToMany(() => Transit, (transit) => transit.driver)
   // public transits: Transit[];

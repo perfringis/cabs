@@ -1,10 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Driver } from './Driver';
 
 export enum DriverAttributeName {
@@ -18,17 +13,17 @@ export enum DriverAttributeName {
   COMPANY_NAME = 'companyName',
 }
 
-@Entity()
+@Entity({ name: 'driver_attribute' })
 export class DriverAttribute extends BaseEntity {
   @Column({ nullable: false, type: 'enum', enum: DriverAttributeName })
   private name: DriverAttributeName;
 
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({ nullable: false, type: 'varchar', length: 255 })
   private value: String;
 
-  // @ManyToOne(() => Driver, (driver) => driver.attributes)
-  // @JoinColumn({ name: 'driver_id' })
-  // public driver: Driver;
+  @ManyToOne(() => Driver, (driver) => driver.attributes)
+  @JoinColumn({ name: 'driver_id' })
+  public driver: Driver;
 
   // constructor(
   //   driver: Driver,

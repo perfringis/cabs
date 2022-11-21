@@ -9,6 +9,7 @@ import { DriverFee } from './entity/DriverFee';
 import { DriverPosition } from './entity/DriverPosition';
 import { DriverSession } from './entity/DriverSession';
 import { Driver } from './entity/Driver';
+import { DriverAttribute } from './entity/DriverAttribute';
 
 @Module({
   imports: [
@@ -24,7 +25,16 @@ import { Driver } from './entity/Driver';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Address, Invoice, CarType, DriverFee, DriverPosition, DriverSession, Driver],
+      entities: [
+        Address,
+        Invoice,
+        CarType,
+        DriverFee,
+        DriverPosition,
+        DriverSession,
+        DriverAttribute,
+        Driver,
+      ],
     }),
   ],
   controllers: [],
