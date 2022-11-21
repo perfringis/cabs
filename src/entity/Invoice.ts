@@ -1,12 +1,17 @@
 import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'invoice' })
 export class Invoice extends BaseEntity {
-  @Column({ nullable: true, type: 'decimal', precision: 10, scale: 2 })
+  @Column({ nullable: true, type: 'decimal', precision: 19, scale: 2 })
   private amount: number | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({
+    name: 'subject_name',
+    nullable: true,
+    type: 'varchar',
+    length: 255,
+  })
   private subjectName: string | null;
 
   public getAmount(): number | null {

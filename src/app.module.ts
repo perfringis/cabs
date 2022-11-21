@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Address } from './entity/Address';
+import { Invoice } from './entity/Invoice';
 
 @Module({
   imports: [
@@ -17,11 +18,10 @@ import { Address } from './entity/Address';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Address],
+      entities: [Address, Invoice],
     }),
   ],
   controllers: [],
   providers: [],
 })
-
 export class AppModule {}
