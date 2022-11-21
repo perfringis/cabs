@@ -2,27 +2,19 @@ import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Driver } from './Driver';
 
-@Entity()
+@Entity({ name: 'driver_position' })
 export class DriverPosition extends BaseEntity {
-  @ManyToOne(() => Driver, (driver) => driver)
-  public driver: Driver;
-
-  @Column({ nullable: false, type: 'float' })
+  @Column({ nullable: false, type: 'double' })
   private latitude: number;
 
-  @Column({ nullable: false, type: 'float' })
+  @Column({ nullable: false, type: 'double' })
   private longitude: number;
 
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'seen_at', nullable: false, type: 'bigint' })
   private seenAt: number;
 
-  public getDriver(): Driver {
-    return this.driver;
-  }
-
-  public setDriver(driver: Driver): void {
-    this.driver = driver;
-  }
+  // @ManyToOne(() => Driver, (driver) => driver)
+  // public driver: Driver;
 
   public getLatitude(): number {
     return this.latitude;
@@ -47,4 +39,12 @@ export class DriverPosition extends BaseEntity {
   public setSeenAt(seenAt: number): void {
     this.seenAt = seenAt;
   }
+
+  // public getDriver(): Driver {
+  //   return this.driver;
+  // }
+
+  // public setDriver(driver: Driver): void {
+  //   this.driver = driver;
+  // }
 }

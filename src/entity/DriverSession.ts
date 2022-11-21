@@ -4,22 +4,30 @@ import { Entity } from 'typeorm/decorator/entity/Entity';
 import { CarClass } from './CarType';
 import { Driver } from './Driver';
 
-@Entity()
+@Entity({ name: 'driver_session' })
 export class DriverSession extends BaseEntity {
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'logged_at', nullable: false, type: 'bigint' })
   private loggedAt: number;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'logged_out_at', nullable: true, type: 'bigint' })
   private loggedOutAt: number | null;
 
-  @ManyToOne(() => Driver, (driver) => driver)
-  public driver: Driver;
-
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({
+    name: 'plates_number',
+    nullable: false,
+    type: 'varchar',
+    length: 255,
+  })
   private platesNumber: string;
 
-  @Column({ nullable: true, type: 'enum', enum: CarClass })
-  private carClass: CarClass;
+  @Column({ name: 'car_class', nullable: true, type: 'enum', enum: CarClass })
+  private carClass: CarClass | null;
+
+  @Column({ name: 'car_brand', nullable: true, type: 'varchar', length: 255 })
+  private carBrand: string | null;
+
+  // @ManyToOne(() => Driver, (driver) => driver)
+  // public driver: Driver;
 
   public getLoggedAt(): number {
     return this.loggedAt;
@@ -37,14 +45,6 @@ export class DriverSession extends BaseEntity {
     this.loggedOutAt = loggedOutAt;
   }
 
-  public getDriver(): Driver {
-    return this.driver;
-  }
-
-  public setDriver(driver: Driver): void {
-    this.driver = driver;
-  }
-
   public getPlatesNumber(): string {
     return this.platesNumber;
   }
@@ -53,11 +53,27 @@ export class DriverSession extends BaseEntity {
     this.platesNumber = platesNumber;
   }
 
-  public getCarClass(): CarClass {
+  public getCarClass(): CarClass | null {
     return this.carClass;
   }
 
-  public setCarClass(carClass: CarClass): void {
+  public setCarClass(carClass: CarClass | null): void {
     this.carClass = carClass;
   }
+
+  public getCarBrand(): string | null {
+    return this.carBrand;
+  }
+
+  public setCarBrand(carBrand: string | null): void {
+    this.carBrand = carBrand;
+  }
+
+  // public getDriver(): Driver {
+  //   return this.driver;
+  // }
+
+  // public setDriver(driver: Driver): void {
+  //   this.driver = driver;
+  // }
 }

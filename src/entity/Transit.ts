@@ -83,8 +83,8 @@ export class Transit extends BaseEntity {
   @Column({ nullable: true, default: 0 })
   private pickupAddressChangeCounter: number | null;
 
-  @ManyToOne(() => Driver, (driver) => driver.transits, { eager: true })
-  public driver: Driver;
+  // @ManyToOne(() => Driver, (driver) => driver.transits, { eager: true })
+  // public driver: Driver;
 
   @Column({ nullable: true, type: 'bigint' })
   private acceptedAt: number | null;

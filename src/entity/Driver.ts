@@ -22,28 +22,33 @@ export class Driver extends BaseEntity {
   @Column({ nullable: false, type: 'enum', enum: DriverStatus })
   private status: DriverStatus;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ name: 'first_name', nullable: true, type: 'varchar', length: 255 })
   private firstName: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ name: 'last_name', nullable: true, type: 'varchar', length: 255 })
   private lastName: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private photo: string | null;
 
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({
+    name: 'driver_license',
+    nullable: false,
+    type: 'varchar',
+    length: 255,
+  })
   private driverLicense: string;
 
-  @OneToOne(() => DriverFee, (fee) => fee.driver)
-  @JoinColumn()
-  public fee: DriverFee; // create feeId column
+  @Column({ name: 'is_occupied', nullable: false, type: 'boolean' })
+  private isOccupied: boolean;
 
-  @Column({ nullable: true, type: 'boolean' })
-  private isOccupied: boolean | null;
+  @OneToOne(() => DriverFee, (driverFee) => driverFee.driver)
+  @JoinColumn({ name: 'fee_id' })
+  public fee: DriverFee;
 
-  @OneToMany(() => DriverAttribute, (driverAttribute) => driverAttribute.driver)
-  public attributes: DriverAttribute[];
+  // @OneToMany(() => DriverAttribute, (driverAttribute) => driverAttribute.driver)
+  // public attributes: DriverAttribute[];
 
-  @OneToMany(() => Transit, (transit) => transit.driver)
-  public transits: Transit[];
+  // @OneToMany(() => Transit, (transit) => transit.driver)
+  // public transits: Transit[];
 }

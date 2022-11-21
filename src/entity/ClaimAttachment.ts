@@ -4,10 +4,6 @@ import { Claim } from './Claim';
 
 @Entity()
 export class ClaimAttachment extends BaseEntity {
-  //   @ManyToOne(() => Claim, (claim) => claim.attachments)
-  @ManyToOne(() => Claim)
-  private claim: Claim;
-
   @Column({ nullable: false, type: 'bigint' })
   private creationDate: number;
 
@@ -16,6 +12,9 @@ export class ClaimAttachment extends BaseEntity {
 
   @Column({ nullable: true, type: 'bytea', name: 'data' })
   private data: Buffer | null;
+
+  @ManyToOne(() => Claim)
+  private claim: Claim;
 
   public getClaim(): Claim {
     return this.claim;

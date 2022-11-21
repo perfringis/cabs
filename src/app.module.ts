@@ -4,6 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { Address } from './entity/Address';
 import { Invoice } from './entity/Invoice';
 import { CarType } from './entity/CarType';
+import { AwardedMiles } from './entity/AwardedMiles';
+import { DriverFee } from './entity/DriverFee';
+import { DriverPosition } from './entity/DriverPosition';
+import { DriverSession } from './entity/DriverSession';
+import { Driver } from './entity/Driver';
 
 @Module({
   imports: [
@@ -19,7 +24,7 @@ import { CarType } from './entity/CarType';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Address, Invoice, CarType],
+      entities: [Address, Invoice, CarType, DriverFee, DriverPosition, DriverSession, Driver],
     }),
   ],
   controllers: [],

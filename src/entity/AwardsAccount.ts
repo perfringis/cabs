@@ -4,10 +4,6 @@ import { Client } from './Client';
 
 @Entity()
 export class AwardsAccount extends BaseEntity {
-  @OneToOne(() => Client, { eager: true })
-  @JoinColumn()
-  private client: Client; // create clientId column
-
   @Column({ nullable: false, type: 'bigint', default: Date.now() })
   private date: number;
 
@@ -16,6 +12,10 @@ export class AwardsAccount extends BaseEntity {
 
   @Column({ nullable: false, type: 'bigint', default: 0 })
   private transactions: number;
+
+  @OneToOne(() => Client, { eager: true })
+  @JoinColumn()
+  private client: Client; // create clientId column
 
   public getClient(): Client {
     return this.client;

@@ -7,33 +7,33 @@ export enum FeeType {
   PERCENTAGE = 'percentage',
 }
 
-@Entity()
+@Entity({ name: 'driver_fee' })
 export class DriverFee extends BaseEntity {
-  @Column({ nullable: false, type: 'enum', enum: FeeType })
+  @Column({ name: 'fee_type', nullable: false, type: 'enum', enum: FeeType })
   private feeType: FeeType;
+
+  @Column({ nullable: false, type: 'int' })
+  private amount: number;
+
+  @Column({ nullable: true, type: 'int' })
+  private min: number | null;
 
   @OneToOne(() => Driver, (driver) => driver.fee)
   public driver: Driver;
 
-  @Column({ nullable: false, type: 'bigint' })
-  private amount: number;
+  // constructor(
+  //   feeType: FeeType,
+  //   driver: Driver,
+  //   amount: number,
+  //   min: number | null,
+  // ) {
+  //   super();
 
-  @Column({ nullable: true, type: 'bigint' })
-  private min: number | null;
-
-  constructor(
-    feeType: FeeType,
-    driver: Driver,
-    amount: number,
-    min: number | null,
-  ) {
-    super();
-
-    this.feeType = feeType;
-    this.driver = driver;
-    this.amount = amount;
-    this.min = min;
-  }
+  //   this.feeType = feeType;
+  //   this.driver = driver;
+  //   this.amount = amount;
+  //   this.min = min;
+  // }
 
   public getFeeType(): FeeType {
     return this.feeType;
@@ -41,14 +41,6 @@ export class DriverFee extends BaseEntity {
 
   public setFeeType(feeType: FeeType): void {
     this.feeType = feeType;
-  }
-
-  public getDriver(): Driver {
-    return this.driver;
-  }
-
-  public setDriver(driver: Driver): void {
-    this.driver = driver;
   }
 
   public getAmount(): number {
@@ -66,4 +58,12 @@ export class DriverFee extends BaseEntity {
   public setMin(min: number | null): void {
     this.min = min;
   }
+
+  // public getDriver(): Driver {
+  //   return this.driver;
+  // }
+
+  // public setDriver(driver: Driver): void {
+  //   this.driver = driver;
+  // }
 }

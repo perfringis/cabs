@@ -19,12 +19,6 @@ export enum ClaimStatus {
 
 @Entity()
 export class Claim extends BaseEntity {
-  @ManyToOne(() => Client, (client) => client.claims)
-  public owner: Client; // create ownerId/clientId column
-
-  @OneToOne(() => Transit)
-  @JoinColumn()
-  private transit: Transit; // create transitId column
 
   @Column({ nullable: false, type: 'bigint' })
   private creationDate: number;
@@ -49,6 +43,13 @@ export class Claim extends BaseEntity {
 
   @Column({ nullable: false, type: 'varchar' })
   private claimNo: string;
+
+  @ManyToOne(() => Client, (client) => client.claims)
+  public owner: Client; // create ownerId/clientId column
+
+  @OneToOne(() => Transit)
+  @JoinColumn()
+  private transit: Transit; // create transitId column
 
   public getOwner(): Client {
     return this.owner;

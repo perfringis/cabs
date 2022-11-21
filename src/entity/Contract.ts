@@ -10,14 +10,6 @@ export enum ContractStatus {
 
 @Entity()
 export class Contract extends BaseEntity {
-  @OneToMany(
-    () => ContractAttachment,
-    (contractAttachment) => contractAttachment.contract,
-    { eager: true },
-  )
-  //   public attachments: Set<ContractAttachment>;
-  public attachments: ContractAttachment[];
-
   @Column({ nullable: true, type: 'varchar' })
   private partnerName: string | null;
 
@@ -46,6 +38,13 @@ export class Contract extends BaseEntity {
 
   @Column({ nullable: false, type: 'varchar' })
   private contractNo: string;
+
+  @OneToMany(
+    () => ContractAttachment,
+    (contractAttachment) => contractAttachment.contract,
+    { eager: true },
+  )
+  public attachments: ContractAttachment[];
 
   public getAttachments(): ContractAttachment[] {
     return this.attachments;
