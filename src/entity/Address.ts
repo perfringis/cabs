@@ -2,33 +2,33 @@ import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity } from 'typeorm';
 import objectHash from 'object-hash';
 
-@Entity()
+@Entity({ name: 'address' })
 export class Address extends BaseEntity {
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private country: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private district: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private city: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private street: string | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'building_number', nullable: true, type: 'int' })
   private buildingNumber: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'additional_number', nullable: true, type: 'int' })
   private additionalNumber: number | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ name: 'postal_code', nullable: true, type: 'varchar', length: 255 })
   private postalCode: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private name: string | null;
 
-  @Column({ nullable: true, type: 'varchar', unique: true })
+  @Column({ nullable: true, type: 'varchar', length: 255, unique: true })
   private hash: string | null;
 
   constructor(
