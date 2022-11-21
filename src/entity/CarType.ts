@@ -13,12 +13,12 @@ export enum CarStatus {
   ACTIVE = 'active',
 }
 
-@Entity()
+@Entity({ name: 'car_type' })
 export class CarType extends BaseEntity {
-  @Column({ nullable: false, type: 'enum', enum: CarClass })
+  @Column({ name: 'car_class', nullable: false, type: 'enum', enum: CarClass })
   private carClass: CarClass;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private description: string | null;
 
   @Column({
@@ -29,13 +29,17 @@ export class CarType extends BaseEntity {
   })
   private status: CarStatus | null;
 
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'cars_counter', nullable: false, type: 'int' })
   private carsCounter: number;
 
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({
+    name: 'min_no_of_cars_to_activate_class',
+    nullable: false,
+    type: 'int',
+  })
   private minNoOfCarsToActivateClass: number;
 
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'active_cars_counter', nullable: false, type: 'int' })
   private activeCarsCounter: number;
 
   constructor(

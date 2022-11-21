@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Address } from './entity/Address';
 import { Invoice } from './entity/Invoice';
+import { CarType } from './entity/CarType';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Invoice } from './entity/Invoice';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [Address, Invoice],
+      entities: [Address, Invoice, CarType],
     }),
   ],
   controllers: [],
