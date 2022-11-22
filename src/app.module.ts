@@ -15,6 +15,8 @@ import { Claim } from './entity/Claim';
 import { ClaimAttachment } from './entity/ClaimAttachment';
 import { ContractAttachment } from './entity/ContractAttachment';
 import { Contract } from './entity/Contract';
+import { Transit } from './entity/Transit';
+import { AwardedMiles } from './entity/AwardedMiles';
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { Contract } from './entity/Contract';
         ClaimAttachment,
         ContractAttachment,
         Contract,
+        AwardedMiles,
+        Transit,
       ],
     }),
   ],

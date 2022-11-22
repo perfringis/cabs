@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Client } from './Client';
 import { Transit } from './Transit';
 
@@ -21,6 +21,7 @@ export class AwardedMiles extends BaseEntity {
   public transit: Transit;
 
   @ManyToOne(() => Client, (client) => client)
+  @JoinColumn({ name: 'client_id' })
   public client: Client;
 
   public getClient(): Client {

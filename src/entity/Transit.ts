@@ -1,5 +1,12 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Address } from './Address';
 import { CarClass } from './CarType';
 import { Client, PaymentType } from './Client';
@@ -53,17 +60,32 @@ export enum DayOfWeek {
   SATURDAY,
 }
 
-@Entity()
+@Entity({ name: 'transit' })
 export class Transit extends BaseEntity {
   public static readonly BASE_FEE: number = 8;
 
-  @Column({ nullable: true, type: 'enum', enum: DriverPaymentStatus })
+  @Column({
+    name: 'driver_payment_status',
+    nullable: true,
+    type: 'enum',
+    enum: DriverPaymentStatus,
+  })
   private driverPaymentStatus: DriverPaymentStatus | null;
 
-  @Column({ nullable: true, type: 'enum', enum: ClientPaymentStatus })
+  @Column({
+    name: 'client_payment_status',
+    nullable: true,
+    type: 'enum',
+    enum: ClientPaymentStatus,
+  })
   private clientPaymentStatus: ClientPaymentStatus | null;
 
-  @Column({ nullable: true, type: 'enum', enum: PaymentType })
+  @Column({
+    name: 'payment_type',
+    nullable: true,
+    type: 'enum',
+    enum: PaymentType,
+  })
   private paymentType: PaymentType | null;
 
   @Column({ nullable: true, type: 'enum', enum: Status })
@@ -72,60 +94,76 @@ export class Transit extends BaseEntity {
   @Column({ nullable: true, type: 'bigint' })
   private date: number | null;
 
-  @ManyToOne(() => Address, (address) => address, { eager: true })
-  @JoinColumn()
-  private from: Address;
-
-  @ManyToOne(() => Address, (address) => address, { eager: true })
-  @JoinColumn()
-  private to: Address;
-
-  @Column({ nullable: true, default: 0 })
+  @Column({ name: 'pickup_address_change_counter', nullable: true, default: 0 })
   private pickupAddressChangeCounter: number | null;
 
-  // @ManyToOne(() => Driver, (driver) => driver.transits, { eager: true })
-  // public driver: Driver;
-
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
   private acceptedAt: number | null;
 
   @Column({ nullable: true, type: 'bigint' })
   private started: number | null;
 
-  @ManyToMany(() => Driver, (driver) => driver)
-  private driversRejections: Set<Driver>;
-
-  @ManyToMany(() => Driver, (driver) => driver)
-  private proposedDrivers: Set<Driver>;
-
-  @Column({ nullable: true, default: 0 })
+  @Column({
+    name: 'awaiting_drivers_responses',
+    type: 'int',
+    nullable: true,
+    default: 0,
+  })
   private awaitingDriversResponses: number | null;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   private factor: number | null;
 
-  @Column({ nullable: true, type: 'float' })
-  private km: number | null;
+  @Column({ nullable: false, type: 'float' })
+  private km: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   private price: number | null;
 
-  @Column({ nullable: true })
+  @Column({ name: 'estimated_price', nullable: true, type: 'int' })
   private estimatedPrice: number | null;
 
-  @Column({ nullable: true })
+  @Column({ name: 'drivers_fee', nullable: true, type: 'int' })
   private driversFee: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'date_time', nullable: true, type: 'bigint' })
   private dateTime: number | null;
 
   @Column({ nullable: true, type: 'bigint' })
   private published: number | null;
 
+  @Column({ name: 'car_type', nullable: true, type: 'enum', enum: CarClass })
+  private carType: CarClass;
+
+  @ManyToOne(() => Address, (address) => address, { eager: true })
+  @JoinColumn({ name: 'from_id' })
+  private from: Address;
+
+  @ManyToOne(() => Address, (address) => address, { eager: true })
+  @JoinColumn({ name: 'to_id' })
+  private to: Address;
+
+  @ManyToOne(() => Driver, (driver) => driver.transits, { eager: true })
+  @JoinColumn({ name: 'driver_id' })
+  public driver: Driver;
+
   @ManyToOne(() => Client, (client) => client, { eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'client_id' })
   private client: Client;
 
-  @Column({ nullable: true, type: 'enum', enum: CarClass })
-  private carType: CarClass;
+  @ManyToMany(() => Driver, (driver) => driver)
+  @JoinTable({
+    name: 'transit_drivers_rejections',
+    joinColumn: { name: 'transit_id' },
+    inverseJoinColumn: { name: 'drivers_rejections_id' },
+  })
+  private driversRejections: Set<Driver>;
+
+  @ManyToMany(() => Driver, (driver) => driver)
+  @JoinTable({
+    name: 'transit_proposed_drivers',
+    joinColumn: { name: 'transit_id' },
+    inverseJoinColumn: { name: 'proposed_drivers_id' },
+  })
+  private proposedDrivers: Set<Driver>;
 }

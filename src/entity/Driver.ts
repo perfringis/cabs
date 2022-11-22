@@ -50,6 +50,6 @@ export class Driver extends BaseEntity {
   // public attributes: DriverAttribute[];
   public attributes: Set<DriverAttribute>;
 
-  // @OneToMany(() => Transit, (transit) => transit.driver)
-  // public transits: Transit[];
+  @OneToMany(() => Transit, (transit) => transit.driver)
+  public transits: Transit[];
 }
