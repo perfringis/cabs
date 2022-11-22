@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contract } from './Contract';
 
 export enum ContractAttachmentStatus {
@@ -9,21 +9,26 @@ export enum ContractAttachmentStatus {
   REJECTED = 'rejected',
 }
 
-@Entity()
+@Entity({ name: 'contract_attachment' })
 export class ContractAttachment extends BaseEntity {
-  @Column({ nullable: true, type: 'bytea', name: 'data' })
+  @Column({ nullable: true, type: 'blob', name: 'data' })
   private data: Buffer | null;
 
-  @Column({ nullable: false, type: 'bigint', default: Date.now() })
+  @Column({
+    name: 'creation_date',
+    nullable: false,
+    type: 'bigint',
+    default: Date.now(),
+  })
   private creationDate: number;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
   private acceptedAt: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'rejected_at', nullable: true, type: 'bigint' })
   private rejectedAt: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
   private changeDate: number | null;
 
   @Column({
@@ -35,6 +40,7 @@ export class ContractAttachment extends BaseEntity {
   private status: ContractAttachmentStatus | null;
 
   @ManyToOne(() => Contract, (contract) => contract.attachments)
+  @JoinColumn({ name: 'contract_id' })
   public contract: Contract;
 
   public getData(): Buffer | null {
@@ -85,11 +91,11 @@ export class ContractAttachment extends BaseEntity {
     this.status = status;
   }
 
-  public getContract(): Contract {
-    return this.contract;
-  }
+  // public getContract(): Contract {
+  //   return this.contract;
+  // }
 
-  public setContract(contract: Contract): void {
-    this.contract = contract;
-  }
+  // public setContract(contract: Contract): void {
+  //   this.contract = contract;
+  // }
 }

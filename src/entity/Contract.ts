@@ -8,24 +8,34 @@ export enum ContractStatus {
   ACCEPTED = 'accepted',
 }
 
-@Entity()
+@Entity({ name: 'contract' })
 export class Contract extends BaseEntity {
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({
+    name: 'partner_name',
+    nullable: true,
+    type: 'varchar',
+    length: 255,
+  })
   private partnerName: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private subject: string | null;
 
-  @Column({ nullable: false, type: 'bigint', default: Date.now() })
+  @Column({
+    name: 'creation_date',
+    nullable: false,
+    type: 'bigint',
+    default: Date.now(),
+  })
   private creationDate: number;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
   private acceptedAt: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'rejected_at', nullable: true, type: 'bigint' })
   private rejectedAt: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
   private changeDate: number | null;
 
   @Column({
@@ -36,7 +46,7 @@ export class Contract extends BaseEntity {
   })
   private status: ContractStatus;
 
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({ name: 'contract_no', nullable: false, type: 'varchar', length: 255 })
   private contractNo: string;
 
   @OneToMany(

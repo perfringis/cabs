@@ -17,8 +17,8 @@ export class AwardedMiles extends BaseEntity {
   @Column({ nullable: true, type: 'boolean' })
   private isSpecial: boolean | null;
 
-  @ManyToOne(() => Transit)
-  public transit: Transit | null;
+  @ManyToOne(() => Transit, (transit) => transit)
+  public transit: Transit;
 
   @ManyToOne(() => Client, (client) => client)
   public client: Client;
@@ -63,11 +63,11 @@ export class AwardedMiles extends BaseEntity {
     this.isSpecial = special;
   }
 
-  public getTransit(): Transit | null {
+  public getTransit(): Transit {
     return this.transit;
   }
 
-  public setTransit(transit: Transit | null): void {
+  public setTransit(transit: Transit): void {
     this.transit = transit;
   }
 }

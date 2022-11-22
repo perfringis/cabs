@@ -13,17 +13,9 @@ export class AwardsAccount extends BaseEntity {
   @Column({ nullable: false, type: 'int', default: 0 })
   private transactions: number;
 
-  @OneToOne(() => Client, { eager: true })
+  @OneToOne(() => Client, (client) => client, { eager: true })
   @JoinColumn({ name: 'client_id' })
   private client: Client;
-
-  public getClient(): Client {
-    return this.client;
-  }
-
-  public setClient(client: Client): void {
-    this.client = client;
-  }
 
   public getDate(): number {
     return this.date;
@@ -47,5 +39,13 @@ export class AwardsAccount extends BaseEntity {
 
   public increaseTransactions(): void {
     this.transactions++;
+  }
+
+  public getClient(): Client {
+    return this.client;
+  }
+
+  public setClient(client: Client): void {
+    this.client = client;
   }
 }

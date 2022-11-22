@@ -10,6 +10,11 @@ import { DriverSession } from './entity/DriverSession';
 import { Driver } from './entity/Driver';
 import { DriverAttribute } from './entity/DriverAttribute';
 import { AwardsAccount } from './entity/AwardsAccount';
+import { Client } from './entity/Client';
+import { Claim } from './entity/Claim';
+import { ClaimAttachment } from './entity/ClaimAttachment';
+import { ContractAttachment } from './entity/ContractAttachment';
+import { Contract } from './entity/Contract';
 
 @Module({
   imports: [
@@ -35,6 +40,11 @@ import { AwardsAccount } from './entity/AwardsAccount';
         DriverAttribute,
         Driver,
         AwardsAccount,
+        Client,
+        Claim,
+        ClaimAttachment,
+        ContractAttachment,
+        Contract,
       ],
     }),
   ],

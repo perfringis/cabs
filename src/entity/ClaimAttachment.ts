@@ -1,19 +1,20 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Claim } from './Claim';
 
-@Entity()
+@Entity({ name: 'claim_attachment' })
 export class ClaimAttachment extends BaseEntity {
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'creation_date', nullable: false, type: 'bigint' })
   private creationDate: number;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private description: string | null;
 
-  @Column({ nullable: true, type: 'bytea', name: 'data' })
+  @Column({ nullable: true, type: 'blob' })
   private data: Buffer | null;
 
-  @ManyToOne(() => Claim)
+  @ManyToOne(() => Claim, (claim) => claim)
+  @JoinColumn({ name: 'claim_id' })
   private claim: Claim;
 
   public getClaim(): Claim {

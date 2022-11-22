@@ -18,21 +18,31 @@ export enum ClientType {
   COMPANY = 'company',
 }
 
-@Entity()
+@Entity({ name: 'client' })
 export class Client extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: Type })
   private type: Type | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 255 })
   private name: string | null;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ name: 'last_name', nullable: true, type: 'varchar', length: 255 })
   private lastName: string | null;
 
-  @Column({ nullable: true, type: 'enum', enum: PaymentType })
+  @Column({
+    name: 'default_payment_type',
+    nullable: true,
+    type: 'enum',
+    enum: PaymentType,
+  })
   private defaultPaymentType: PaymentType | null;
 
-  @Column({ nullable: true, type: 'enum', enum: ClientType })
+  @Column({
+    name: 'client_type',
+    nullable: true,
+    type: 'enum',
+    enum: ClientType,
+  })
   private clientType: ClientType | null;
 
   @OneToMany(() => Claim, (claim) => claim.owner)

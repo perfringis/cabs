@@ -17,55 +17,55 @@ export enum ClaimStatus {
   REJECTED = 'rejected',
 }
 
-@Entity()
+@Entity({ name: 'claim' })
 export class Claim extends BaseEntity {
-
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'creation_date', nullable: false, type: 'bigint' })
   private creationDate: number;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'completion_date', nullable: true, type: 'bigint' })
   private completionDate: number | null;
 
-  @Column({ nullable: true, type: 'bigint' })
+  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
   private changeDate: number | null;
 
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({ nullable: false, type: 'varchar', length: 255 })
   private reason: string;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ name: 'incident_description', nullable: true, type: 'varchar', length: 255 })
   private incidentDescription: string | null;
 
-  @Column({ nullable: true, type: 'enum', enum: CompletionMode })
+  @Column({ name: 'completion_mode', nullable: true, type: 'enum', enum: CompletionMode })
   private completionMode: CompletionMode | null;
 
   @Column({ nullable: false, type: 'enum', enum: ClaimStatus })
   private status: ClaimStatus;
 
-  @Column({ nullable: false, type: 'varchar' })
+  @Column({ name: 'claim_no', nullable: false, type: 'varchar', length: 255 })
   private claimNo: string;
 
   @ManyToOne(() => Client, (client) => client.claims)
-  public owner: Client; // create ownerId/clientId column
+  @JoinColumn({ name: 'owner_id' })
+  public owner: Client;
 
-  @OneToOne(() => Transit)
-  @JoinColumn()
-  private transit: Transit; // create transitId column
+  // @OneToOne(() => Transit)
+  // @JoinColumn({ name : 'transit_id' })
+  // private transit: Transit;
 
-  public getOwner(): Client {
-    return this.owner;
-  }
+  // public getOwner(): Client {
+  //   return this.owner;
+  // }
 
-  public setOwner(owner: Client): void {
-    this.owner = owner;
-  }
+  // public setOwner(owner: Client): void {
+  //   this.owner = owner;
+  // }
 
-  public getTransit(): Transit {
-    return this.transit;
-  }
+  // public getTransit(): Transit {
+  //   return this.transit;
+  // }
 
-  public setTransit(transit: Transit): void {
-    this.transit = transit;
-  }
+  // public setTransit(transit: Transit): void {
+  //   this.transit = transit;
+  // }
 
   public getCreationDate(): number {
     return this.creationDate;
