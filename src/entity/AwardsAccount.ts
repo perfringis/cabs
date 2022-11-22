@@ -2,20 +2,20 @@ import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Client } from './Client';
 
-@Entity()
+@Entity({ name: 'awards_account' })
 export class AwardsAccount extends BaseEntity {
   @Column({ nullable: false, type: 'bigint', default: Date.now() })
   private date: number;
 
-  @Column({ nullable: false, type: 'boolean' })
+  @Column({ name: 'is_active', nullable: false, type: 'boolean' })
   private isActive: boolean;
 
-  @Column({ nullable: false, type: 'bigint', default: 0 })
+  @Column({ nullable: false, type: 'int', default: 0 })
   private transactions: number;
 
   @OneToOne(() => Client, { eager: true })
-  @JoinColumn()
-  private client: Client; // create clientId column
+  @JoinColumn({ name: 'client_id' })
+  private client: Client;
 
   public getClient(): Client {
     return this.client;

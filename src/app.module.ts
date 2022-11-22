@@ -4,12 +4,12 @@ import { ConfigModule } from '@nestjs/config';
 import { Address } from './entity/Address';
 import { Invoice } from './entity/Invoice';
 import { CarType } from './entity/CarType';
-import { AwardedMiles } from './entity/AwardedMiles';
 import { DriverFee } from './entity/DriverFee';
 import { DriverPosition } from './entity/DriverPosition';
 import { DriverSession } from './entity/DriverSession';
 import { Driver } from './entity/Driver';
 import { DriverAttribute } from './entity/DriverAttribute';
+import { AwardsAccount } from './entity/AwardsAccount';
 
 @Module({
   imports: [
@@ -34,6 +34,7 @@ import { DriverAttribute } from './entity/DriverAttribute';
         DriverSession,
         DriverAttribute,
         Driver,
+        AwardsAccount,
       ],
     }),
   ],

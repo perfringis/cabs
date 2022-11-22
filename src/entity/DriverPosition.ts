@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Driver } from './Driver';
 
 @Entity({ name: 'driver_position' })
@@ -13,8 +13,9 @@ export class DriverPosition extends BaseEntity {
   @Column({ name: 'seen_at', nullable: false, type: 'bigint' })
   private seenAt: number;
 
-  // @ManyToOne(() => Driver, (driver) => driver)
-  // public driver: Driver;
+  @ManyToOne(() => Driver, (driver) => driver)
+  @JoinColumn({ name: 'driver_id' })
+  public driver: Driver;
 
   public getLatitude(): number {
     return this.latitude;
@@ -40,11 +41,11 @@ export class DriverPosition extends BaseEntity {
     this.seenAt = seenAt;
   }
 
-  // public getDriver(): Driver {
-  //   return this.driver;
-  // }
+  public getDriver(): Driver {
+    return this.driver;
+  }
 
-  // public setDriver(driver: Driver): void {
-  //   this.driver = driver;
-  // }
+  public setDriver(driver: Driver): void {
+    this.driver = driver;
+  }
 }

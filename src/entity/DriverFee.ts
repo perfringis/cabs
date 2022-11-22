@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Driver } from './Driver';
 
 export enum FeeType {
@@ -19,21 +19,23 @@ export class DriverFee extends BaseEntity {
   private min: number | null;
 
   @OneToOne(() => Driver, (driver) => driver.fee)
+  // TODO delete in future if will be necessary
+  @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  // constructor(
-  //   feeType: FeeType,
-  //   driver: Driver,
-  //   amount: number,
-  //   min: number | null,
-  // ) {
-  //   super();
+  constructor(
+    feeType: FeeType,
+    driver: Driver,
+    amount: number,
+    min: number | null,
+  ) {
+    super();
 
-  //   this.feeType = feeType;
-  //   this.driver = driver;
-  //   this.amount = amount;
-  //   this.min = min;
-  // }
+    this.feeType = feeType;
+    this.driver = driver;
+    this.amount = amount;
+    this.min = min;
+  }
 
   public getFeeType(): FeeType {
     return this.feeType;
@@ -59,11 +61,11 @@ export class DriverFee extends BaseEntity {
     this.min = min;
   }
 
-  // public getDriver(): Driver {
-  //   return this.driver;
-  // }
+  public getDriver(): Driver {
+    return this.driver;
+  }
 
-  // public setDriver(driver: Driver): void {
-  //   this.driver = driver;
-  // }
+  public setDriver(driver: Driver): void {
+    this.driver = driver;
+  }
 }

@@ -25,17 +25,17 @@ export class DriverAttribute extends BaseEntity {
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  // constructor(
-  //   driver: Driver,
-  //   driverAttributeName: DriverAttributeName,
-  //   value: String,
-  // ) {
-  //   super();
+  constructor(
+    driver: Driver,
+    driverAttributeName: DriverAttributeName,
+    value: String,
+  ) {
+    super();
 
-  //   this.driver = driver;
-  //   this.name = driverAttributeName;
-  //   this.value = value;
-  // }
+    this.driver = driver;
+    this.name = driverAttributeName;
+    this.value = value;
+  }
 
   public getName(): DriverAttributeName {
     return this.name;
@@ -53,11 +53,11 @@ export class DriverAttribute extends BaseEntity {
     this.value = value;
   }
 
-  // public getDriver(): Driver {
-  //   return this.driver;
-  // }
+  public getDriver(): Driver {
+    return this.driver;
+  }
 
-  // public setDriver(driver: Driver): void {
-  //   this.driver = driver;
-  // }
+  public setDriver(driver: Driver): void {
+    this.driver = driver;
+  }
 }

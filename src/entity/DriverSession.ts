@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, ManyToOne } from 'typeorm';
+import { Column, JoinColumn, ManyToOne } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { CarClass } from './CarType';
 import { Driver } from './Driver';
@@ -26,8 +26,9 @@ export class DriverSession extends BaseEntity {
   @Column({ name: 'car_brand', nullable: true, type: 'varchar', length: 255 })
   private carBrand: string | null;
 
-  // @ManyToOne(() => Driver, (driver) => driver)
-  // public driver: Driver;
+  @ManyToOne(() => Driver, (driver) => driver)
+  @JoinColumn({ name: 'driver_id' })
+  public driver: Driver;
 
   public getLoggedAt(): number {
     return this.loggedAt;
@@ -69,11 +70,11 @@ export class DriverSession extends BaseEntity {
     this.carBrand = carBrand;
   }
 
-  // public getDriver(): Driver {
-  //   return this.driver;
-  // }
+  public getDriver(): Driver {
+    return this.driver;
+  }
 
-  // public setDriver(driver: Driver): void {
-  //   this.driver = driver;
-  // }
+  public setDriver(driver: Driver): void {
+    this.driver = driver;
+  }
 }
