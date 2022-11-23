@@ -25,19 +25,19 @@ export class AwardsAccount extends BaseEntity {
     this.date = date;
   }
 
-  public isAwardActive(): boolean {
+  public getIsActive(): boolean {
     return this.isActive;
   }
 
-  public setActive(active: boolean) {
-    this.isActive = active;
+  public setIsActive(isActive: boolean): void {
+    this.isActive = isActive;
   }
 
   public getTransactions(): number {
     return this.transactions;
   }
 
-  public increaseTransactions(): void {
+  public increaseTransactions(transactions: number): void {
     this.transactions++;
   }
 

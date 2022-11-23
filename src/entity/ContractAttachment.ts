@@ -91,11 +91,11 @@ export class ContractAttachment extends BaseEntity {
     this.status = status;
   }
 
-  // public getContract(): Contract {
-  //   return this.contract;
-  // }
+  public getContract(): Contract {
+    return this.contract;
+  }
 
-  // public setContract(contract: Contract): void {
-  //   this.contract = contract;
-  // }
+  public setContract(contract: Contract): void {
+    this.contract = contract;
+  }
 }

@@ -1,3 +1,4 @@
+import { NotAcceptableException } from '@nestjs/common';
 import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity } from 'typeorm';
 
@@ -74,33 +75,48 @@ export class CarType extends BaseEntity {
     return this.status;
   }
 
-  public setStatus(status: CarStatus | null): void {
-    this.status = status;
+  public activate(): void {
+    if (this.carsCounter < this.minNoOfCarsToActivateClass) {
+      throw new NotAcceptableException(
+        `Cannot activate car class when less than ${this.minNoOfCarsToActivateClass} cars in the fleet`,
+      );
+    }
+
+    this.status = CarStatus.ACTIVE;
+  }
+
+  public deactivate(): void {
+    this.status = CarStatus.INACTIVE;
   }
 
   public getCarsCounter(): number {
     return this.carsCounter;
   }
 
-  public setCarsCounter(carsCounter: number): void {
-    this.carsCounter = carsCounter;
+  public registerCar(): void {
+    this.carsCounter++;
+  }
+
+  public unregisterCar(): void {
+    this.carsCounter--;
+    if (this.carsCounter < 0) {
+      throw new NotAcceptableException();
+    }
   }
 
   public getMinNoOfCarsToActivateClass(): number {
     return this.minNoOfCarsToActivateClass;
   }
 
-  public setMinNoOfCarsToActivateClass(
-    minNoOfCarsToActivateClass: number,
-  ): void {
-    this.minNoOfCarsToActivateClass = minNoOfCarsToActivateClass;
-  }
-
   public getActiveCarsCounter(): number {
     return this.activeCarsCounter;
   }
 
-  public setActiveCarsCounter(activeCarsCounter: number): void {
-    this.activeCarsCounter = activeCarsCounter;
+  public registerActiveCar(): void {
+    this.activeCarsCounter++;
+  }
+
+  public unregisterActiveCar(): void {
+    this.activeCarsCounter--;
   }
 }

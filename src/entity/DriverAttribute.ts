@@ -19,21 +19,17 @@ export class DriverAttribute extends BaseEntity {
   private name: DriverAttributeName;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
-  private value: String;
+  private value: string;
 
   @ManyToOne(() => Driver, (driver) => driver.attributes)
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  constructor(
-    driver: Driver,
-    driverAttributeName: DriverAttributeName,
-    value: String,
-  ) {
+  constructor(driver: Driver, attribute: DriverAttributeName, value: string) {
     super();
 
     this.driver = driver;
-    this.name = driverAttributeName;
+    this.name = attribute;
     this.value = value;
   }
 
@@ -45,11 +41,11 @@ export class DriverAttribute extends BaseEntity {
     this.name = name;
   }
 
-  public getValue(): String {
+  public getValue(): string {
     return this.value;
   }
 
-  public setValue(value: String): void {
+  public setValue(value: string): void {
     this.value = value;
   }
 

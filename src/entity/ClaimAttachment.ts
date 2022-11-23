@@ -17,14 +17,6 @@ export class ClaimAttachment extends BaseEntity {
   @JoinColumn({ name: 'claim_id' })
   private claim: Claim;
 
-  public getClaim(): Claim {
-    return this.claim;
-  }
-
-  public setClaim(claim: Claim): void {
-    this.claim = claim;
-  }
-
   public getCreationDate(): number {
     return this.creationDate;
   }
@@ -47,5 +39,13 @@ export class ClaimAttachment extends BaseEntity {
 
   public setData(data: Buffer | null): void {
     this.data = data;
+  }
+
+  public getClaim(): Claim {
+    return this.claim;
+  }
+
+  public setClaim(claim: Claim): void {
+    this.claim = claim;
   }
 }

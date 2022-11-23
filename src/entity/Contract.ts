@@ -46,7 +46,12 @@ export class Contract extends BaseEntity {
   })
   private status: ContractStatus;
 
-  @Column({ name: 'contract_no', nullable: false, type: 'varchar', length: 255 })
+  @Column({
+    name: 'contract_no',
+    nullable: false,
+    type: 'varchar',
+    length: 255,
+  })
   private contractNo: string;
 
   @OneToMany(
@@ -54,15 +59,8 @@ export class Contract extends BaseEntity {
     (contractAttachment) => contractAttachment.contract,
     { eager: true },
   )
-  public attachments: ContractAttachment[];
-
-  public getAttachments(): ContractAttachment[] {
-    return this.attachments;
-  }
-
-  public setAttachments(attachments: ContractAttachment[]): void {
-    this.attachments = attachments;
-  }
+  // public attachments: ContractAttachment[];
+  public attachments: Set<ContractAttachment>;
 
   public getPartnerName(): string | null {
     return this.partnerName;
@@ -126,5 +124,13 @@ export class Contract extends BaseEntity {
 
   public setContractNo(contractNo: string): void {
     this.contractNo = contractNo;
+  }
+
+  public getAttachments(): Set<ContractAttachment> {
+    return this.attachments;
+  }
+
+  public setAttachments(attachments: Set<ContractAttachment>): void {
+    this.attachments = attachments;
   }
 }

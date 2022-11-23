@@ -31,14 +31,6 @@ export class AwardedMiles extends BaseEntity {
   @JoinColumn({ name: 'client_id' })
   public client: Client;
 
-  public getClient(): Client {
-    return this.client;
-  }
-
-  public setClient(client: Client): void {
-    this.client = client;
-  }
-
   public getMiles(): number {
     return this.miles;
   }
@@ -59,16 +51,16 @@ export class AwardedMiles extends BaseEntity {
     return this.expirationDate;
   }
 
-  public setExpirationDate(expirationDate: number | null): void {
+  public setExpirationDate(expirationDate: number): void {
     this.expirationDate = expirationDate;
   }
 
-  public isAwardedMilesSpecial(): boolean | null {
+  public getIsSpecial(): boolean | null {
     return this.isSpecial;
   }
 
-  public setSpecial(special: boolean | null): void {
-    this.isSpecial = special;
+  public setIsSpecial(isSpecial: boolean): void {
+    this.isSpecial = isSpecial;
   }
 
   public getTransit(): Transit {
@@ -77,5 +69,13 @@ export class AwardedMiles extends BaseEntity {
 
   public setTransit(transit: Transit): void {
     this.transit = transit;
+  }
+
+  public getClient(): Client {
+    return this.client;
+  }
+
+  public setClient(client: Client): void {
+    this.client = client;
   }
 }

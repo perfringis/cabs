@@ -14,6 +14,13 @@ export class Invoice extends BaseEntity {
   })
   private subjectName: string | null;
 
+  constructor(amount: number | null, subjectName: string | null) {
+    super();
+
+    this.amount = amount;
+    this.subjectName = subjectName;
+  }
+
   public getAmount(): number | null {
     return this.amount;
   }

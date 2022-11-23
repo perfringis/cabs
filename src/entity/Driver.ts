@@ -51,5 +51,87 @@ export class Driver extends BaseEntity {
   public attributes: Set<DriverAttribute>;
 
   @OneToMany(() => Transit, (transit) => transit.driver)
-  public transits: Transit[];
+  // public transits: Transit[];
+  public transits: Set<Transit>;
+
+  public calculateEarningsForTransit(transit: Transit): number | null {
+    return null;
+    // zdublować kod wyliczenia kosztu przejazdu
+  }
+
+  public getType(): DriverType | null {
+    return this.type;
+  }
+
+  public setType(type: DriverType | null): void {
+    this.type = type;
+  }
+
+  public getStatus(): DriverStatus {
+    return this.status;
+  }
+
+  public setStatus(status: DriverStatus): void {
+    this.status = status;
+  }
+
+  public getFirstName(): string | null {
+    return this.firstName;
+  }
+
+  public setFirstName(firstName: string | null): void {
+    this.firstName = firstName;
+  }
+
+  public getLastName(): string | null {
+    return this.lastName;
+  }
+
+  public setLastName(lastName: string | null): void {
+    this.lastName = lastName;
+  }
+
+  public getPhoto(): string | null {
+    return this.photo;
+  }
+
+  public setPhoto(photo: string | null): void {
+    this.photo = photo;
+  }
+
+  public getDriverLicense(): string {
+    return this.driverLicense;
+  }
+
+  public setDriverLicense(driverLicense: string): void {
+    this.driverLicense = driverLicense;
+  }
+
+  public getIsOccupied(): boolean {
+    return this.isOccupied;
+  }
+
+  public setIsOccupied(isOccupied: boolean): void {
+    this.isOccupied = isOccupied;
+  }
+
+  public getFee(): DriverFee {
+    return this.fee;
+  }
+
+  public setFee(fee: DriverFee): void {
+    this.fee = fee;
+  }
+
+  public getAttributes(): Set<DriverAttribute> {
+    return this.attributes;
+  }
+
+  public setAttributes(attributes: Set<DriverAttribute>): void {
+    this.attributes = attributes;
+  }
+
+  public getTransits(): Set<Transit> {
+    return this.transits;
+  }
 }

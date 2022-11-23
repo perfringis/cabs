@@ -19,7 +19,6 @@ export class DriverFee extends BaseEntity {
   private min: number | null;
 
   @OneToOne(() => Driver, (driver) => driver.fee)
-  // TODO delete in future if will be necessary
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
