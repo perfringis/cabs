@@ -2,9 +2,9 @@ import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  protected id: number;
+  protected id: string;
 
-  public getId(): number {
+  public getId(): string {
     return this.id;
   }
 }
