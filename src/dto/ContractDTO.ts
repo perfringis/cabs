@@ -1,65 +1,41 @@
-import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, OneToMany } from 'typeorm';
-import { ContractAttachment } from './ContractAttachment';
+import { Contract, ContractStatus } from 'src/entity/Contract';
+import { ContractAttachmentDTO } from './ContractAttachmentDTO';
 
-export enum ContractStatus {
-  NEGOTIATIONS_IN_PROGRESS = 'negotiations_in_progress',
-  REJECTED = 'rejected',
-  ACCEPTED = 'accepted',
-}
-
-@Entity({ name: 'contract' })
-export class Contract extends BaseEntity {
-  @Column({
-    name: 'partner_name',
-    nullable: true,
-    type: 'varchar',
-    length: 255,
-  })
+export class ContractDTO {
+  private id: string;
   private partnerName: string | null;
-
-  @Column({ nullable: true, type: 'varchar', length: 255 })
   private subject: string | null;
-
-  @Column({
-    name: 'creation_date',
-    nullable: false,
-    type: 'bigint',
-    default: Date.now(),
-  })
   private creationDate: number;
-
-  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
   private acceptedAt: number | null;
-
-  @Column({ name: 'rejected_at', nullable: true, type: 'bigint' })
   private rejectedAt: number | null;
-
-  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
   private changeDate: number | null;
-
-  @Column({
-    nullable: false,
-    type: 'enum',
-    enum: ContractStatus,
-    default: ContractStatus.NEGOTIATIONS_IN_PROGRESS,
-  })
   private status: ContractStatus;
-
-  @Column({
-    name: 'contract_no',
-    nullable: false,
-    type: 'varchar',
-    length: 255,
-  })
   private contractNo: string;
+  public attachments: ContractAttachmentDTO[];
 
-  @OneToMany(
-    () => ContractAttachment,
-    (contractAttachment) => contractAttachment.contract,
-    { eager: true },
-  )
-  public attachments: ContractAttachment[];
+  constructor(contract: Contract) {
+    this.id = contract.getId();
+    this.partnerName = contract.getPartnerName();
+    this.subject = contract.getSubject();
+    this.creationDate = contract.getCreationDate();
+    this.acceptedAt = contract.getAcceptedAt();
+    this.rejectedAt = contract.getRejectedAt();
+    this.changeDate = contract.getChangeDate();
+    this.status = contract.getStatus();
+    this.contractNo = contract.getContractNo();
+
+    for (const attachment of contract.getAttachments()) {
+      this.attachments.push(new ContractAttachmentDTO(attachment));
+    }
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  public setId(id: string): void {
+    this.id = id;
+  }
 
   public getPartnerName(): string | null {
     return this.partnerName;
@@ -125,11 +101,11 @@ export class Contract extends BaseEntity {
     this.contractNo = contractNo;
   }
 
-  public getAttachments(): Set<ContractAttachment> {
+  public getAttachments(): ContractAttachmentDTO[] {
     return this.attachments;
   }
 
-  public setAttachments(attachments: Set<ContractAttachment>): void {
+  public setAttachments(attachments: ContractAttachmentDTO[]): void {
     this.attachments = attachments;
   }
 }

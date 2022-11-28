@@ -11,6 +11,7 @@ export class ContractAttachmentDTO {
   private rejectedAt: number | null;
   private changeDate: number | null;
   private status: ContractAttachmentStatus | null;
+  private contractId: string;
 
   constructor(attachment: ContractAttachment) {
     this.id = attachment.getId();
@@ -20,6 +21,7 @@ export class ContractAttachmentDTO {
     this.rejectedAt = attachment.getRejectedAt();
     this.changeDate = attachment.getChangeDate();
     this.status = attachment.getStatus();
+    this.contractId = attachment.getContract().getId();
   }
 
   public getId(): string {
@@ -76,5 +78,13 @@ export class ContractAttachmentDTO {
 
   public setStatus(status: ContractAttachmentStatus | null): void {
     this.status = status;
+  }
+
+  public getContractId(): string {
+    return this.contractId;
+  }
+
+  public setContractId(contractId: string): void {
+    this.contractId = contractId;
   }
 }
