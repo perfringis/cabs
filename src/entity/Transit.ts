@@ -110,10 +110,10 @@ export class Transit extends BaseEntity {
     nullable: true,
     default: 0,
   })
-  private awaitingDriversResponses: number | null;
+  public awaitingDriversResponses: number | null;
 
   @Column({ nullable: true, type: 'int' })
-  private factor: number | null;
+  public factor: number | null;
 
   @Column({ nullable: false, type: 'float' })
   private km: number;
@@ -133,6 +133,9 @@ export class Transit extends BaseEntity {
 
   @Column({ nullable: true, type: 'bigint' })
   private published: number | null;
+
+  @Column({ nullable: true, type: 'bigint' })
+  private completeAt: number | null;
 
   @Column({ name: 'car_type', nullable: true, type: 'enum', enum: CarClass })
   private carType: CarClass;
@@ -249,14 +252,6 @@ export class Transit extends BaseEntity {
     this.awaitingDriversResponses = awaitingDriversResponses;
   }
 
-  public getFactor(): number | null {
-    return this.factor;
-  }
-
-  public setFactor(factor: number): void {
-    this.factor = factor;
-  }
-
   public getKm(): number {
     return this.km;
   }
@@ -361,6 +356,14 @@ export class Transit extends BaseEntity {
 
   public setProposedDrivers(proposedDrivers: Set<Driver>): void {
     this.proposedDrivers = proposedDrivers;
+  }
+
+  public getCompleteAt(): number | null {
+    return this.completeAt;
+  }
+
+  public setCompleteAt(completeAt: number | null): void {
+    this.completeAt = completeAt;
   }
 
   public estimateCost(): number {
