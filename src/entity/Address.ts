@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, VersionColumn } from 'typeorm';
 import objectHash from 'object-hash';
 
 @Entity({ name: 'address' })
@@ -30,6 +30,9 @@ export class Address extends BaseEntity {
 
   @Column({ nullable: true, type: 'varchar', length: 255, unique: true })
   private hash: string | null;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   constructor(
     country: string,

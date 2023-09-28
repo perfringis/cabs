@@ -7,6 +7,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  VersionColumn,
 } from 'typeorm';
 import { Address } from './Address';
 import { CarClass } from './CarType';
@@ -92,17 +93,17 @@ export class Transit extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: Status })
   private status: Status | null;
 
-  @Column({ nullable: true, type: 'bigint' })
-  private date: number | null;
+  @Column({ nullable: true, type: 'datetime' })
+  private date: Date | null;
 
   @Column({ name: 'pickup_address_change_counter', nullable: true, default: 0 })
   private pickupAddressChangeCounter: number | null;
 
-  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
-  private acceptedAt: number | null;
+  @Column({ name: 'accepted_at', nullable: true, type: 'datetime' })
+  private acceptedAt: Date | null;
 
-  @Column({ nullable: true, type: 'bigint' })
-  private started: number | null;
+  @Column({ nullable: true, type: 'datetime' })
+  private started: Date | null;
 
   @Column({
     name: 'awaiting_drivers_responses',
@@ -128,14 +129,14 @@ export class Transit extends BaseEntity {
   @Column({ name: 'drivers_fee', nullable: true, type: 'int' })
   private driversFee: number | null;
 
-  @Column({ name: 'date_time', nullable: true, type: 'bigint' })
-  private dateTime: number | null;
+  @Column({ name: 'date_time', nullable: true, type: 'datetime' })
+  private dateTime: Date | null;
 
-  @Column({ nullable: true, type: 'bigint' })
-  private published: number | null;
+  @Column({ nullable: true, type: 'datetime' })
+  private published: Date | null;
 
-  @Column({ nullable: true, type: 'bigint' })
-  private completeAt: number | null;
+  @Column({ name: 'complete_at', nullable: true, type: 'datetime' })
+  private completeAt: Date | null;
 
   @Column({ name: 'car_type', nullable: true, type: 'enum', enum: CarClass })
   private carType: CarClass;
@@ -174,6 +175,9 @@ export class Transit extends BaseEntity {
   // private proposedDrivers: Driver[];
   private proposedDrivers: Set<Driver>;
 
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
   public getDriverPaymentStatus(): DriverPaymentStatus | null {
     return this.driverPaymentStatus;
   }
@@ -210,11 +214,11 @@ export class Transit extends BaseEntity {
     this.status = status;
   }
 
-  public getDate(): number | null {
+  public getDate(): Date | null {
     return this.date;
   }
 
-  public setDate(date: number): void {
+  public setDate(date: Date): void {
     this.date = date;
   }
 
@@ -228,19 +232,19 @@ export class Transit extends BaseEntity {
     this.pickupAddressChangeCounter = pickupAddressChangeCounter;
   }
 
-  public getAcceptedAt(): number | null {
+  public getAcceptedAt(): Date | null {
     return this.acceptedAt;
   }
 
-  public setAcceptedAt(acceptedAt: number): void {
+  public setAcceptedAt(acceptedAt: Date): void {
     this.acceptedAt = acceptedAt;
   }
 
-  public getStarted(): number | null {
+  public getStarted(): Date | null {
     return this.started;
   }
 
-  public setStarted(started: number): void {
+  public setStarted(started: Date): void {
     this.started = started;
   }
 
@@ -286,19 +290,19 @@ export class Transit extends BaseEntity {
     this.driversFee = driversFee;
   }
 
-  public getDateTime(): number | null {
+  public getDateTime(): Date | null {
     return this.dateTime;
   }
 
-  public setDateTime(dateTime: number): void {
+  public setDateTime(dateTime: Date): void {
     this.dateTime = dateTime;
   }
 
-  public getPublished(): number | null {
+  public getPublished(): Date | null {
     return this.published;
   }
 
-  public setPublished(published: number): void {
+  public setPublished(published: Date): void {
     this.published = published;
   }
 
@@ -358,11 +362,11 @@ export class Transit extends BaseEntity {
     this.proposedDrivers = proposedDrivers;
   }
 
-  public getCompleteAt(): number | null {
+  public getCompleteAt(): Date | null {
     return this.completeAt;
   }
 
-  public setCompleteAt(completeAt: number | null): void {
+  public setCompleteAt(completeAt: Date | null): void {
     this.completeAt = completeAt;
   }
 

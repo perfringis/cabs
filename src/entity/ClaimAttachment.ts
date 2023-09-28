@@ -1,11 +1,11 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, VersionColumn } from 'typeorm';
 import { Claim } from './Claim';
 
 @Entity({ name: 'claim_attachment' })
 export class ClaimAttachment extends BaseEntity {
-  @Column({ name: 'creation_date', nullable: false, type: 'bigint' })
-  private creationDate: number;
+  @Column({ name: 'creation_date', nullable: false, type: 'datetime' })
+  private creationDate: Date;
 
   @Column({ nullable: true, type: 'varchar', length: 255 })
   private description: string | null;
@@ -17,11 +17,14 @@ export class ClaimAttachment extends BaseEntity {
   @JoinColumn({ name: 'claim_id' })
   private claim: Claim;
 
-  public getCreationDate(): number {
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
+  public getCreationDate(): Date {
     return this.creationDate;
   }
 
-  public setCreationDate(creationDate: number): void {
+  public setCreationDate(creationDate: Date): void {
     this.creationDate = creationDate;
   }
 

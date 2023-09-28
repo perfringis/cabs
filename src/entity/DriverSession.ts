@@ -1,16 +1,16 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, JoinColumn, ManyToOne, VersionColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { CarClass } from './CarType';
 import { Driver } from './Driver';
 
 @Entity({ name: 'driver_session' })
 export class DriverSession extends BaseEntity {
-  @Column({ name: 'logged_at', nullable: false, type: 'bigint' })
-  private loggedAt: number;
+  @Column({ name: 'logged_at', nullable: false, type: 'datetime' })
+  private loggedAt: Date;
 
-  @Column({ name: 'logged_out_at', nullable: true, type: 'bigint' })
-  private loggedOutAt: number | null;
+  @Column({ name: 'logged_out_at', nullable: true, type: 'datetime' })
+  private loggedOutAt: Date | null;
 
   @Column({
     name: 'plates_number',
@@ -30,19 +30,22 @@ export class DriverSession extends BaseEntity {
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  public getLoggedAt(): number {
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
+  public getLoggedAt(): Date {
     return this.loggedAt;
   }
 
-  public setLoggedAt(loggedAt: number): void {
+  public setLoggedAt(loggedAt: Date): void {
     this.loggedAt = loggedAt;
   }
 
-  public getLoggedOutAt(): number | null {
+  public getLoggedOutAt(): Date | null {
     return this.loggedOutAt;
   }
 
-  public setLoggedOutAt(loggedOutAt: number | null): void {
+  public setLoggedOutAt(loggedOutAt: Date | null): void {
     this.loggedOutAt = loggedOutAt;
   }
 

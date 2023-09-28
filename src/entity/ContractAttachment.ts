@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, VersionColumn } from 'typeorm';
 import { Contract } from './Contract';
 
 export enum ContractAttachmentStatus {
@@ -17,19 +17,19 @@ export class ContractAttachment extends BaseEntity {
   @Column({
     name: 'creation_date',
     nullable: false,
-    type: 'bigint',
-    default: Date.now(),
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  private creationDate: number;
+  private creationDate: Date;
 
-  @Column({ name: 'accepted_at', nullable: true, type: 'bigint' })
-  private acceptedAt: number | null;
+  @Column({ name: 'accepted_at', nullable: true, type: 'datetime' })
+  private acceptedAt: Date | null;
 
-  @Column({ name: 'rejected_at', nullable: true, type: 'bigint' })
-  private rejectedAt: number | null;
+  @Column({ name: 'rejected_at', nullable: true, type: 'datetime' })
+  private rejectedAt: Date | null;
 
-  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
-  private changeDate: number | null;
+  @Column({ name: 'change_date', nullable: true, type: 'datetime' })
+  private changeDate: Date | null;
 
   @Column({
     nullable: true,
@@ -43,6 +43,9 @@ export class ContractAttachment extends BaseEntity {
   @JoinColumn({ name: 'contract_id' })
   public contract: Contract;
 
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
   public getData(): Buffer | null {
     return this.data;
   }
@@ -51,35 +54,35 @@ export class ContractAttachment extends BaseEntity {
     this.data = data;
   }
 
-  public getCreationDate(): number {
+  public getCreationDate(): Date {
     return this.creationDate;
   }
 
-  public setCreationDate(creationDate: number): void {
+  public setCreationDate(creationDate: Date): void {
     this.creationDate = creationDate;
   }
 
-  public getAcceptedAt(): number | null {
+  public getAcceptedAt(): Date | null {
     return this.acceptedAt;
   }
 
-  public setAcceptedAt(acceptedAt: number | null): void {
+  public setAcceptedAt(acceptedAt: Date | null): void {
     this.acceptedAt = acceptedAt;
   }
 
-  public getRejectedAt(): number | null {
+  public getRejectedAt(): Date | null {
     return this.rejectedAt;
   }
 
-  public setRejectedAt(rejectedAt: number | null): void {
+  public setRejectedAt(rejectedAt: Date | null): void {
     this.rejectedAt = rejectedAt;
   }
 
-  public getChangeDate(): number | null {
+  public getChangeDate(): Date | null {
     return this.changeDate;
   }
 
-  public setChangeDate(changeDate: number | null): void {
+  public setChangeDate(changeDate: Date | null): void {
     this.changeDate = changeDate;
   }
 

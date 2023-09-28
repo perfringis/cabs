@@ -9,7 +9,7 @@ export class TransitDTO {
   private distance: number;
   private factor: number | null;
   private price: number | null;
-  private date: number | null;
+  private date: Date | null;
   private status: Status | null;
   private proposedDrivers: DriverDTO[];
   private to: AddressDTO;
@@ -18,11 +18,11 @@ export class TransitDTO {
   private clientDTO: ClientDTO;
   private driverFee: number | null;
   private estimatedPrice: number | null;
-  private dateTime: number | null;
-  private published: number | null;
-  private acceptedAt: number | null;
-  private started: number | null;
-  private completeAt: number | null;
+  private dateTime: Date | null;
+  private published: Date | null;
+  private acceptedAt: Date | null;
+  private started: Date | null;
+  private completeAt: Date | null;
   private kmRate: number;
   private tariff: string;
 

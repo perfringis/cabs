@@ -1,6 +1,6 @@
 import { NotAcceptableException } from '@nestjs/common';
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, VersionColumn } from 'typeorm';
 
 export enum CarClass {
   ECO = 'eco',
@@ -42,6 +42,9 @@ export class CarType extends BaseEntity {
 
   @Column({ name: 'active_cars_counter', nullable: false, type: 'int' })
   private activeCarsCounter: number;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   constructor(
     carClass: CarClass,

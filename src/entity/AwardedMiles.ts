@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, VersionColumn } from 'typeorm';
 import { Client } from './Client';
 import { Transit } from './Transit';
 
@@ -12,24 +12,32 @@ export class AwardedMiles extends BaseEntity {
   // 1. miles + expirationDate -> VO przykrywające logikę walidacji, czy nie przekroczono daty ważności punktów
   // 2. wydzielenie interfejsu Miles -> różne VO z różną logiką, np. ExpirableMiles, NonExpirableMiles, LinearExpirableMiles
 
-  @Column({ nullable: false, type: 'bigint' })
+  @Column({ name: 'miles', nullable: false, type: 'int' })
   private miles: number;
 
-  @Column({ nullable: false, type: 'bigint', default: Date.now() })
-  private date: number;
+  @Column({
+    nullable: false,
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  private date: Date;
 
-  @Column({ nullable: true, type: 'bigint' })
-  private expirationDate: number | null;
+  @Column({ name: 'expiration_date', nullable: true, type: 'datetime' })
+  private expirationDate: Date | null;
 
-  @Column({ nullable: true, type: 'boolean' })
+  @Column({ name: 'is_special', nullable: true, type: 'bit' })
   private isSpecial: boolean | null;
 
   @ManyToOne(() => Transit, (transit) => transit)
+  @JoinColumn({ name: 'transit_id' })
   public transit: Transit;
 
   @ManyToOne(() => Client, (client) => client)
   @JoinColumn({ name: 'client_id' })
   public client: Client;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   public getMiles(): number {
     return this.miles;
@@ -39,19 +47,19 @@ export class AwardedMiles extends BaseEntity {
     this.miles = miles;
   }
 
-  public getDate(): number {
+  public getDate(): Date {
     return this.date;
   }
 
-  public setDate(date: number): void {
+  public setDate(date: Date): void {
     this.date = date;
   }
 
-  public getExpirationDate(): number | null {
+  public getExpirationDate(): Date | null {
     return this.expirationDate;
   }
 
-  public setExpirationDate(expirationDate: number): void {
+  public setExpirationDate(expirationDate: Date): void {
     this.expirationDate = expirationDate;
   }
 

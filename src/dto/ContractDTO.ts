@@ -5,10 +5,10 @@ export class ContractDTO {
   private id: string;
   private partnerName: string | null;
   private subject: string | null;
-  private creationDate: number;
-  private acceptedAt: number | null;
-  private rejectedAt: number | null;
-  private changeDate: number | null;
+  private creationDate: Date;
+  private acceptedAt: Date | null;
+  private rejectedAt: Date | null;
+  private changeDate: Date | null;
   private status: ContractStatus;
   private contractNo: string;
   public attachments: ContractAttachmentDTO[];
@@ -53,35 +53,35 @@ export class ContractDTO {
     this.subject = subject;
   }
 
-  public getCreationDate(): number {
+  public getCreationDate(): Date {
     return this.creationDate;
   }
 
-  public setCreationDate(creationDate: number): void {
+  public setCreationDate(creationDate: Date): void {
     this.creationDate = creationDate;
   }
 
-  public getAcceptedAt(): number | null {
+  public getAcceptedAt(): Date | null {
     return this.acceptedAt;
   }
 
-  public setAcceptedAt(acceptedAt: number | null): void {
+  public setAcceptedAt(acceptedAt: Date | null): void {
     this.acceptedAt = acceptedAt;
   }
 
-  public getRejectedAt(): number | null {
+  public getRejectedAt(): Date | null {
     return this.rejectedAt;
   }
 
-  public setRejectedAt(rejectedAt: number | null): void {
+  public setRejectedAt(rejectedAt: Date | null): void {
     this.rejectedAt = rejectedAt;
   }
 
-  public getChangeDate(): number | null {
+  public getChangeDate(): Date | null {
     return this.changeDate;
   }
 
-  public setChangeDate(changeDate: number | null): void {
+  public setChangeDate(changeDate: Date | null): void {
     this.changeDate = changeDate;
   }
 

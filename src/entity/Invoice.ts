@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, VersionColumn } from 'typeorm';
 
 @Entity({ name: 'invoice' })
 export class Invoice extends BaseEntity {
@@ -13,6 +13,9 @@ export class Invoice extends BaseEntity {
     length: 255,
   })
   private subjectName: string | null;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   constructor(amount: number | null, subjectName: string | null) {
     super();

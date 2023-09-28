@@ -2,7 +2,7 @@ import { AwardsAccount } from 'src/entity/AwardsAccount';
 import { ClientDTO } from './ClientDTO';
 
 export class AwardsAccountDTO {
-  private date: number;
+  private date: Date;
   private isActive: boolean;
   private transactions: number;
   private client: ClientDTO;
@@ -14,11 +14,11 @@ export class AwardsAccountDTO {
     this.client = new ClientDTO(account.getClient());
   }
 
-  public getDate(): number {
+  public getDate(): Date {
     return this.date;
   }
 
-  public setDate(date: number): void {
+  public setDate(date: Date): void {
     this.date = date;
   }
 

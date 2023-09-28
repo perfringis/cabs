@@ -1,13 +1,17 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, VersionColumn } from 'typeorm';
 import { Client } from './Client';
 
 @Entity({ name: 'awards_account' })
 export class AwardsAccount extends BaseEntity {
-  @Column({ nullable: false, type: 'bigint', default: Date.now() })
-  private date: number;
+  @Column({
+    nullable: false,
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  private date: Date;
 
-  @Column({ name: 'is_active', nullable: false, type: 'boolean' })
+  @Column({ name: 'is_active', nullable: false, type: 'bit' })
   private isActive: boolean;
 
   @Column({ nullable: false, type: 'int', default: 0 })
@@ -17,11 +21,14 @@ export class AwardsAccount extends BaseEntity {
   @JoinColumn({ name: 'client_id' })
   private client: Client;
 
-  public getDate(): number {
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
+  public getDate(): Date {
     return this.date;
   }
 
-  public setDate(date: number): void {
+  public setDate(date: Date): void {
     this.date = date;
   }
 
@@ -37,7 +44,7 @@ export class AwardsAccount extends BaseEntity {
     return this.transactions;
   }
 
-  public increaseTransactions(transactions: number): void {
+  public increaseTransactions(): void {
     this.transactions++;
   }
 

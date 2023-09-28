@@ -1,5 +1,12 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  VersionColumn,
+} from 'typeorm';
 import { Client } from './Client';
 import { Transit } from './Transit';
 
@@ -19,14 +26,14 @@ export enum ClaimStatus {
 
 @Entity({ name: 'claim' })
 export class Claim extends BaseEntity {
-  @Column({ name: 'creation_date', nullable: false, type: 'bigint' })
-  private creationDate: number;
+  @Column({ name: 'creation_date', nullable: false, type: 'datetime' })
+  private creationDate: Date;
 
-  @Column({ name: 'completion_date', nullable: true, type: 'bigint' })
-  private completionDate: number | null;
+  @Column({ name: 'completion_date', nullable: true, type: 'datetime' })
+  private completionDate: Date | null;
 
-  @Column({ name: 'change_date', nullable: true, type: 'bigint' })
-  private changeDate: number | null;
+  @Column({ name: 'change_date', nullable: true, type: 'datetime' })
+  private changeDate: Date | null;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
   private reason: string;
@@ -61,27 +68,30 @@ export class Claim extends BaseEntity {
   @JoinColumn({ name: 'transit_id' })
   private transit: Transit;
 
-  public getCreationDate(): number {
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
+  public getCreationDate(): Date {
     return this.creationDate;
   }
 
-  public setCreationDate(creationDate: number): void {
+  public setCreationDate(creationDate: Date): void {
     this.creationDate = creationDate;
   }
 
-  public getCompletionDate(): number | null {
+  public getCompletionDate(): Date | null {
     return this.completionDate;
   }
 
-  public setCompletionDate(completionDate: number | null): void {
+  public setCompletionDate(completionDate: Date | null): void {
     this.completionDate = completionDate;
   }
 
-  public getChangeDate(): number | null {
+  public getChangeDate(): Date | null {
     return this.changeDate;
   }
 
-  public setChangeDate(changeDate: number | null): void {
+  public setChangeDate(changeDate: Date | null): void {
     this.changeDate = changeDate;
   }
 

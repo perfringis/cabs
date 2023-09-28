@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, VersionColumn } from 'typeorm';
 import { Driver } from './Driver';
 
 export enum FeeType {
@@ -21,6 +21,9 @@ export class DriverFee extends BaseEntity {
   @OneToOne(() => Driver, (driver) => driver.fee)
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   constructor(
     feeType: FeeType,

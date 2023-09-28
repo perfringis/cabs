@@ -1,5 +1,12 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  VersionColumn,
+} from 'typeorm';
 import { DriverAttribute } from './DriverAttribute';
 import { DriverFee } from './DriverFee';
 import { Transit } from './Transit';
@@ -53,6 +60,9 @@ export class Driver extends BaseEntity {
   @OneToMany(() => Transit, (transit) => transit.driver)
   // public transits: Transit[];
   public transits: Set<Transit>;
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   public calculateEarningsForTransit(transit: Transit): number | null {
     return null;

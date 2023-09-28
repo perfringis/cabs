@@ -2,8 +2,8 @@ import { CarClass } from 'src/entity/CarType';
 import { DriverSession } from 'src/entity/DriverSession';
 
 export class DriverSessionDTO {
-  private loggedAt: number;
-  private loggedOutAt: number | null;
+  private loggedAt: Date;
+  private loggedOutAt: Date | null;
   private platesNumber: string;
   private carClass: CarClass | null;
   private carBrand: string | null;
@@ -16,19 +16,19 @@ export class DriverSessionDTO {
     this.carBrand = session.getCarBrand();
   }
 
-  public getLoggedAt(): number {
+  public getLoggedAt(): Date {
     return this.loggedAt;
   }
 
-  public setLoggedAt(loggedAt: number): void {
+  public setLoggedAt(loggedAt: Date): void {
     this.loggedAt = loggedAt;
   }
 
-  public getLoggedOutAt(): number | null {
+  public getLoggedOutAt(): Date | null {
     return this.loggedOutAt;
   }
 
-  public setLoggedOutAt(loggedOutAt: number | null): void {
+  public setLoggedOutAt(loggedOutAt: Date | null): void {
     this.loggedOutAt = loggedOutAt;
   }
 

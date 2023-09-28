@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, VersionColumn } from 'typeorm';
 import { Claim } from './Claim';
 
 export enum Type {
@@ -47,6 +47,9 @@ export class Client extends BaseEntity {
 
   @OneToMany(() => Claim, (claim) => claim.owner)
   public claims: Claim[];
+
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
 
   public getType(): Type | null {
     return this.type;

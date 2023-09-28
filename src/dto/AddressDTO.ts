@@ -110,7 +110,7 @@ export class AddressDTO {
   }
 
   public toAddressEntity(): Address {
-    let address: Address = new Address(
+    const address: Address = new Address(
       this.getCountry(),
       this.getCity(),
       this.getStreet(),

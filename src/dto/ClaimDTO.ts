@@ -1,9 +1,9 @@
 import { Claim, ClaimStatus, CompletionMode } from 'src/entity/Claim';
 
 export class ClaimDTO {
-  private creationDate: number;
-  private completionDate: number | null;
-  private changeDate: number | null;
+  private creationDate: Date;
+  private completionDate: Date | null;
+  private changeDate: Date | null;
   private reason: string;
   private incidentDescription: string | null;
   private completionMode: CompletionMode | null;
@@ -34,27 +34,27 @@ export class ClaimDTO {
     this.setTransitId(claim.getTransit().getId());
   }
 
-  public getCreationDate(): number {
+  public getCreationDate(): Date {
     return this.creationDate;
   }
 
-  public setCreationDate(creationDate: number): void {
+  public setCreationDate(creationDate: Date): void {
     this.creationDate = creationDate;
   }
 
-  public getCompletionDate(): number | null {
+  public getCompletionDate(): Date | null {
     return this.completionDate;
   }
 
-  public setCompletionDate(completionDate: number | null): void {
+  public setCompletionDate(completionDate: Date | null): void {
     this.completionDate = completionDate;
   }
 
-  public getChangeDate(): number | null {
+  public getChangeDate(): Date | null {
     return this.changeDate;
   }
 
-  public setChangeDate(changeDate: number | null): void {
+  public setChangeDate(changeDate: Date | null): void {
     this.changeDate = changeDate;
   }
 
