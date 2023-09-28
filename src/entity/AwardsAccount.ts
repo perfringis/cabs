@@ -11,7 +11,12 @@ export class AwardsAccount extends BaseEntity {
   })
   private date: Date;
 
-  @Column({ name: 'is_active', nullable: false, type: 'bit' })
+  @Column({
+    name: 'is_active',
+    nullable: false,
+    type: 'boolean',
+    default: false,
+  })
   private isActive: boolean;
 
   @Column({ nullable: false, type: 'int', default: 0 })

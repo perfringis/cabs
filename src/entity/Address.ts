@@ -130,33 +130,18 @@ export class Address extends BaseEntity {
   }
 
   public toString(): string {
+    // prettier-ignore
     return (
       'Address{' +
-      "id='" +
-      this.getId() +
-      "'" +
-      ", country='" +
-      this.country +
-      "'" +
-      ", district='" +
-      this.district +
-      "'" +
-      ", city='" +
-      this.city +
-      "'" +
-      ", street='" +
-      this.street +
-      "'" +
-      ', buildingNumber=' +
-      this.buildingNumber +
-      ', additionalNumber=' +
-      this.additionalNumber +
-      ", postalCode='" +
-      this.postalCode +
-      "'" +
-      ", name='" +
-      this.name +
-      "'" +
+      "id='" + this.getId() + "'" +
+      ", country='" + this.country + "'" +
+      ", district='" + this.district + "'" +
+      ", city='" + this.city + "'" +
+      ", street='" + this.street + "'" +
+      ', buildingNumber=' + this.buildingNumber +
+      ', additionalNumber=' + this.additionalNumber +
+      ", postalCode='" + this.postalCode + "'" +
+      ", name='" + this.name + "'" +
       '}'
     );
   }
