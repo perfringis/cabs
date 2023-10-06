@@ -18,7 +18,6 @@ export class AddressRepository extends Repository<Address> {
       const existingAddress: Address = await this.findByHash(address.getHash());
 
       if (existingAddress) {
-        console.log('lol');
         return existingAddress;
       }
     }

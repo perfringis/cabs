@@ -1,14 +1,31 @@
 import { Controller, Get } from '@nestjs/common';
-import { Address } from 'src/entity/Address';
-import { AddressRepository } from 'src/repository/AddressRepository';
+import { AwardedMiles } from 'src/entity/AwardedMiles';
+import { Client } from 'src/entity/Client';
+import { AwardedMilesRepository } from 'src/repository/AwardedMilesRepository';
 
 @Controller('test')
 export class TestController {
-  constructor(private addressRepository: AddressRepository) {}
+  constructor(private awardedMilesRepository: AwardedMilesRepository) {}
 
   @Get('test')
-  public async test(): Promise<Address> {
-    const address: Address = new Address('x', 'x', 'x', 1);
-    return await this.addressRepository.getOne('');
+  public async test(): Promise<AwardedMiles[]> {
+    const client: Client = new Client();
+    // client.setClientType(null);
+    // client.setDefaultPaymentType(null);
+    client.setLastName('test');
+    client.setName('test');
+    client.id = 'dsadad';
+    // client.setType(null);
+
+    // const awardedMiles: AwardedMiles = new AwardedMiles();
+
+    // awardedMiles.setClient(client);
+    // awardedMiles.setDate(new Date());
+    // awardedMiles.setExpirationDate(null);
+    // awardedMiles.setIsSpecial(null);
+    // awardedMiles.setMiles(1);
+    // // awardedMiles.setTransit();
+
+    return this.awardedMilesRepository.findAllByClient(client);
   }
 }
