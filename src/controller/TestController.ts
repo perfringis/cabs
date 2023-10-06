@@ -8,6 +8,7 @@ export class TestController {
 
   @Get('test')
   public async test(): Promise<Address> {
+    const address: Address = new Address('x', 'x', 'x', 1);
     return await this.addressRepository.getOne('');
   }
 }
