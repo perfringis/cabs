@@ -17,6 +17,8 @@ import { ContractAttachment } from './entity/ContractAttachment';
 import { Contract } from './entity/Contract';
 import { Transit } from './entity/Transit';
 import { AwardedMiles } from './entity/AwardedMiles';
+import { TestController } from './controller/TestController';
+import { AddressRepository } from './repository/AddressRepository';
 
 @Module({
   imports: [
@@ -52,7 +54,7 @@ import { AwardedMiles } from './entity/AwardedMiles';
       ],
     }),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [TestController],
+  providers: [AddressRepository],
 })
 export class AppModule {}

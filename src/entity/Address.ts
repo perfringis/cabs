@@ -29,7 +29,7 @@ export class Address extends BaseEntity {
   private name: string | null;
 
   @Column({ nullable: true, type: 'varchar', length: 255, unique: true })
-  private hash: string | null;
+  hash: string | null;
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
