@@ -23,6 +23,7 @@ import { AwardedMilesRepository } from './repository/AwardedMilesRepository';
 import { AwardsAccountRepository } from './repository/AwardsAccountRepository';
 import { CarTypeRepository } from './repository/CarTypeRepository';
 import { ClaimAttachmentRepository } from './repository/ClaimAttachmentRepository';
+import { ClaimRepository } from './repository/ClaimRepository';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { ClaimAttachmentRepository } from './repository/ClaimAttachmentRepositor
     AwardsAccountRepository,
     CarTypeRepository,
     ClaimAttachmentRepository,
+    ClaimRepository,
   ],
 })
 export class AppModule {}

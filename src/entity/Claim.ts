@@ -66,7 +66,7 @@ export class Claim extends BaseEntity {
 
   @OneToOne(() => Transit)
   @JoinColumn({ name: 'transit_id' })
-  private transit: Transit;
+  public transit: Transit;
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
