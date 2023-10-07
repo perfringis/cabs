@@ -22,7 +22,7 @@ export class AwardsAccount extends BaseEntity {
   @Column({ nullable: false, type: 'int', default: 0 })
   private transactions: number;
 
-  @OneToOne(() => Client, (client) => client, { eager: true })
+  @OneToOne(() => Client, (client) => client)
   @JoinColumn({ name: 'client_id' })
   public client: Client;
 

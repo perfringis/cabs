@@ -1,14 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
-import { AwardedMiles } from 'src/entity/AwardedMiles';
+import { AwardsAccount } from 'src/entity/AwardsAccount';
 import { Client } from 'src/entity/Client';
-import { AwardedMilesRepository } from 'src/repository/AwardedMilesRepository';
+import { AwardsAccountRepository } from 'src/repository/AwardsAccountRepository';
 
 @Controller('test')
 export class TestController {
-  constructor(private awardedMilesRepository: AwardedMilesRepository) {}
+  constructor(private awardsAccountRepository: AwardsAccountRepository) {}
 
   @Get('test')
-  public async test(): Promise<AwardedMiles[]> {
+  public async test(): Promise<AwardsAccount> {
     const client: Client = new Client();
     // client.setClientType(null);
     // client.setDefaultPaymentType(null);
@@ -26,6 +26,6 @@ export class TestController {
     // awardedMiles.setMiles(1);
     // // awardedMiles.setTransit();
 
-    return this.awardedMilesRepository.findAllByClient(client);
+    return this.awardsAccountRepository.findByClient(client);
   }
 }
