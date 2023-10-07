@@ -17,7 +17,7 @@ export enum CarStatus {
 @Entity({ name: 'car_type' })
 export class CarType extends BaseEntity {
   @Column({ name: 'car_class', nullable: false, type: 'enum', enum: CarClass })
-  private carClass: CarClass;
+  public carClass: CarClass;
 
   @Column({ nullable: true, type: 'varchar', length: 255 })
   private description: string | null;
@@ -28,7 +28,7 @@ export class CarType extends BaseEntity {
     enum: CarStatus,
     default: CarStatus.INACTIVE,
   })
-  private status: CarStatus | null;
+  public status: CarStatus | null;
 
   @Column({ name: 'cars_counter', nullable: false, type: 'int' })
   private carsCounter: number;

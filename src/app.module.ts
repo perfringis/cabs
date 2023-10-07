@@ -21,6 +21,7 @@ import { TestController } from './controller/TestController';
 import { AddressRepository } from './repository/AddressRepository';
 import { AwardedMilesRepository } from './repository/AwardedMilesRepository';
 import { AwardsAccountRepository } from './repository/AwardsAccountRepository';
+import { CarTypeRepository } from './repository/CarTypeRepository';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { AwardsAccountRepository } from './repository/AwardsAccountRepository';
     AddressRepository,
     AwardedMilesRepository,
     AwardsAccountRepository,
+    CarTypeRepository,
   ],
 })
 export class AppModule {}
