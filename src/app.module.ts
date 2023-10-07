@@ -25,6 +25,7 @@ import { CarTypeRepository } from './repository/CarTypeRepository';
 import { ClaimAttachmentRepository } from './repository/ClaimAttachmentRepository';
 import { ClaimRepository } from './repository/ClaimRepository';
 import { ClientRepository } from './repository/ClientRepository';
+import { ContractAttachmentRepository } from './repository/ContractAttachmentRepository';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { ClientRepository } from './repository/ClientRepository';
     ClaimAttachmentRepository,
     ClaimRepository,
     ClientRepository,
+    ContractAttachmentRepository,
   ],
 })
 export class AppModule {}
