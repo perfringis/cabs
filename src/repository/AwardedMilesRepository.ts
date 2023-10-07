@@ -10,7 +10,9 @@ export class AwardedMilesRepository extends Repository<AwardedMiles> {
   }
 
   public async findAllByClient(client: Client): Promise<AwardedMiles[]> {
-    // TODO
+    // Error: THis approach is not supported now
+    // return this.find({ where: { client } });
+
     return await this.find({
       where: {
         client: {
@@ -18,7 +20,8 @@ export class AwardedMilesRepository extends Repository<AwardedMiles> {
         },
       },
       relations: {
-        client: true,
+        // It means do not connected nested client
+        client: false,
       },
     });
   }
