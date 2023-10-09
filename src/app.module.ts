@@ -28,6 +28,7 @@ import { ClientRepository } from './repository/ClientRepository';
 import { ContractAttachmentRepository } from './repository/ContractAttachmentRepository';
 import { ContractRepository } from './repository/ContractRepository';
 import { DriverAttributeRepository } from './repository/DriverAttributeRepository';
+import { DriverFeeRepository } from './repository/DriverFeeRepository';
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { DriverAttributeRepository } from './repository/DriverAttributeRepositor
     ContractAttachmentRepository,
     ContractRepository,
     DriverAttributeRepository,
+    DriverFeeRepository,
   ],
 })
 export class AppModule {}
