@@ -26,6 +26,8 @@ import { ClaimAttachmentRepository } from './repository/ClaimAttachmentRepositor
 import { ClaimRepository } from './repository/ClaimRepository';
 import { ClientRepository } from './repository/ClientRepository';
 import { ContractAttachmentRepository } from './repository/ContractAttachmentRepository';
+import { ContractRepository } from './repository/ContractRepository';
+import { DriverAttributeRepository } from './repository/DriverAttributeRepository';
 
 @Module({
   imports: [
@@ -71,6 +73,8 @@ import { ContractAttachmentRepository } from './repository/ContractAttachmentRep
     ClaimRepository,
     ClientRepository,
     ContractAttachmentRepository,
+    ContractRepository,
+    DriverAttributeRepository,
   ],
 })
 export class AppModule {}
