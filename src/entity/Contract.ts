@@ -16,7 +16,7 @@ export class Contract extends BaseEntity {
     type: 'varchar',
     length: 255,
   })
-  private partnerName: string | null;
+  public partnerName: string | null;
 
   @Column({ nullable: true, type: 'varchar', length: 255 })
   private subject: string | null;
