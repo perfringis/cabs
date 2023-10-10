@@ -3,14 +3,14 @@ import { Driver } from 'src/entity/Driver';
 export class DriverPositionDTOV2 {
   private latitude: number;
   private longitude: number;
-  private seenAt: number;
+  private seenAt: Date;
   public driver: Driver;
 
   constructor(
     driver: Driver,
     latitude: number,
     longitude: number,
-    seenAt: number,
+    seenAt: Date,
   ) {
     this.latitude = latitude;
     this.longitude = longitude;
@@ -18,35 +18,35 @@ export class DriverPositionDTOV2 {
     this.driver = driver;
   }
 
-    public getLatitude(): number {
-        return this.latitude;
-    }
+  public getLatitude(): number {
+    return this.latitude;
+  }
 
-    public setLatitude(latitude: number): void {
-        this.latitude = latitude;
-    }
+  public setLatitude(latitude: number): void {
+    this.latitude = latitude;
+  }
 
-    public getLongitude(): number {
-        return this.longitude;
-    }
+  public getLongitude(): number {
+    return this.longitude;
+  }
 
-    public setLongitude(longitude: number): void {
-        this.longitude = longitude;
-    }
+  public setLongitude(longitude: number): void {
+    this.longitude = longitude;
+  }
 
-    public getSeenAt(): number {
-        return this.seenAt;
-    }
+  public getSeenAt(): Date {
+    return this.seenAt;
+  }
 
-    public setSeenAt(seenAt: number): void {
-        this.seenAt = seenAt;
-    }
+  public setSeenAt(seenAt: Date): void {
+    this.seenAt = seenAt;
+  }
 
-    public getDriver(): Driver {
-        return this.driver;
-    }
+  public getDriver(): Driver {
+    return this.driver;
+  }
 
-    public setDriver(driver: Driver): void {
-        this.driver = driver;
-    }
+  public setDriver(driver: Driver): void {
+    this.driver = driver;
+  }
 }

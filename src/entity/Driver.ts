@@ -10,6 +10,7 @@ import {
 import { DriverAttribute } from './DriverAttribute';
 import { DriverFee } from './DriverFee';
 import { Transit } from './Transit';
+import { DriverPosition } from './DriverPosition';
 
 export enum DriverStatus {
   INACTIVE = 'inactive',
@@ -63,6 +64,10 @@ export class Driver extends BaseEntity {
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
+
+  @OneToMany(() => DriverPosition, (driverPosition) => driverPosition.driver)
+  // public driverPositions: DriverPosition[];
+  public driverPositions: Set<DriverPosition>;
 
   public calculateEarningsForTransit(transit: Transit): number | null {
     return null;

@@ -5,15 +5,15 @@ import { Driver } from './Driver';
 @Entity({ name: 'driver_position' })
 export class DriverPosition extends BaseEntity {
   @Column({ nullable: false, type: 'double' })
-  private latitude: number;
+  public latitude: number;
 
   @Column({ nullable: false, type: 'double' })
-  private longitude: number;
+  public longitude: number;
 
   @Column({ name: 'seen_at', nullable: false, type: 'datetime' })
-  private seenAt: Date;
+  public seenAt: Date;
 
-  @ManyToOne(() => Driver, (driver) => driver)
+  @ManyToOne(() => Driver, (driver) => driver.driverPositions)
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 

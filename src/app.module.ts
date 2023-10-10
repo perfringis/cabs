@@ -29,6 +29,7 @@ import { ContractAttachmentRepository } from './repository/ContractAttachmentRep
 import { ContractRepository } from './repository/ContractRepository';
 import { DriverAttributeRepository } from './repository/DriverAttributeRepository';
 import { DriverFeeRepository } from './repository/DriverFeeRepository';
+import { DriverPositionRepository } from './repository/DriverPositionRepository';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { DriverFeeRepository } from './repository/DriverFeeRepository';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
       entities: [
         Address,
         Invoice,
@@ -77,6 +79,7 @@ import { DriverFeeRepository } from './repository/DriverFeeRepository';
     ContractRepository,
     DriverAttributeRepository,
     DriverFeeRepository,
+    DriverPositionRepository,
   ],
 })
 export class AppModule {}
