@@ -12,5 +12,16 @@ export class TestController {
   ) {}
 
   @Get('test')
-  public async test() {}
+  public async test(): Promise<DriverPositionDTOV2[]> {
+    const now = new Date();
+    now.setFullYear(now.getFullYear() - 20);
+
+    return await this.driverPositionRepository.findAverageDriverPositionSince(
+      3.1,
+      3.5,
+      3.1,
+      3.5,
+      now,
+    );
+  }
 }
