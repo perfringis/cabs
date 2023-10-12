@@ -54,6 +54,7 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
 
     return results.map((result) => {
       const driver: Driver = new Driver();
+      // TODO add set for id
       driver.setType(result.driver_type);
       driver.setStatus(result.driver_status);
       driver.setFirstName(result.driver_first_name);
@@ -63,6 +64,7 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
       driver.setIsOccupied(result.driver_is_occupied);
 
       const driverPositionDTOV2: DriverPositionDTOV2 = new DriverPositionDTOV2(
+        // TODO in php implementation driverId
         driver,
         result.latitude,
         result.longitude,

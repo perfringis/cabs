@@ -9,12 +9,12 @@ export class ContractAttachmentRepository extends Repository<ContractAttachment>
     super(ContractAttachment, dataSource.createEntityManager());
   }
 
-  // TODO maybe in future wil be changed
-  // return this.find({ where: { contract } });
-
   public async findByContract(
     contract: Contract,
   ): Promise<ContractAttachment[]> {
+    // TODO maybe in future wil be changed
+    // return this.find({ where: { contract } });
+
     return await this.find({
       where: {
         contract: {

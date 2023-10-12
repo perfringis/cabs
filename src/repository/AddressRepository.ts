@@ -22,13 +22,13 @@ export class AddressRepository extends Repository<Address> {
       }
     }
 
-    return super.save(address);
+    return await super.save(address);
   }
 
   public async findByHash(hash: string): Promise<Address> {
     return this.findOne({
       where: {
-        hash: hash,
+        hash,
       },
     });
   }
@@ -36,7 +36,7 @@ export class AddressRepository extends Repository<Address> {
   public async getOne(id: string): Promise<Address> {
     return this.findOne({
       where: {
-        id: id,
+        id,
       },
     });
   }
