@@ -1,27 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { DriverPositionDTOV2 } from 'src/dto/DriverPositionDTOV2';
-import { Contract } from 'src/entity/Contract';
-import { ContractRepository } from 'src/repository/ContractRepository';
-import { DriverPositionRepository } from 'src/repository/DriverPositionRepository';
+import { CarClass } from 'src/entity/CarType';
+import { Driver, DriverStatus } from 'src/entity/Driver';
+import { DriverSession } from 'src/entity/DriverSession';
+import { DriverSessionRepository } from 'src/repository/DriverSessionRepository';
 
 @Controller('test')
 export class TestController {
-  constructor(
-    private driverPositionRepository: DriverPositionRepository,
-    private contractRepository: ContractRepository,
-  ) {}
+  constructor(private driverSessionRepository: DriverSessionRepository) {}
 
   @Get('test')
-  public async test(): Promise<DriverPositionDTOV2[]> {
-    const now = new Date();
-    now.setFullYear(now.getFullYear() - 20);
-
-    return await this.driverPositionRepository.findAverageDriverPositionSince(
-      3.1,
-      3.5,
-      3.1,
-      3.5,
-      now,
-    );
-  }
+  public async test(): Promise<> {}
 }

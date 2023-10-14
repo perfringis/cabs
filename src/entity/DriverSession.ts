@@ -10,7 +10,7 @@ export class DriverSession extends BaseEntity {
   private loggedAt: Date;
 
   @Column({ name: 'logged_out_at', nullable: true, type: 'datetime' })
-  private loggedOutAt: Date | null;
+  public loggedOutAt: Date | null;
 
   @Column({
     name: 'plates_number',
@@ -21,7 +21,7 @@ export class DriverSession extends BaseEntity {
   private platesNumber: string;
 
   @Column({ name: 'car_class', nullable: true, type: 'enum', enum: CarClass })
-  private carClass: CarClass | null;
+  public carClass: CarClass | null;
 
   @Column({ name: 'car_brand', nullable: true, type: 'varchar', length: 255 })
   private carBrand: string | null;
