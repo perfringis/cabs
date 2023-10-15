@@ -91,7 +91,7 @@ export class Transit extends BaseEntity {
   private paymentType: PaymentType | null;
 
   @Column({ nullable: true, type: 'enum', enum: Status })
-  private status: Status | null;
+  public status: Status | null;
 
   @Column({ nullable: true, type: 'datetime' })
   private date: Date | null;
@@ -130,10 +130,10 @@ export class Transit extends BaseEntity {
   private driversFee: number | null;
 
   @Column({ name: 'date_time', nullable: true, type: 'datetime' })
-  private dateTime: Date | null;
+  public dateTime: Date | null;
 
   @Column({ nullable: true, type: 'datetime' })
-  private published: Date | null;
+  public published: Date | null;
 
   @Column({ name: 'complete_at', nullable: true, type: 'datetime' })
   private completeAt: Date | null;
@@ -143,7 +143,7 @@ export class Transit extends BaseEntity {
 
   @ManyToOne(() => Address, (address) => address, { eager: true })
   @JoinColumn({ name: 'from_id' })
-  private from: Address;
+  public from: Address;
 
   @ManyToOne(() => Address, (address) => address, { eager: true })
   @JoinColumn({ name: 'to_id' })
@@ -155,7 +155,7 @@ export class Transit extends BaseEntity {
 
   @ManyToOne(() => Client, (client) => client, { eager: true })
   @JoinColumn({ name: 'client_id' })
-  private client: Client;
+  public client: Client;
 
   @ManyToMany(() => Driver, (driver) => driver)
   @JoinTable({
