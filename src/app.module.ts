@@ -31,6 +31,7 @@ import { DriverAttributeRepository } from './repository/DriverAttributeRepositor
 import { DriverFeeRepository } from './repository/DriverFeeRepository';
 import { DriverPositionRepository } from './repository/DriverPositionRepository';
 import { DriverSessionRepository } from './repository/DriverSessionRepository';
+import { InvoiceRepository } from './repository/InvoiceRepository';
 
 @Module({
   imports: [
@@ -82,6 +83,7 @@ import { DriverSessionRepository } from './repository/DriverSessionRepository';
     DriverFeeRepository,
     DriverPositionRepository,
     DriverSessionRepository,
+    InvoiceRepository,
   ],
 })
 export class AppModule {}
