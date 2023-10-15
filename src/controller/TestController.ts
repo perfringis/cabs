@@ -9,5 +9,10 @@ export class TestController {
   constructor(private driverSessionRepository: DriverSessionRepository) {}
 
   @Get('test')
-  public async test(): Promise<> {}
+  public async test(): Promise<DriverSession[]> {
+    const driver: Driver = new Driver();
+    driver.id = 'xd1';
+
+    return await this.driverSessionRepository.findByDriver(driver);
+  }
 }

@@ -7,7 +7,7 @@ import { Driver } from './Driver';
 @Entity({ name: 'driver_session' })
 export class DriverSession extends BaseEntity {
   @Column({ name: 'logged_at', nullable: false, type: 'datetime' })
-  private loggedAt: Date;
+  public loggedAt: Date;
 
   @Column({ name: 'logged_out_at', nullable: true, type: 'datetime' })
   public loggedOutAt: Date | null;
