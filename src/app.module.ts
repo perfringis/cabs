@@ -33,6 +33,7 @@ import { DriverPositionRepository } from './repository/DriverPositionRepository'
 import { DriverSessionRepository } from './repository/DriverSessionRepository';
 import { InvoiceRepository } from './repository/InvoiceRepository';
 import { TransitRepository } from './repository/TransitRepository';
+import { AwardsService } from './service/AwardsService';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { TransitRepository } from './repository/TransitRepository';
   ],
   controllers: [TestController],
   providers: [
+    // repositories
     AddressRepository,
     AwardedMilesRepository,
     AwardsAccountRepository,
@@ -86,6 +88,9 @@ import { TransitRepository } from './repository/TransitRepository';
     DriverSessionRepository,
     InvoiceRepository,
     TransitRepository,
+
+    // services
+    AwardsService,
   ],
 })
 export class AppModule {}

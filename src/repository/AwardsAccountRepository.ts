@@ -13,6 +13,10 @@ export class AwardsAccountRepository extends Repository<AwardsAccount> {
     // Error: THis approach is not supported now
     // return this.findOne({ where: { client } });
 
+    if (!client) {
+      return null;
+    }
+
     return await this.findOne({
       where: {
         client: {
@@ -20,8 +24,7 @@ export class AwardsAccountRepository extends Repository<AwardsAccount> {
         },
       },
       relations: {
-        // It means do not connected nested client
-        client: false,
+        client: true,
       },
     });
   }
