@@ -117,4 +117,74 @@ export class AwardsService implements AwardsServiceInterface {
       return miles;
     }
   }
+
+  // TODO test service method
+  public async registerSpecialMiles(
+    clientId: string,
+    miles: number,
+  ): Promise<AwardedMiles> {
+    const account: AwardsAccount = await this.accountRepository.findByClient(
+      await this.clientRepository.getOne(clientId),
+    );
+
+    if (!account) {
+      throw new NotFoundException('Account does not exists, id = ' + clientId);
+    } else {
+      const _miles: AwardedMiles = new AwardedMiles();
+      _miles.setTransit(null);
+      _miles.setClient(account.getClient());
+      _miles.setMiles(miles);
+      _miles.setDate(new Date());
+      _miles.setSpecial(true);
+
+      account.increaseTransactions();
+
+      await this.milesRepository.save(_miles);
+      await this.accountRepository.save(account);
+
+      return _miles;
+    }
+  }
+
+  public async removeMiles(clientId: string, miles: number): Promise<void> {
+    const client: Client = await this.clientRepository.getOne(clientId);
+    const account: AwardsAccount = await this.accountRepository.findByClient(
+      client,
+    );
+
+    if (!account) {
+      throw new NotFoundException('Account does not exists, id = ' + clientId);
+    } else {
+      if (
+        (await this.calculateBalance(clientId)) >= miles &&
+        account.getIsActive()
+      ) {
+        const milesList: AwardedMiles[] =
+          await this.milesRepository.findAllByClient(client);
+        const transitsCounter: number = (
+          await this.transitRepository.findByClient(client)
+        ).length;
+
+        // TODO finish it
+        if (client.getClaims().length >= 3) {
+        }
+      }
+    }
+  }
+
+  public async calculateBalance(clientId: string): Promise<number> {
+    const client: Client = await this.clientRepository.getOne(clientId);
+    const milesList: AwardedMiles[] =
+      await this.milesRepository.findAllByClient(client);
+
+    return milesList
+      .filter(
+        (t) =>
+          (t.getExpirationDate() !== null &&
+            dayjs(t.getExpirationDate()).isAfter(new Date())) ||
+          t.getIsSpecial(),
+      )
+      .map((t) => t.getMiles())
+      .reduce((prev, curr) => prev + curr, 0);
+  }
 }

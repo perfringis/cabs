@@ -12,9 +12,9 @@ export interface AwardsServiceInterface {
 
   registerMiles(clientId: string, transitId: string): Promise<AwardedMiles>;
 
-  // registerSpecialMiles(clientId: string, miles: number): AwardedMiles;
+  registerSpecialMiles(clientId: string, miles: number): Promise<AwardedMiles>;
 
-  // removeMiles(clientId: string, miles: number): void;
+  removeMiles(clientId: string, miles: number): Promise<void>;
 
   // calculateBalance(clientId: string): number;
 

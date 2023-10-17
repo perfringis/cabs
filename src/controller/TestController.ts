@@ -8,6 +8,6 @@ export class TestController {
 
   @Get('test')
   public async test(): Promise<AwardedMiles> {
-    return await this.awardsService.registerMiles('test1', 'xddd1');
+    return await this.awardsService.registerSpecialMiles('test2', 99);
   }
 }
