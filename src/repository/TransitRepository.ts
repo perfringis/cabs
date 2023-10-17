@@ -76,4 +76,12 @@ export class TransitRepository extends Repository<Transit> {
       },
     });
   }
+
+  public async getOne(transitId: string): Promise<Transit> {
+    return await this.findOne({
+      where: {
+        id: transitId,
+      },
+    });
+  }
 }

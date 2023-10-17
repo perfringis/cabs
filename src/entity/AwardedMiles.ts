@@ -67,7 +67,7 @@ export class AwardedMiles extends BaseEntity {
     return this.isSpecial;
   }
 
-  public setIsSpecial(isSpecial: boolean): void {
+  public setSpecial(isSpecial: boolean): void {
     this.isSpecial = isSpecial;
   }
 

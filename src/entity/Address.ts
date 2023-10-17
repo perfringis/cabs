@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/BaseEntity';
-import { Column, Entity, VersionColumn } from 'typeorm';
+import { Column, Entity, OneToMany, VersionColumn } from 'typeorm';
 import objectHash from 'object-hash';
+import { Transit } from './Transit';
 
 @Entity({ name: 'address' })
 export class Address extends BaseEntity {
@@ -33,6 +34,9 @@ export class Address extends BaseEntity {
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
+
+  @OneToMany(() => Transit, (transit) => transit.from)
+  public transits: Transit[];
 
   constructor(
     country: string,

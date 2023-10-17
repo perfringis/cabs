@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/BaseEntity';
 import { Column, Entity, OneToMany, VersionColumn } from 'typeorm';
 import { Claim } from './Claim';
+import { Transit } from './Transit';
 
 export enum Type {
   NORMAL = 'normal',
@@ -45,11 +46,14 @@ export class Client extends BaseEntity {
   })
   private clientType: ClientType | null;
 
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
   @OneToMany(() => Claim, (claim) => claim.owner)
   public claims: Claim[];
 
-  @VersionColumn({ type: 'int', nullable: true })
-  private version: number | null;
+  @OneToMany(() => Transit, (transit) => transit.client)
+  public transits: Transit[];
 
   public getType(): Type | null {
     return this.type;

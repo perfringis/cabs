@@ -55,19 +55,16 @@ export class Driver extends BaseEntity {
   public fee: DriverFee;
 
   @OneToMany(() => DriverAttribute, (driverAttribute) => driverAttribute.driver)
-  // public attributes: DriverAttribute[];
-  public attributes: Set<DriverAttribute>;
+  public attributes: DriverAttribute[];
 
   @OneToMany(() => Transit, (transit) => transit.driver)
-  // public transits: Transit[];
-  public transits: Set<Transit>;
+  public transits: Transit[];
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
 
   @OneToMany(() => DriverPosition, (driverPosition) => driverPosition.driver)
-  // public driverPositions: DriverPosition[];
-  public driverPositions: Set<DriverPosition>;
+  public driverPositions: DriverPosition[];
 
   public calculateEarningsForTransit(transit: Transit): number | null {
     return null;
@@ -138,15 +135,15 @@ export class Driver extends BaseEntity {
     this.fee = fee;
   }
 
-  public getAttributes(): Set<DriverAttribute> {
+  public getAttributes(): DriverAttribute[] {
     return this.attributes;
   }
 
-  public setAttributes(attributes: Set<DriverAttribute>): void {
+  public setAttributes(attributes: DriverAttribute[]): void {
     this.attributes = attributes;
   }
 
-  public getTransits(): Set<Transit> {
+  public getTransits(): Transit[] {
     return this.transits;
   }
 }

@@ -34,6 +34,7 @@ import { DriverSessionRepository } from './repository/DriverSessionRepository';
 import { InvoiceRepository } from './repository/InvoiceRepository';
 import { TransitRepository } from './repository/TransitRepository';
 import { AwardsService } from './service/AwardsService';
+import { AppProperties } from './config/AppProperties';
 
 @Module({
   imports: [
@@ -91,6 +92,9 @@ import { AwardsService } from './service/AwardsService';
 
     // services
     AwardsService,
+
+    // config
+    AppProperties,
   ],
 })
 export class AppModule {}

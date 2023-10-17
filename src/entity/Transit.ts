@@ -141,42 +141,40 @@ export class Transit extends BaseEntity {
   @Column({ name: 'car_type', nullable: true, type: 'enum', enum: CarClass })
   private carType: CarClass;
 
-  @ManyToOne(() => Address, (address) => address, { eager: true })
+  @VersionColumn({ type: 'int', nullable: true })
+  private version: number | null;
+
+  @ManyToOne(() => Address, (address) => address.transits)
   @JoinColumn({ name: 'from_id' })
   public from: Address;
 
-  @ManyToOne(() => Address, (address) => address, { eager: true })
+  @ManyToOne(() => Address, (address) => address.transits)
   @JoinColumn({ name: 'to_id' })
-  private to: Address;
+  public to: Address;
 
-  @ManyToOne(() => Driver, (driver) => driver.transits, { eager: true })
+  @ManyToOne(() => Driver, (driver) => driver.transits)
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  @ManyToOne(() => Client, (client) => client, { eager: true })
+  @ManyToOne(() => Client, (client) => client.transits)
   @JoinColumn({ name: 'client_id' })
   public client: Client;
 
-  @ManyToMany(() => Driver, (driver) => driver)
+  @ManyToMany(() => Driver, (driver) => driver.transits)
   @JoinTable({
     name: 'transit_drivers_rejections',
     joinColumn: { name: 'transit_id' },
     inverseJoinColumn: { name: 'drivers_rejections_id' },
   })
-  // private driversRejections: Driver[];
-  private driversRejections: Set<Driver>;
+  public driversRejections: Driver[];
 
-  @ManyToMany(() => Driver, (driver) => driver)
+  @ManyToMany(() => Driver, (driver) => driver.transits)
   @JoinTable({
     name: 'transit_proposed_drivers',
     joinColumn: { name: 'transit_id' },
     inverseJoinColumn: { name: 'proposed_drivers_id' },
   })
-  // private proposedDrivers: Driver[];
-  private proposedDrivers: Set<Driver>;
-
-  @VersionColumn({ type: 'int', nullable: true })
-  private version: number | null;
+  public proposedDrivers: Driver[];
 
   public getDriverPaymentStatus(): DriverPaymentStatus | null {
     return this.driverPaymentStatus;
@@ -346,19 +344,19 @@ export class Transit extends BaseEntity {
     this.client = client;
   }
 
-  public getDriversRejections(): Set<Driver> {
+  public getDriversRejections(): Driver[] {
     return this.driversRejections;
   }
 
-  public setDriversRejections(driversRejections: Set<Driver>): void {
+  public setDriversRejections(driversRejections: Driver[]): void {
     this.driversRejections = driversRejections;
   }
 
-  public getProposedDrivers(): Set<Driver> {
+  public getProposedDrivers(): Driver[] {
     return this.proposedDrivers;
   }
 
-  public setProposedDrivers(proposedDrivers: Set<Driver>): void {
+  public setProposedDrivers(proposedDrivers: Driver[]): void {
     this.proposedDrivers = proposedDrivers;
   }
 
