@@ -1,9 +1,13 @@
 import { AwardsAccountDTO } from 'src/dto/AwardsAccountDTO';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { AwardsAccountRepository } from 'src/repository/AwardsAccountRepository';
 import { ClientRepository } from 'src/repository/ClientRepository';
 import { AwardsServiceInterface } from './AwardsServiceInterface';
-import { Client } from 'src/entity/Client';
+import { Client, ClientType, Type } from 'src/entity/Client';
 import { AwardsAccount } from 'src/entity/AwardsAccount';
 import { AwardedMiles } from 'src/entity/AwardedMiles';
 import { Transit } from 'src/entity/Transit';
@@ -118,7 +122,10 @@ export class AwardsService implements AwardsServiceInterface {
     }
   }
 
-  // TODO test service method
+  private isSunday(): boolean {
+    return dayjs().day() === 0;
+  }
+
   public async registerSpecialMiles(
     clientId: string,
     miles: number,
@@ -165,9 +172,68 @@ export class AwardsService implements AwardsServiceInterface {
           await this.transitRepository.findByClient(client)
         ).length;
 
-        // TODO finish it
         if (client.getClaims().length >= 3) {
+          milesList.sort(
+            (a: AwardedMiles, b: AwardedMiles) =>
+              b.getExpirationDate()?.getTime() -
+                a.getExpirationDate()?.getTime() ||
+              (b.getExpirationDate() === null ? 1 : -1),
+          );
+        } else if (client.getType() === Type.VIP) {
+          milesList.sort(
+            (a: AwardedMiles, b: AwardedMiles) =>
+              Number(a.getIsSpecial()) - Number(b.getIsSpecial()) ||
+              a.getExpirationDate()?.getTime() -
+                b.getExpirationDate()?.getTime() ||
+              (a.getExpirationDate() === null ? -1 : 1),
+          );
+        } else if (transitsCounter >= 15 && this.isSunday()) {
+          milesList.sort(
+            (a: AwardedMiles, b: AwardedMiles) =>
+              Number(a.getIsSpecial()) - Number(b.getIsSpecial()) ||
+              a.getExpirationDate()?.getTime() -
+                b.getExpirationDate()?.getTime() ||
+              (a.getExpirationDate() === null ? -1 : 1),
+          );
+        } else if (transitsCounter >= 15) {
+          milesList.sort(
+            (a: AwardedMiles, b: AwardedMiles) =>
+              Number(a.getIsSpecial()) - Number(b.getIsSpecial()) ||
+              a.getDate().getTime() - b.getDate().getTime(),
+          );
+        } else {
+          milesList.sort(
+            (a: AwardedMiles, b: AwardedMiles) =>
+              a.getDate().getTime() - b.getDate().getTime(),
+          );
         }
+
+        for (const iter of milesList) {
+          if (miles <= 0) {
+            break;
+          }
+
+          if (
+            iter.getIsSpecial() ||
+            dayjs(iter.getExpirationDate()).isAfter(dayjs())
+          ) {
+            if (iter.getMiles() <= miles) {
+              miles -= iter.getMiles();
+              iter.setMiles(0);
+            } else {
+              iter.setMiles(iter.getMiles() - miles);
+              miles = 0;
+            }
+            this.milesRepository.save(iter);
+          }
+        }
+      } else {
+        throw new NotAcceptableException(
+          'Insufficient miles, id = ' +
+            clientId +
+            ', miles requested = ' +
+            miles,
+        );
       }
     }
   }
