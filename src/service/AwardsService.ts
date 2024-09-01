@@ -91,11 +91,11 @@ export class AwardsService implements AwardsServiceInterface {
     );
 
     const transit: Transit = await this.transitRepository.getOne(transitId);
-    if (!transit) {
+    if (transit === null) {
       throw new NotFoundException('transit does not exists, id = ' + transitId);
     }
 
-    const now: Date = new Date();
+    const now: Date = dayjs().toDate();
 
     if (!account || !account.getIsActive()) {
       return null;
@@ -103,7 +103,7 @@ export class AwardsService implements AwardsServiceInterface {
       const miles: AwardedMiles = new AwardedMiles();
 
       miles.setTransit(transit);
-      miles.setDate(new Date());
+      miles.setDate(dayjs().toDate());
       miles.setClient(account.getClient());
       miles.setMiles(this.appProperties.getDefaultMilesBonus());
       miles.setExpirationDate(
@@ -112,7 +112,6 @@ export class AwardsService implements AwardsServiceInterface {
           .toDate(),
       );
       miles.setSpecial(false);
-
       account.increaseTransactions();
 
       await this.milesRepository.save(miles);
@@ -134,14 +133,14 @@ export class AwardsService implements AwardsServiceInterface {
       await this.clientRepository.getOne(clientId),
     );
 
-    if (!account) {
+    if (account === null) {
       throw new NotFoundException('Account does not exists, id = ' + clientId);
     } else {
       const _miles: AwardedMiles = new AwardedMiles();
       _miles.setTransit(null);
       _miles.setClient(account.getClient());
       _miles.setMiles(miles);
-      _miles.setDate(new Date());
+      _miles.setDate(dayjs().toDate());
       _miles.setSpecial(true);
 
       account.increaseTransactions();
@@ -252,5 +251,69 @@ export class AwardsService implements AwardsServiceInterface {
       )
       .map((t) => t.getMiles())
       .reduce((prev, curr) => prev + curr, 0);
+  }
+
+  public async transferMiles(
+    fromClientId: string,
+    toClientId: string,
+    miles: number,
+  ): Promise<void> {
+    const fromClient: Client = await this.clientRepository.getOne(fromClientId);
+    const accountFrom: AwardsAccount =
+      await this.accountRepository.findByClient(fromClient);
+    const accountTo: AwardsAccount = await this.accountRepository.findByClient(
+      await this.clientRepository.getOne(toClientId),
+    );
+
+    if (accountFrom === null) {
+      throw new NotFoundException(
+        'Account does not exists, id = ' + fromClientId,
+      );
+    }
+
+    if (accountTo === null) {
+      throw new NotFoundException(
+        'Account does not exists, id = ' + toClientId,
+      );
+    }
+
+    if (
+      (await this.calculateBalance(fromClientId)) >= miles &&
+      accountFrom.getIsActive()
+    ) {
+      const milesList: AwardedMiles[] =
+        await this.milesRepository.findAllByClient(fromClient);
+
+      for (const iter of milesList) {
+        if (
+          iter.getIsSpecial() ||
+          dayjs(iter.getExpirationDate()).isAfter(dayjs())
+        ) {
+          if (iter.getMiles() <= miles) {
+            iter.setClient(accountTo.getClient());
+            miles -= iter.getMiles();
+          } else {
+            iter.setMiles(iter.getMiles() - miles);
+            const _miles: AwardedMiles = new AwardedMiles();
+
+            _miles.setClient(accountTo.getClient());
+            _miles.setSpecial(iter.getIsSpecial());
+            _miles.setExpirationDate(iter.getExpirationDate());
+            _miles.setMiles(miles);
+
+            miles -= iter.getMiles();
+
+            await this.milesRepository.save(_miles);
+          }
+          await this.milesRepository.save(iter);
+        }
+      }
+
+      accountFrom.increaseTransactions();
+      accountTo.increaseTransactions();
+
+      await this.accountRepository.save(accountFrom);
+      await this.accountRepository.save(accountTo);
+    }
   }
 }
