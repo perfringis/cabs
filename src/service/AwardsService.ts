@@ -159,7 +159,7 @@ export class AwardsService implements AwardsServiceInterface {
       client,
     );
 
-    if (!account) {
+    if (account === null) {
       throw new NotFoundException('Account does not exists, id = ' + clientId);
     } else {
       if (
@@ -224,7 +224,7 @@ export class AwardsService implements AwardsServiceInterface {
               iter.setMiles(iter.getMiles() - miles);
               miles = 0;
             }
-            this.milesRepository.save(iter);
+            await this.milesRepository.save(iter);
           }
         }
       } else {

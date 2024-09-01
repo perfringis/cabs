@@ -13,6 +13,9 @@ export class ClientRepository extends Repository<Client> {
       where: {
         id: clientId,
       },
+      relations: {
+        claims: true,
+      },
     });
   }
 }

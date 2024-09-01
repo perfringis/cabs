@@ -7,6 +7,6 @@ export class TestController {
 
   @Get('test')
   public test(): void {
-    this.awardsService.removeMiles('dsadadad', 1);
+    this.awardsService.removeMiles('client_1', 1);
   }
 }

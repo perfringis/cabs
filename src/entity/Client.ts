@@ -22,7 +22,7 @@ export enum ClientType {
 @Entity({ name: 'client' })
 export class Client extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: Type })
-  private type: Type | null;
+  private type: Type;
 
   @Column({ nullable: true, type: 'varchar', length: 255 })
   private name: string | null;
@@ -55,11 +55,11 @@ export class Client extends BaseEntity {
   @OneToMany(() => Transit, (transit) => transit.client)
   public transits: Transit[];
 
-  public getType(): Type | null {
+  public getType(): Type {
     return this.type;
   }
 
-  public setType(type: Type | null): void {
+  public setType(type: Type): void {
     this.type = type;
   }
 
