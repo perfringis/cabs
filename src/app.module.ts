@@ -35,6 +35,7 @@ import { InvoiceRepository } from './repository/InvoiceRepository';
 import { TransitRepository } from './repository/TransitRepository';
 import { AwardsService } from './service/AwardsService';
 import { AppProperties } from './config/AppProperties';
+import { CarTypeService } from './service/CarTypeService';
 
 @Module({
   imports: [
@@ -92,6 +93,7 @@ import { AppProperties } from './config/AppProperties';
 
     // services
     AwardsService,
+    CarTypeService,
 
     // config
     AppProperties,

@@ -24,4 +24,18 @@ export class CarTypeRepository extends Repository<CarType> {
       },
     });
   }
+
+  public async getOne(carTypeId: string): Promise<CarType> {
+    return await this.findOne({
+      where: {
+        id: carTypeId,
+      },
+    });
+  }
+
+  public async deleteByEntity(carType: CarType): Promise<void> {
+    await this.delete({
+      id: carType.getId(),
+    });
+  }
 }

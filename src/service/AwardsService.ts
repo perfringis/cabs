@@ -7,14 +7,14 @@ import {
 import { AwardsAccountRepository } from 'src/repository/AwardsAccountRepository';
 import { ClientRepository } from 'src/repository/ClientRepository';
 import { AwardsServiceInterface } from './AwardsServiceInterface';
-import { Client, ClientType, Type } from 'src/entity/Client';
+import { Client, Type } from 'src/entity/Client';
 import { AwardsAccount } from 'src/entity/AwardsAccount';
 import { AwardedMiles } from 'src/entity/AwardedMiles';
 import { Transit } from 'src/entity/Transit';
 import { TransitRepository } from 'src/repository/TransitRepository';
 import { AwardedMilesRepository } from 'src/repository/AwardedMilesRepository';
-import dayjs from 'dayjs';
 import { AppProperties } from 'src/config/AppProperties';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class AwardsService implements AwardsServiceInterface {
