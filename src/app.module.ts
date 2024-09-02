@@ -36,6 +36,7 @@ import { TransitRepository } from './repository/TransitRepository';
 import { AwardsService } from './service/AwardsService';
 import { AppProperties } from './config/AppProperties';
 import { CarTypeService } from './service/CarTypeService';
+import { ClaimNumberGenerator } from './service/ClaimNumberGenerator';
 
 @Module({
   imports: [
@@ -94,6 +95,7 @@ import { CarTypeService } from './service/CarTypeService';
     // services
     AwardsService,
     CarTypeService,
+    ClaimNumberGenerator,
 
     // config
     AppProperties,
