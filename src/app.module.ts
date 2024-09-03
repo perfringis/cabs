@@ -37,6 +37,9 @@ import { AwardsService } from './service/AwardsService';
 import { AppProperties } from './config/AppProperties';
 import { CarTypeService } from './service/CarTypeService';
 import { ClaimNumberGenerator } from './service/ClaimNumberGenerator';
+import { ClientNotificationService } from './service/ClientNotificationService';
+import { DriverNotificationService } from './service/DriverNotificationService';
+import { ClaimService } from './service/ClaimService';
 
 @Module({
   imports: [
@@ -96,6 +99,9 @@ import { ClaimNumberGenerator } from './service/ClaimNumberGenerator';
     AwardsService,
     CarTypeService,
     ClaimNumberGenerator,
+    ClientNotificationService,
+    DriverNotificationService,
+    ClaimService,
 
     // config
     AppProperties,

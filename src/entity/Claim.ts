@@ -60,11 +60,15 @@ export class Claim extends BaseEntity {
   @Column({ name: 'claim_no', nullable: false, type: 'varchar', length: 255 })
   private claimNo: string;
 
-  @ManyToOne(() => Client, (client) => client.claims)
+  @ManyToOne(() => Client, (client) => client.claims, {
+    eager: true,
+  })
   @JoinColumn({ name: 'owner_id' })
   public owner: Client;
 
-  @OneToOne(() => Transit)
+  @OneToOne(() => Transit, {
+    eager: true,
+  })
   @JoinColumn({ name: 'transit_id' })
   public transit: Transit;
 

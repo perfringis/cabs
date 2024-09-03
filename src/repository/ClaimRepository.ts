@@ -21,9 +21,6 @@ export class ClaimRepository extends Repository<Claim> {
           id: owner.getId(),
         },
       },
-      relations: {
-        owner: false,
-      },
     });
   }
 
@@ -37,6 +34,14 @@ export class ClaimRepository extends Repository<Claim> {
           id: owner.getId(),
         },
         transit: { id: transit.getId() },
+      },
+    });
+  }
+
+  public async getOne(id: string): Promise<Claim> {
+    return await this.findOne({
+      where: {
+        id: id,
       },
     });
   }
