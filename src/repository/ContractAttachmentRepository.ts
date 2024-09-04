@@ -23,4 +23,18 @@ export class ContractAttachmentRepository extends Repository<ContractAttachment>
       },
     });
   }
+
+  public async getOne(attachmentId: string): Promise<ContractAttachment> {
+    return await this.findOne({
+      where: {
+        id: attachmentId,
+      },
+    });
+  }
+
+  public async deleteById(attachmentId: string): Promise<void> {
+    await this.delete({
+      id: attachmentId,
+    });
+  }
 }

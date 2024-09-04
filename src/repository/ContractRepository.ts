@@ -15,4 +15,12 @@ export class ContractRepository extends Repository<Contract> {
       },
     });
   }
+
+  public async getOne(contractId: string): Promise<Contract> {
+    return await this.findOne({
+      where: {
+        id: contractId,
+      },
+    });
+  }
 }

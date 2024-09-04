@@ -41,6 +41,7 @@ import { ClientNotificationService } from './service/ClientNotificationService';
 import { DriverNotificationService } from './service/DriverNotificationService';
 import { ClaimService } from './service/ClaimService';
 import { ClientService } from './service/ClientService';
+import { ContractService } from './service/ContractService';
 
 @Module({
   imports: [
@@ -100,10 +101,11 @@ import { ClientService } from './service/ClientService';
     AwardsService,
     CarTypeService,
     ClaimNumberGenerator,
-    ClientNotificationService,
-    DriverNotificationService,
     ClaimService,
+    ClientNotificationService,
     ClientService,
+    ContractService,
+    DriverNotificationService,
 
     // config
     AppProperties,
