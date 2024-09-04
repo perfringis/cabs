@@ -40,6 +40,7 @@ import { ClaimNumberGenerator } from './service/ClaimNumberGenerator';
 import { ClientNotificationService } from './service/ClientNotificationService';
 import { DriverNotificationService } from './service/DriverNotificationService';
 import { ClaimService } from './service/ClaimService';
+import { ClientService } from './service/ClientService';
 
 @Module({
   imports: [
@@ -102,6 +103,7 @@ import { ClaimService } from './service/ClaimService';
     ClientNotificationService,
     DriverNotificationService,
     ClaimService,
+    ClientService,
 
     // config
     AppProperties,

@@ -1,22 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
-import { ClaimDTO } from 'src/dto/ClaimDTO';
-import { Claim, ClaimStatus } from 'src/entity/Claim';
-import { AwardsService } from 'src/service/AwardsService';
-import { CarTypeService } from 'src/service/CarTypeService';
-import { ClaimNumberGenerator } from 'src/service/ClaimNumberGenerator';
-import { ClaimService } from 'src/service/ClaimService';
+import { ClientDTO } from 'src/dto/ClientDTO';
+import { ClientService } from 'src/service/ClientService';
 
 @Controller('test')
 export class TestController {
-  constructor(
-    private awardsService: AwardsService,
-    private carTypeService: CarTypeService,
-    private claimNumberGenerator: ClaimNumberGenerator,
-    private claimService: ClaimService,
-  ) {}
+  constructor(private clientService: ClientService) {}
 
   @Get('test')
-  public async test(): Promise<Claim> {
-    return await this.claimService.tryToResolveAutomatically('claim_2');
+  public async test(): Promise<ClientDTO> {
+    return await this.clientService.load(
+      '10d1ee1a-6828-49e3-ac90-a30f158a4fbc',
+    );
   }
 }
