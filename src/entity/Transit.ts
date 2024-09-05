@@ -152,7 +152,9 @@ export class Transit extends BaseEntity {
   @JoinColumn({ name: 'to_id' })
   public to: Address;
 
-  @ManyToOne(() => Driver, (driver) => driver.transits)
+  @ManyToOne(() => Driver, (driver) => driver.transits, {
+    eager: true,
+  })
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 

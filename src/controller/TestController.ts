@@ -1,18 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { ClientService } from 'src/service/ClientService';
-import { ContractService } from 'src/service/ContractService';
-import { DistanceCalculator } from 'src/service/DistanceCalculator';
+import { DriverFeeService } from 'src/service/DriverFeeService';
 
 @Controller('test')
 export class TestController {
-  constructor(
-    private clientService: ClientService,
-    private contractService: ContractService,
-    private distanceCalculator: DistanceCalculator,
-  ) {}
+  constructor(private driverFeeService: DriverFeeService) {}
 
   @Get('test')
-  public async test() {
-    return this.distanceCalculator.calculateByGeo(100, 50, 100, 20);
+  public async test(): Promise<number> {
+    return await this.driverFeeService.calculateDriverFee('xd2');
   }
 }
