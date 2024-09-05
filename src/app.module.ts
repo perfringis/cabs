@@ -42,6 +42,7 @@ import { DriverNotificationService } from './service/DriverNotificationService';
 import { ClaimService } from './service/ClaimService';
 import { ClientService } from './service/ClientService';
 import { ContractService } from './service/ContractService';
+import { DistanceCalculator } from './service/DistanceCalculator';
 
 @Module({
   imports: [
@@ -106,6 +107,7 @@ import { ContractService } from './service/ContractService';
     ClientService,
     ContractService,
     DriverNotificationService,
+    DistanceCalculator,
 
     // config
     AppProperties,
