@@ -45,6 +45,7 @@ import { ContractService } from './service/ContractService';
 import { DistanceCalculator } from './service/DistanceCalculator';
 import { DriverFeeService } from './service/DriverFeeService';
 import { DriverService } from './service/DriverService';
+import { DriverRepository } from './repository/DriverRepository';
 
 @Module({
   imports: [
@@ -99,6 +100,7 @@ import { DriverService } from './service/DriverService';
     DriverSessionRepository,
     InvoiceRepository,
     TransitRepository,
+    DriverRepository,
 
     // services
     AwardsService,

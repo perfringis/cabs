@@ -47,7 +47,7 @@ export class Driver extends BaseEntity {
   })
   private driverLicense: string;
 
-  @Column({ name: 'is_occupied', nullable: false, type: 'boolean' })
+  @Column({ name: 'is_occupied', nullable: true, type: 'boolean' })
   private isOccupied: boolean;
 
   @OneToOne(() => DriverFee, (driverFee) => driverFee.driver)

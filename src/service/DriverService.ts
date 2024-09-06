@@ -8,6 +8,13 @@ import { DriverRepository } from 'src/repository/DriverRepository';
 import { TransitRepository } from 'src/repository/TransitRepository';
 import { DriverFeeService } from './DriverFeeService';
 import { Driver, DriverStatus, DriverType } from 'src/entity/Driver';
+import dayjs, { Dayjs } from 'dayjs';
+import { Transit } from 'src/entity/Transit';
+import { DriverDTO } from 'src/dto/DriverDTO';
+import {
+  DriverAttribute,
+  DriverAttributeName,
+} from 'src/entity/DriverAttribute';
 
 @Injectable()
 export class DriverService {
@@ -153,6 +160,68 @@ export class DriverService {
       throw new NotFoundException('Driver does not exists, id = ' + driverId);
     }
 
-    // finish it
+    const yearMonth: Dayjs = dayjs(`${year}-${month}`, 'YYYY-M');
+    const from: Date = yearMonth.startOf('month').add(1, 'day').toDate();
+    const to: Date = yearMonth.endOf('month').add(1, 'day').toDate();
+
+    const transitsList: Transit[] =
+      await this.transitRepository.findAllByDriverAndDateTimeBetween(
+        driver,
+        from,
+        to,
+      );
+
+    const sum: number = (
+      await Promise.all(
+        transitsList.map(
+          async (transit: Transit) =>
+            await this.driverFeeService.calculateDriverFee(transit.getId()),
+        ),
+      )
+    ).reduce((prev, curr) => prev + curr, 0);
+
+    return sum;
+  }
+
+  public async calculateDriverYearlyPayment(
+    driverId: string,
+    year: number,
+  ): Promise<Map<number, number>> {
+    const payments: Map<number, number> = new Map<number, number>();
+
+    for (let month = 1; month <= 12; month++) {
+      payments.set(
+        month,
+        await this.calculateDriverMonthlyPayment(driverId, year, month),
+      );
+    }
+
+    return payments;
+  }
+
+  public async loadDriver(driverId: string): Promise<DriverDTO> {
+    const driver: Driver = await this.driverRepository.getOne(driverId);
+
+    if (driver === null) {
+      throw new NotFoundException('Driver does not exists, id = ' + driverId);
+    }
+
+    return new DriverDTO(driver);
+  }
+
+  public async addAttribute(
+    driverId: string,
+    attr: DriverAttributeName,
+    value: string,
+  ): Promise<void> {
+    const driver: Driver = await this.driverRepository.getOne(driverId);
+
+    if (driver === null) {
+      throw new NotFoundException('Driver does not exists, id = ' + driverId);
+    }
+
+    await this.driverAttributeRepository.save(
+      new DriverAttribute(driver, attr, value),
+    );
   }
 }
