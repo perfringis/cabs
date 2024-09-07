@@ -1,17 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import dayjs from 'dayjs';
-import { DriverTrackingService } from 'src/service/DriverTrackingService';
+import { Invoice } from 'src/entity/Invoice';
+import { InvoiceGenerator } from 'src/service/InvoiceGenerator';
 
 @Controller('test')
 export class TestController {
-  constructor(private driverTrackingService: DriverTrackingService) {}
+  constructor(private invoiceGenerator: InvoiceGenerator) {}
 
   @Get('test')
-  public async test(): Promise<number> {
-    return await this.driverTrackingService.calculateTravelledDistance(
-      'd_1',
-      dayjs().subtract(10, 'day').toDate(),
-      dayjs().add(10, 'day').toDate(),
-    );
+  public async test(): Promise<Invoice> {
+    return await this.invoiceGenerator.generate(1, 'xd');
   }
 }
