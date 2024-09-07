@@ -62,4 +62,12 @@ export class DriverSessionRepository extends Repository<DriverSession> {
       },
     });
   }
+
+  public async getOne(sessionid: string): Promise<DriverSession> {
+    return await this.findOne({
+      where: {
+        id: sessionid,
+      },
+    });
+  }
 }
