@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DriverPositionDTOV2 } from 'src/dto/DriverPositionDTOV2';
 import { Driver } from 'src/entity/Driver';
 import { DriverPosition } from 'src/entity/DriverPosition';
-import { DataSource, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class DriverPositionRepository extends Repository<DriverPosition> {
@@ -72,6 +72,22 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
       );
 
       return driverPositionDTOV2;
+    });
+  }
+
+  public async findByDriverAndSeenAtBetweenOrderBySeenAtAsc(
+    driver: Driver,
+    from: Date,
+    to: Date,
+  ): Promise<DriverPosition[]> {
+    return await this.find({
+      where: {
+        driver: driver,
+        seenAt: Between(from, to),
+      },
+      order: {
+        seenAt: 'ASC',
+      },
     });
   }
 }

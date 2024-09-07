@@ -1,17 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { DriverAttributeName } from 'src/entity/DriverAttribute';
-import { DriverService } from 'src/service/DriverService';
+import dayjs from 'dayjs';
+import { DriverTrackingService } from 'src/service/DriverTrackingService';
 
 @Controller('test')
 export class TestController {
-  constructor(private driverService: DriverService) {}
+  constructor(private driverTrackingService: DriverTrackingService) {}
 
   @Get('test')
-  public async test(): Promise<void> {
-    await this.driverService.addAttribute(
+  public async test(): Promise<number> {
+    return await this.driverTrackingService.calculateTravelledDistance(
       'd_1',
-      DriverAttributeName.EMAIL,
-      'xddd',
+      dayjs().subtract(10, 'day').toDate(),
+      dayjs().add(10, 'day').toDate(),
     );
   }
 }

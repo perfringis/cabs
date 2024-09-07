@@ -46,6 +46,7 @@ import { DistanceCalculator } from './service/DistanceCalculator';
 import { DriverFeeService } from './service/DriverFeeService';
 import { DriverService } from './service/DriverService';
 import { DriverRepository } from './repository/DriverRepository';
+import { DriverTrackingService } from './service/DriverTrackingService';
 
 @Module({
   imports: [
@@ -114,6 +115,7 @@ import { DriverRepository } from './repository/DriverRepository';
     DistanceCalculator,
     DriverFeeService,
     DriverService,
+    DriverTrackingService,
 
     // config
     AppProperties,
