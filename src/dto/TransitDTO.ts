@@ -3,28 +3,34 @@ import { Status, Transit } from 'src/entity/Transit';
 import { AddressDTO } from './AddressDTO';
 import { ClientDTO } from './ClientDTO';
 import { DriverDTO } from './DriverDTO';
+import { ClaimDTO } from './ClaimDTO';
+import dayjs from 'dayjs';
+import dayOfYear from 'dayjs/plugin/dayOfYear';
 
 export class TransitDTO {
   private id: string;
-  private distance: number;
-  private factor: number | null;
-  private price: number | null;
-  private date: Date | null;
+  private tariff: string;
   private status: Status | null;
-  private proposedDrivers: DriverDTO[];
-  private to: AddressDTO;
-  private from: AddressDTO;
-  private carClass: CarClass;
-  private clientDTO: ClientDTO;
+  private driver: DriverDTO;
+  private factor: number | null;
+  private distance: number;
+  private distanceUnit: string;
+  private kmRate: number;
+  private price: number | null;
   private driverFee: number | null;
   private estimatedPrice: number | null;
+  private date: Date | null;
   private dateTime: Date | null;
   private published: Date | null;
   private acceptedAt: Date | null;
   private started: Date | null;
   private completeAt: Date | null;
-  private kmRate: number;
-  private tariff: string;
+  private claimDTO: ClaimDTO;
+  private proposedDrivers: DriverDTO[];
+  private to: AddressDTO;
+  private from: AddressDTO;
+  private carClass: CarClass;
+  private clientDTO: ClientDTO;
 
   constructor(transit: Transit) {
     this.id = transit.getId();
@@ -59,7 +65,65 @@ export class TransitDTO {
   }
 
   private setTariff(transit: Transit): void {
-    // TODO: finish it
+    const day = dayjs();
+
+    // wprowadzenie nowych cennikow od 1.01.2019
+    if (day.year() <= 2018) {
+      this.kmRate = 1.0;
+      this.tariff = 'standard';
+
+      return;
+    }
+
+    const year: number = day.year();
+    const leap: boolean =
+      (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+    if (
+      (leap && day.dayOfYear() === 366) ||
+      (!leap && day.dayOfYear() === 365) ||
+      (day.dayOfYear() === 1 && day.hour() <= 6)
+    ) {
+      this.tariff = 'sylwester';
+      this.kmRate = 3.5;
+    } else {
+      switch (day.day()) {
+        case 1: // Monday
+        case 2: // Tuesday
+        case 3: // Wednesday
+        case 4: // Thursday
+          this.kmRate = 1.0;
+          this.tariff = 'standard';
+          break;
+        case 5: // Friday
+          if (day.hour() < 17) {
+            this.tariff = 'standard';
+            this.kmRate = 1.0;
+          } else {
+            this.tariff = 'weekend+';
+            this.kmRate = 2.5;
+          }
+          break;
+        case 6: // Saturday
+          if (day.hour() < 6 || day.hour() >= 17) {
+            this.kmRate = 2.5;
+            this.tariff = 'weekend+';
+          } else if (day.hour() < 17) {
+            this.kmRate = 1.5;
+            this.tariff = 'weekend';
+          }
+          break;
+        case 0: // Sunday
+          if (day.hour() < 6) {
+            this.kmRate = 2.5;
+            this.tariff = 'weekend';
+          } else {
+            this.kmRate = 1.5;
+            this.tariff = 'weekend';
+          }
+          break;
+      }
+    }
   }
 
   public getTariff(): string {
@@ -70,5 +134,125 @@ export class TransitDTO {
     // TODO: finish it
 
     return '';
+  }
+
+  public getProposedDrivers(): DriverDTO[] {
+    return this.proposedDrivers;
+  }
+
+  public setProposedDrivers(proposedDrivers: DriverDTO[]): void {
+    this.proposedDrivers = proposedDrivers;
+  }
+
+  public getClaimDTO(): ClaimDTO {
+    return this.claimDTO;
+  }
+
+  public setClaimDTO(claimDTO: ClaimDTO): void {
+    this.claimDTO = claimDTO;
+  }
+
+  public getTo(): AddressDTO {
+    return this.to;
+  }
+
+  public setTo(to: AddressDTO): void {
+    this.to = to;
+  }
+
+  public getFrom() {
+    return this.from;
+  }
+
+  public setFrom(from: AddressDTO): void {
+    this.from = from;
+  }
+
+  public getCarClass(): CarClass {
+    return this.carClass;
+  }
+
+  public setCarClass(carClass: CarClass): void {
+    this.carClass = carClass;
+  }
+
+  public getClientDTO() {
+    return this.clientDTO;
+  }
+
+  public setClientDTO(clientDTO: ClientDTO): void {
+    this.clientDTO = this.clientDTO;
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  public getStatus(): Status {
+    return this.status;
+  }
+
+  public setStatus(status: Status): void {
+    this.status = status;
+  }
+
+  public getPrice(): number {
+    return this.price;
+  }
+
+  public getDriverFee(): number {
+    return this.driverFee;
+  }
+
+  public setDriverFee(driverFee: number): void {
+    this.driverFee = driverFee;
+  }
+
+  public getDateTime(): Date {
+    return this.dateTime;
+  }
+
+  public setDateTime(dateTime: Date): void {
+    this.dateTime = dateTime;
+  }
+
+  public getPublished(): Date {
+    return this.published;
+  }
+
+  public setPublished(published: Date): void {
+    this.published = published;
+  }
+
+  public getAcceptedAt(): Date {
+    return this.acceptedAt;
+  }
+
+  public setAcceptedAt(acceptedAt: Date): void {
+    this.acceptedAt = acceptedAt;
+  }
+
+  public getStarted(): Date {
+    return this.started;
+  }
+
+  public setStarted(started: Date): void {
+    this.started = started;
+  }
+
+  public getCompleteAt(): Date {
+    return this.completeAt;
+  }
+
+  public setCompleteAt(completeAt: Date): void {
+    this.completeAt = completeAt;
+  }
+
+  public getEstimatedPrice(): number {
+    return this.estimatedPrice;
+  }
+
+  public setEstimatedPrice(estimatedPrice: number): void {
+    this.estimatedPrice = estimatedPrice;
   }
 }
