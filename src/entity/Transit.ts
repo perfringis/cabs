@@ -144,11 +144,11 @@ export class Transit extends BaseEntity {
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
 
-  @ManyToOne(() => Address, (address) => address.transits)
+  @ManyToOne(() => Address, (address) => address.transits, { eager: true })
   @JoinColumn({ name: 'from_id' })
   public from: Address;
 
-  @ManyToOne(() => Address, (address) => address.transits)
+  @ManyToOne(() => Address, (address) => address.transits, { eager: true })
   @JoinColumn({ name: 'to_id' })
   public to: Address;
 
@@ -158,11 +158,11 @@ export class Transit extends BaseEntity {
   @JoinColumn({ name: 'driver_id' })
   public driver: Driver;
 
-  @ManyToOne(() => Client, (client) => client.transits)
+  @ManyToOne(() => Client, (client) => client.transits, { eager: true })
   @JoinColumn({ name: 'client_id' })
   public client: Client;
 
-  @ManyToMany(() => Driver, (driver) => driver.transits)
+  @ManyToMany(() => Driver, (driver) => driver.transits, { eager: true })
   @JoinTable({
     name: 'transit_drivers_rejections',
     joinColumn: { name: 'transit_id' },
@@ -170,7 +170,7 @@ export class Transit extends BaseEntity {
   })
   public driversRejections: Driver[];
 
-  @ManyToMany(() => Driver, (driver) => driver.transits)
+  @ManyToMany(() => Driver, (driver) => driver.transits, { eager: true })
   @JoinTable({
     name: 'transit_proposed_drivers',
     joinColumn: { name: 'transit_id' },

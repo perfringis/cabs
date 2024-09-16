@@ -17,13 +17,17 @@ import { Address } from 'src/entity/Address';
 import { AddressDTO } from 'src/dto/AddressDTO';
 import { CarClass } from 'src/entity/CarType';
 import { Client } from 'src/entity/Client';
-import { NotAcceptableException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import dayjs from 'dayjs';
 import { DriverPositionDTOV2 } from 'src/dto/DriverPositionDTOV2';
 import { DriverSession } from 'src/entity/DriverSession';
 import { Driver, DriverStatus } from 'src/entity/Driver';
-import { table } from 'console';
 
+@Injectable()
 export class TransitService {
   constructor(
     private driverRepository: DriverRepository,

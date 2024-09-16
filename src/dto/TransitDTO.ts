@@ -7,6 +7,8 @@ import { ClaimDTO } from './ClaimDTO';
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 
+dayjs.extend(dayOfYear);
+
 export class TransitDTO {
   private id: string;
   private tariff: string;
@@ -26,7 +28,7 @@ export class TransitDTO {
   private started: Date | null;
   private completeAt: Date | null;
   private claimDTO: ClaimDTO;
-  private proposedDrivers: DriverDTO[];
+  private proposedDrivers: DriverDTO[] = [];
   private to: AddressDTO;
   private from: AddressDTO;
   private carClass: CarClass;

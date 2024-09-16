@@ -49,6 +49,7 @@ import { DriverRepository } from './repository/DriverRepository';
 import { DriverTrackingService } from './service/DriverTrackingService';
 import { GeocodingService } from './service/GeocodingService';
 import { InvoiceGenerator } from './service/InvoiceGenerator';
+import { TransitService } from './service/TransitService';
 
 @Module({
   imports: [
@@ -120,6 +121,7 @@ import { InvoiceGenerator } from './service/InvoiceGenerator';
     DriverTrackingService,
     GeocodingService,
     InvoiceGenerator,
+    TransitService,
 
     // config
     AppProperties,
