@@ -19,10 +19,6 @@ export class AwardedMilesRepository extends Repository<AwardedMiles> {
           id: client.getId(),
         },
       },
-      relations: {
-        // It means do not connected nested client
-        client: false,
-      },
     });
   }
 }

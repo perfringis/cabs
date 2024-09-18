@@ -243,12 +243,13 @@ export class AwardsService implements AwardsServiceInterface {
       await this.milesRepository.findAllByClient(client);
 
     return milesList
-      .filter(
-        (t) =>
+      .filter((t) => {
+        return (
           (t.getExpirationDate() !== null &&
-            dayjs(t.getExpirationDate()).isAfter(new Date())) ||
-          t.getIsSpecial(),
-      )
+            dayjs(t.getExpirationDate()).isAfter(dayjs())) ||
+          t.getIsSpecial()
+        );
+      })
       .map((t) => t.getMiles())
       .reduce((prev, curr) => prev + curr, 0);
   }
@@ -261,6 +262,7 @@ export class AwardsService implements AwardsServiceInterface {
     const fromClient: Client = await this.clientRepository.getOne(fromClientId);
     const accountFrom: AwardsAccount =
       await this.accountRepository.findByClient(fromClient);
+
     const accountTo: AwardsAccount = await this.accountRepository.findByClient(
       await this.clientRepository.getOne(toClientId),
     );

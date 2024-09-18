@@ -17,7 +17,6 @@ import { ContractAttachment } from './entity/ContractAttachment';
 import { Contract } from './entity/Contract';
 import { Transit } from './entity/Transit';
 import { AwardedMiles } from './entity/AwardedMiles';
-import { TestController } from './controller/TestController';
 import { AddressRepository } from './repository/AddressRepository';
 import { AwardedMilesRepository } from './repository/AwardedMilesRepository';
 import { AwardsAccountRepository } from './repository/AwardsAccountRepository';
@@ -50,6 +49,8 @@ import { DriverTrackingService } from './service/DriverTrackingService';
 import { GeocodingService } from './service/GeocodingService';
 import { InvoiceGenerator } from './service/InvoiceGenerator';
 import { TransitService } from './service/TransitService';
+import { AwardsAccountController } from './ui/AwardsAccountController';
+import { TestController } from './ui/TestController';
 
 @Module({
   imports: [
@@ -68,25 +69,25 @@ import { TransitService } from './service/TransitService';
       logging: true,
       entities: [
         Address,
-        Invoice,
+        AwardedMiles,
+        AwardsAccount,
         CarType,
+        Claim,
+        ClaimAttachment,
+        Client,
+        Contract,
+        ContractAttachment,
+        Driver,
+        DriverAttribute,
         DriverFee,
         DriverPosition,
         DriverSession,
-        DriverAttribute,
-        Driver,
-        AwardsAccount,
-        Client,
-        Claim,
-        ClaimAttachment,
-        ContractAttachment,
-        Contract,
-        AwardedMiles,
+        Invoice,
         Transit,
       ],
     }),
   ],
-  controllers: [TestController],
+  controllers: [AwardsAccountController, TestController],
   providers: [
     // repositories
     AddressRepository,
@@ -101,10 +102,10 @@ import { TransitService } from './service/TransitService';
     DriverAttributeRepository,
     DriverFeeRepository,
     DriverPositionRepository,
+    DriverRepository,
     DriverSessionRepository,
     InvoiceRepository,
     TransitRepository,
-    DriverRepository,
 
     // services
     AwardsService,
@@ -114,9 +115,9 @@ import { TransitService } from './service/TransitService';
     ClientNotificationService,
     ClientService,
     ContractService,
-    DriverNotificationService,
     DistanceCalculator,
     DriverFeeService,
+    DriverNotificationService,
     DriverService,
     DriverTrackingService,
     GeocodingService,

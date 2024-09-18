@@ -25,7 +25,7 @@ export class AwardedMiles extends BaseEntity {
   @Column({ name: 'expiration_date', nullable: true, type: 'datetime' })
   private expirationDate: Date | null;
 
-  @Column({ name: 'is_special', nullable: true, type: 'bit' })
+  @Column({ name: 'is_special', nullable: true, type: 'boolean' })
   private isSpecial: boolean | null;
 
   @ManyToOne(() => Transit, (transit) => transit)

@@ -23,9 +23,6 @@ export class AwardsAccountRepository extends Repository<AwardsAccount> {
           id: client.getId(),
         },
       },
-      relations: {
-        client: true,
-      },
     });
   }
 }
