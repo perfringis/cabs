@@ -53,6 +53,7 @@ import { AwardsAccountController } from './ui/AwardsAccountController';
 import { TestController } from './ui/TestController';
 import { CarTypeController } from './ui/CarTypeController';
 import { ClaimController } from './ui/ClaimController';
+import { ClientController } from './ui/ClientController';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { ClaimController } from './ui/ClaimController';
     AwardsAccountController,
     CarTypeController,
     ClaimController,
+    ClientController,
     TestController,
   ],
   providers: [
