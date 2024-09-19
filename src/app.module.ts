@@ -52,6 +52,7 @@ import { TransitService } from './service/TransitService';
 import { AwardsAccountController } from './ui/AwardsAccountController';
 import { TestController } from './ui/TestController';
 import { CarTypeController } from './ui/CarTypeController';
+import { ClaimController } from './ui/ClaimController';
 
 @Module({
   imports: [
@@ -88,7 +89,12 @@ import { CarTypeController } from './ui/CarTypeController';
       ],
     }),
   ],
-  controllers: [AwardsAccountController, TestController, CarTypeController],
+  controllers: [
+    AwardsAccountController,
+    CarTypeController,
+    ClaimController,
+    TestController,
+  ],
   providers: [
     // repositories
     AddressRepository,

@@ -4,14 +4,14 @@ export class ClaimDTO {
   private creationDate: Date;
   private completionDate: Date | null;
   private changeDate: Date | null;
-  private reason: string;
-  private incidentDescription: string | null;
+  public reason: string;
+  public incidentDescription: string | null;
   private completionMode: CompletionMode | null;
   private status: ClaimStatus;
   private claimNo: string;
-  private clientId: string;
-  private transitId: string;
-  private isDraft: boolean;
+  public clientId: string;
+  public transitId: string;
+  public isDraft: boolean;
   private claimId: string;
 
   constructor(claim: Claim) {

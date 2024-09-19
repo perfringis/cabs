@@ -30,6 +30,7 @@ export class ClaimService {
     let claim: Claim = new Claim();
     claim.setCreationDate(dayjs().toDate());
     claim.setClaimNo(await this.claimNumberGenerator.generate(claim));
+
     claim = await this.update(claimDTO, claim);
 
     return claim;
@@ -37,7 +38,7 @@ export class ClaimService {
 
   public async find(id: string): Promise<Claim> {
     const claim: Claim = await this.claimRepository.getOne(id);
-    if (!claim) {
+    if (claim === null) {
       throw new NotFoundException('Claim does not exists');
     }
 
@@ -46,10 +47,10 @@ export class ClaimService {
 
   public async update(claimDTO: ClaimDTO, claim: Claim): Promise<Claim> {
     const client: Client = await this.clientRepository.getOne(
-      claimDTO.getClientId(),
+      claimDTO.clientId,
     );
     const transit: Transit = await this.transitRepository.getOne(
-      claimDTO.getTransitId(),
+      claimDTO.transitId,
     );
 
     if (client === null) {
@@ -60,7 +61,7 @@ export class ClaimService {
       throw new NotFoundException('Transit does not exists');
     }
 
-    if (claimDTO.getIsDraft()) {
+    if (claimDTO.isDraft) {
       claim.setStatus(ClaimStatus.DRAFT);
     } else {
       claim.setStatus(ClaimStatus.NEW);
@@ -69,8 +70,8 @@ export class ClaimService {
     claim.setOwner(client);
     claim.setTransit(transit);
     claim.setCreationDate(dayjs().toDate());
-    claim.setReason(claimDTO.getReason());
-    claim.setIncidentDescription(claimDTO.getIncidentDescription());
+    claim.setReason(claimDTO.reason);
+    claim.setIncidentDescription(claimDTO.incidentDescription);
 
     return await this.claimRepository.save(claim);
   }
