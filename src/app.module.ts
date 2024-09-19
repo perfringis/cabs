@@ -51,6 +51,7 @@ import { InvoiceGenerator } from './service/InvoiceGenerator';
 import { TransitService } from './service/TransitService';
 import { AwardsAccountController } from './ui/AwardsAccountController';
 import { TestController } from './ui/TestController';
+import { CarTypeController } from './ui/CarTypeController';
 
 @Module({
   imports: [
@@ -87,7 +88,7 @@ import { TestController } from './ui/TestController';
       ],
     }),
   ],
-  controllers: [AwardsAccountController, TestController],
+  controllers: [AwardsAccountController, TestController, CarTypeController],
   providers: [
     // repositories
     AddressRepository,

@@ -2,8 +2,8 @@ import { CarClass, CarStatus, CarType } from 'src/entity/CarType';
 
 export class CarTypeDTO {
   private id: string;
-  private carClass: CarClass;
-  private description: string | null;
+  public carClass: CarClass;
+  public description: string | null;
   private status: CarStatus | null;
   private carsCounter: number;
   private minNoOfCarsToActivateClass: number;

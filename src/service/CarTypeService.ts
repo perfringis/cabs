@@ -27,19 +27,19 @@ export class CarTypeService {
 
   public async create(carTypeDTO: CarTypeDTO): Promise<CarType> {
     const byCarClass: CarType = await this.carTypeRepository.findByCarClass(
-      carTypeDTO.getCarClass(),
+      carTypeDTO.carClass,
     );
 
     if (byCarClass === null) {
       const type: CarType = new CarType(
-        carTypeDTO.getCarClass(),
-        carTypeDTO.getDescription(),
-        this.getMinNumberOfCars(carTypeDTO.getCarClass()),
+        carTypeDTO.carClass,
+        carTypeDTO.description,
+        this.getMinNumberOfCars(carTypeDTO.carClass),
       );
 
       return await this.carTypeRepository.save(type);
     } else {
-      byCarClass.setDescription(carTypeDTO.getDescription());
+      byCarClass.setDescription(carTypeDTO.description);
 
       return await this.carTypeRepository.save(byCarClass);
     }
