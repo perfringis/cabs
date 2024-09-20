@@ -5,7 +5,7 @@ import {
 
 export class ContractAttachmentDTO {
   private id: string;
-  private data: Buffer | null;
+  public data: Buffer | null;
   private creationDate: Date;
   private acceptedAt: Date | null;
   private rejectedAt: Date | null;

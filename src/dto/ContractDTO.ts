@@ -3,15 +3,15 @@ import { ContractAttachmentDTO } from './ContractAttachmentDTO';
 
 export class ContractDTO {
   private id: string;
-  private partnerName: string | null;
-  private subject: string | null;
+  public partnerName: string | null;
+  public subject: string | null;
   private creationDate: Date;
   private acceptedAt: Date | null;
   private rejectedAt: Date | null;
   private changeDate: Date | null;
   private status: ContractStatus;
   private contractNo: string;
-  public attachments: ContractAttachmentDTO[];
+  public attachments: ContractAttachmentDTO[] = [];
 
   constructor(contract: Contract) {
     this.id = contract.getId();

@@ -23,16 +23,13 @@ export class ContractService {
   public async createContract(contractDTO: ContractDTO): Promise<Contract> {
     const contract: Contract = new Contract();
 
-    contract.setPartnerName(contractDTO.getPartnerName());
+    contract.setPartnerName(contractDTO.partnerName);
     const partnerContractsCount: number =
-      (
-        await this.contractRepository.findByPartnerName(
-          contractDTO.getPartnerName(),
-        )
-      ).length + 1;
-    contract.setSubject(contractDTO.getSubject());
+      (await this.contractRepository.findByPartnerName(contractDTO.partnerName))
+        .length + 1;
+    contract.setSubject(contractDTO.subject);
     contract.setContractNo(
-      'C/' + partnerContractsCount + '/' + contractDTO.getPartnerName(),
+      'C/' + partnerContractsCount + '/' + contractDTO.partnerName,
     );
 
     return await this.contractRepository.save(contract);
@@ -117,9 +114,10 @@ export class ContractService {
     contractAttachmentDTO: ContractAttachmentDTO,
   ): Promise<ContractAttachmentDTO> {
     const contract: Contract = await this.find(contractId);
+
     const contractAttachment: ContractAttachment = new ContractAttachment();
     contractAttachment.setContract(contract);
-    contractAttachment.setData(contractAttachmentDTO.getData());
+    contractAttachment.setData(contractAttachmentDTO.data);
     await this.contractAttachmentRepository.save(contractAttachment);
 
     contract.getAttachments().push(contractAttachment);

@@ -54,6 +54,7 @@ import { TestController } from './ui/TestController';
 import { CarTypeController } from './ui/CarTypeController';
 import { ClaimController } from './ui/ClaimController';
 import { ClientController } from './ui/ClientController';
+import { ContractController } from './ui/ContractController';
 
 @Module({
   imports: [
@@ -95,6 +96,7 @@ import { ClientController } from './ui/ClientController';
     CarTypeController,
     ClaimController,
     ClientController,
+    ContractController,
     TestController,
   ],
   providers: [

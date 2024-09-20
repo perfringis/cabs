@@ -129,7 +129,7 @@ export class Contract extends BaseEntity {
   }
 
   public getAttachments(): ContractAttachment[] {
-    return this.attachments;
+    return this.attachments || [];
   }
 
   public setAttachments(attachments: ContractAttachment[]): void {
