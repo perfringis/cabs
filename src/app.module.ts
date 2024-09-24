@@ -59,6 +59,7 @@ import { DriverController } from './ui/DriverController';
 import { DriverReportController } from './ui/DriverReportController';
 import { DriverSessionController } from './ui/DriverSessionController';
 import { DriverSessionService } from './service/DriverSessionService';
+import { DriverTrackingController } from './ui/DriverTrackingController';
 
 @Module({
   imports: [
@@ -104,6 +105,7 @@ import { DriverSessionService } from './service/DriverSessionService';
     DriverController,
     DriverReportController,
     DriverSessionController,
+    DriverTrackingController,
     TestController,
   ],
   providers: [

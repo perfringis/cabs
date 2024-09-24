@@ -1,14 +1,14 @@
 export class DriverPositionDTO {
-  private latitude: number;
-  private longitude: number;
-  private seenAt: number;
+  public latitude: number;
+  public longitude: number;
+  private seenAt: Date;
   public driverId: string;
 
   constructor(
     driverId: string,
     latitude: number,
     longitude: number,
-    seenAt: number,
+    seenAt: Date,
   ) {
     this.latitude = latitude;
     this.longitude = longitude;
@@ -32,11 +32,11 @@ export class DriverPositionDTO {
     this.longitude = longitude;
   }
 
-  public getSeenAt(): number {
+  public getSeenAt(): Date {
     return this.seenAt;
   }
 
-  public setSeenAt(seenAt: number): void {
+  public setSeenAt(seenAt: Date): void {
     this.seenAt = seenAt;
   }
 
