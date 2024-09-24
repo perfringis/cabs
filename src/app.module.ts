@@ -57,6 +57,8 @@ import { ClientController } from './ui/ClientController';
 import { ContractController } from './ui/ContractController';
 import { DriverController } from './ui/DriverController';
 import { DriverReportController } from './ui/DriverReportController';
+import { DriverSessionController } from './ui/DriverSessionController';
+import { DriverSessionService } from './service/DriverSessionService';
 
 @Module({
   imports: [
@@ -101,6 +103,7 @@ import { DriverReportController } from './ui/DriverReportController';
     ContractController,
     DriverController,
     DriverReportController,
+    DriverSessionController,
     TestController,
   ],
   providers: [
@@ -134,6 +137,7 @@ import { DriverReportController } from './ui/DriverReportController';
     DriverFeeService,
     DriverNotificationService,
     DriverService,
+    DriverSessionService,
     DriverTrackingService,
     GeocodingService,
     InvoiceGenerator,

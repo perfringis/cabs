@@ -4,9 +4,9 @@ import { DriverSession } from 'src/entity/DriverSession';
 export class DriverSessionDTO {
   private loggedAt: Date;
   private loggedOutAt: Date | null;
-  private platesNumber: string;
-  private carClass: CarClass | null;
-  private carBrand: string | null;
+  public platesNumber: string;
+  public carClass: CarClass | null;
+  public carBrand: string | null;
 
   constructor(session: DriverSession) {
     this.loggedAt = session.getLoggedAt();
