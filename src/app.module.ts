@@ -56,6 +56,7 @@ import { ClaimController } from './ui/ClaimController';
 import { ClientController } from './ui/ClientController';
 import { ContractController } from './ui/ContractController';
 import { DriverController } from './ui/DriverController';
+import { DriverReportController } from './ui/DriverReportController';
 
 @Module({
   imports: [
@@ -99,6 +100,7 @@ import { DriverController } from './ui/DriverController';
     ClientController,
     ContractController,
     DriverController,
+    DriverReportController,
     TestController,
   ],
   providers: [
