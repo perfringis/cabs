@@ -60,6 +60,8 @@ import { DriverReportController } from './ui/DriverReportController';
 import { DriverSessionController } from './ui/DriverSessionController';
 import { DriverSessionService } from './service/DriverSessionService';
 import { DriverTrackingController } from './ui/DriverTrackingController';
+import { TransitAnalyzerController } from './ui/TransitAnalyzerController';
+import { TransitAnalyzer } from './service/TransitAnalyzer';
 
 @Module({
   imports: [
@@ -107,6 +109,7 @@ import { DriverTrackingController } from './ui/DriverTrackingController';
     DriverSessionController,
     DriverTrackingController,
     TestController,
+    TransitAnalyzerController,
   ],
   providers: [
     // repositories
@@ -143,6 +146,7 @@ import { DriverTrackingController } from './ui/DriverTrackingController';
     DriverTrackingService,
     GeocodingService,
     InvoiceGenerator,
+    TransitAnalyzer,
     TransitService,
 
     // config

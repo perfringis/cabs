@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { Address } from 'src/entity/Address';
 import { Client } from 'src/entity/Client';
@@ -7,6 +7,7 @@ import { AddressRepository } from 'src/repository/AddressRepository';
 import { ClientRepository } from 'src/repository/ClientRepository';
 import { TransitRepository } from 'src/repository/TransitRepository';
 
+@Injectable()
 export class TransitAnalyzer {
   constructor(
     private transitRepository: TransitRepository,
