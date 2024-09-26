@@ -4,9 +4,9 @@ import { DriverSessionDTO } from './DriverSessionDTO';
 import { TransitDTO } from './TransitDTO';
 
 export class DriverReport {
-  private driverDTO: DriverDTO;
-  private attributes: DriverAttributeDTO[];
-  private sessions: Map<DriverSessionDTO, TransitDTO[]> = new Map();
+  public driverDTO: DriverDTO;
+  public attributes: DriverAttributeDTO[];
+  public sessions: Map<DriverSessionDTO, TransitDTO[]> = new Map();
 
   public getDriverDTO(): DriverDTO {
     return this.driverDTO;

@@ -1,18 +1,19 @@
 import { Address } from 'src/entity/Address';
 
 export class AddressDTO {
-  private country: string | null;
-  private district: string | null;
-  private city: string | null;
-  private street: string | null;
-  private buildingNumber: number | null;
-  private additionalNumber: number | null;
-  private postalCode: string | null;
-  private name: string | null;
+  public country: string | null;
+  public district: string | null;
+  public city: string | null;
+  public street: string | null;
+  public buildingNumber: number | null;
+  public additionalNumber: number | null;
+  public postalCode: string | null;
+  public name: string | null;
 
   constructor(
     a:
       | Address
+      | AddressDTO
       | {
           country: string | null;
           district: string | null;
@@ -33,6 +34,15 @@ export class AddressDTO {
       this.additionalNumber = a.getAdditionalNumber();
       this.postalCode = a.getPostalCode();
       this.name = a.getName();
+    } else if (a instanceof AddressDTO) {
+      this.country = a.country;
+      this.district = a.district;
+      this.city = a.city;
+      this.street = a.street;
+      this.buildingNumber = a.buildingNumber;
+      this.additionalNumber = a.additionalNumber;
+      this.postalCode = a.postalCode;
+      this.name = a.name;
     } else {
       this.country = a.country;
       this.district = a.district;

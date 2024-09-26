@@ -1,13 +1,13 @@
 import { CarClass, CarStatus, CarType } from 'src/entity/CarType';
 
 export class CarTypeDTO {
-  private id: string;
+  public id: string;
   public carClass: CarClass;
   public description: string | null;
-  private status: CarStatus | null;
-  private carsCounter: number;
-  private minNoOfCarsToActivateClass: number;
-  private activeCarsCounter: number;
+  public status: CarStatus | null;
+  public carsCounter: number;
+  public minNoOfCarsToActivateClass: number;
+  public activeCarsCounter: number;
 
   constructor(carType: CarType) {
     this.id = carType.getId();

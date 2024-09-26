@@ -1,7 +1,7 @@
 export class DriverPositionDTO {
   public latitude: number;
   public longitude: number;
-  private seenAt: Date;
+  public seenAt: Date;
   public driverId: string;
 
   constructor(

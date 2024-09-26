@@ -2,10 +2,10 @@ import { AwardsAccount } from 'src/entity/AwardsAccount';
 import { ClientDTO } from './ClientDTO';
 
 export class AwardsAccountDTO {
-  private date: Date;
-  private isActive: boolean;
-  private transactions: number;
-  private client: ClientDTO;
+  public date: Date;
+  public isActive: boolean;
+  public transactions: number;
+  public client: ClientDTO;
 
   constructor(account: AwardsAccount) {
     this.date = account.getDate();

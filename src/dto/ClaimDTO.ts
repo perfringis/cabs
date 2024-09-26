@@ -1,18 +1,18 @@
 import { Claim, ClaimStatus, CompletionMode } from 'src/entity/Claim';
 
 export class ClaimDTO {
-  private creationDate: Date;
-  private completionDate: Date | null;
-  private changeDate: Date | null;
+  public creationDate: Date;
+  public completionDate: Date | null;
+  public changeDate: Date | null;
   public reason: string;
   public incidentDescription: string | null;
-  private completionMode: CompletionMode | null;
-  private status: ClaimStatus;
-  private claimNo: string;
+  public completionMode: CompletionMode | null;
+  public status: ClaimStatus;
+  public claimNo: string;
   public clientId: string;
   public transitId: string;
   public isDraft: boolean;
-  private claimId: string;
+  public claimId: string;
 
   constructor(claim: Claim) {
     if (claim.getStatus() === ClaimStatus.DRAFT) {

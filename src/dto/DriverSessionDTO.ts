@@ -2,8 +2,8 @@ import { CarClass } from 'src/entity/CarType';
 import { DriverSession } from 'src/entity/DriverSession';
 
 export class DriverSessionDTO {
-  private loggedAt: Date;
-  private loggedOutAt: Date | null;
+  public loggedAt: Date;
+  public loggedOutAt: Date | null;
   public platesNumber: string;
   public carClass: CarClass | null;
   public carBrand: string | null;

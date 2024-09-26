@@ -1,14 +1,14 @@
 import { Driver, DriverStatus, DriverType } from 'src/entity/Driver';
 
 export class DriverDTO {
-  private id: string;
-  private type: DriverType | null;
-  private status: DriverStatus;
-  private firstName: string | null;
-  private lastName: string | null;
-  private photo: string | null;
-  private driverLicense: string;
-  private isOccupied: boolean;
+  public id: string;
+  public type: DriverType | null;
+  public status: DriverStatus;
+  public firstName: string | null;
+  public lastName: string | null;
+  public photo: string | null;
+  public driverLicense: string;
+  public isOccupied: boolean;
 
   constructor(driver: Driver) {
     this.id = driver.getId();

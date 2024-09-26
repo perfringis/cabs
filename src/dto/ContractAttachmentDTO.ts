@@ -4,14 +4,14 @@ import {
 } from 'src/entity/ContractAttachment';
 
 export class ContractAttachmentDTO {
-  private id: string;
+  public id: string;
   public data: Buffer | null;
-  private creationDate: Date;
-  private acceptedAt: Date | null;
-  private rejectedAt: Date | null;
-  private changeDate: Date | null;
-  private status: ContractAttachmentStatus | null;
-  private contractId: string;
+  public creationDate: Date;
+  public acceptedAt: Date | null;
+  public rejectedAt: Date | null;
+  public changeDate: Date | null;
+  public status: ContractAttachmentStatus | null;
+  public contractId: string;
 
   constructor(attachment: ContractAttachment) {
     this.id = attachment.getId();

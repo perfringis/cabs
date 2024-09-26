@@ -50,14 +50,18 @@ export class TransitService {
   }
 
   public async createTransit(transitDTO: TransitDTO): Promise<Transit> {
-    const from: Address = await this.addressFromDto(transitDTO.getFrom());
-    const to: Address = await this.addressFromDto(transitDTO.getTo());
+    const from: Address = await this.addressFromDto(
+      new AddressDTO(transitDTO.from),
+    );
+    const to: Address = await this.addressFromDto(
+      new AddressDTO(transitDTO.to),
+    );
 
     return await this._createTransit(
-      transitDTO.getClientDTO().getId(),
+      transitDTO.clientDTO.id,
       from,
       to,
-      transitDTO.getCarClass(),
+      transitDTO.carClass,
     );
   }
 

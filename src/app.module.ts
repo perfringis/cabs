@@ -62,6 +62,7 @@ import { DriverSessionService } from './service/DriverSessionService';
 import { DriverTrackingController } from './ui/DriverTrackingController';
 import { TransitAnalyzerController } from './ui/TransitAnalyzerController';
 import { TransitAnalyzer } from './service/TransitAnalyzer';
+import { TransitController } from './ui/TransitController';
 
 @Module({
   imports: [
@@ -110,6 +111,7 @@ import { TransitAnalyzer } from './service/TransitAnalyzer';
     DriverTrackingController,
     TestController,
     TransitAnalyzerController,
+    TransitController,
   ],
   providers: [
     // repositories

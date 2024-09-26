@@ -1,7 +1,7 @@
 import { AddressDTO } from './AddressDTO';
 
 export class AnalyzedAddressesDTO {
-  private addresses: AddressDTO[];
+  public addresses: AddressDTO[];
 
   constructor(addresses: AddressDTO[]) {
     this.addresses = addresses;

@@ -2,15 +2,15 @@ import { Contract, ContractStatus } from 'src/entity/Contract';
 import { ContractAttachmentDTO } from './ContractAttachmentDTO';
 
 export class ContractDTO {
-  private id: string;
+  public id: string;
   public partnerName: string | null;
   public subject: string | null;
-  private creationDate: Date;
-  private acceptedAt: Date | null;
-  private rejectedAt: Date | null;
-  private changeDate: Date | null;
-  private status: ContractStatus;
-  private contractNo: string;
+  public creationDate: Date;
+  public acceptedAt: Date | null;
+  public rejectedAt: Date | null;
+  public changeDate: Date | null;
+  public status: ContractStatus;
+  public contractNo: string;
   public attachments: ContractAttachmentDTO[] = [];
 
   constructor(contract: Contract) {

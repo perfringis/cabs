@@ -1,12 +1,12 @@
 import { Client, ClientType, PaymentType, Type } from 'src/entity/Client';
 
 export class ClientDTO {
-  private id: string;
+  public id: string;
   public type: Type | null;
   public name: string | null;
   public lastName: string | null;
   public defaultPaymentType: PaymentType | null;
-  private clientType: ClientType | null;
+  public clientType: ClientType | null;
 
   constructor(client: Client) {
     this.id = client.getId();

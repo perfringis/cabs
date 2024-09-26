@@ -1,9 +1,9 @@
 import { Driver } from 'src/entity/Driver';
 
 export class DriverPositionDTOV2 {
-  private latitude: number;
-  private longitude: number;
-  private seenAt: Date;
+  public latitude: number;
+  public longitude: number;
+  public seenAt: Date;
   public driver: Driver;
 
   constructor(

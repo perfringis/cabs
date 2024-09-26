@@ -6,8 +6,8 @@ import {
 } from 'src/entity/DriverAttribute';
 
 export class DriverAttributeDTO {
-  private name: DriverAttributeName;
-  private value: string;
+  public name: DriverAttributeName;
+  public value: string;
 
   constructor(
     a:
