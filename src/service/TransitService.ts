@@ -205,7 +205,7 @@ export class TransitService {
     transitId: string,
     newAddress: Address,
   ): Promise<void> {
-    await this.addressRepository.save(newAddress);
+    newAddress = await this.addressRepository.save(newAddress);
 
     const transit: Transit = await this.transitRepository.getOne(transitId);
 
@@ -241,6 +241,8 @@ export class TransitService {
         transitId,
       );
     }
+
+    await this.transitRepository.save(transit);
   }
 
   public async cancelTransit(transitId: string): Promise<void> {
@@ -486,12 +488,12 @@ export class TransitService {
             'Transit already accepted, id = ' + transitId,
           );
         } else {
-          if (!transit.getProposedDrivers().includes(driver)) {
+          if (!this._includes(transit.getProposedDrivers(), driver)) {
             throw new NotAcceptableException(
               'Driver out of possible drivers, id = ' + transitId,
             );
           } else {
-            if (transit.getProposedDrivers().includes(driver)) {
+            if (this._includes(transit.getProposedDrivers(), driver)) {
               throw new NotAcceptableException(
                 'Driver out of possible drivers, id = ' + transitId,
               );
@@ -643,5 +645,11 @@ export class TransitService {
 
   public async loadTransit(id: string): Promise<TransitDTO> {
     return new TransitDTO(await this.transitRepository.getOne(id));
+  }
+
+  private _includes(proposedDrivers: Driver[], driver: Driver): boolean {
+    return (
+      proposedDrivers.filter((d) => d.getId() === driver.getId()).length > 0
+    );
   }
 }
