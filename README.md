@@ -1,9 +1,8 @@
-<p align="center">
-  <a href="https://legacyfighter.pl/">
-    <img alt="legacyfighter" src="https://legacyfighter.pl/static/05bfe58bb3dba05c6e8d6162b00e21dc/a0989/LegacyFighterLogo.webp"/>
-  </a>
-</p>
+# Cabs project in other languages
 
-<p align="center">My implementation of <a href="https://github.com/legacyfighter/cabs-java">cabs-java</a> to Typescript</p>
-
----
+| project name | author/s |
+|--------------|----------|
+| [cabs-java](https://github.com/legacyfighter/cabs-java) | [Jakub Pilimon](https://github.com/pilloPl), [Sławek Sobótka](https://github.com/SlawekSobotka) |
+| [cabs-php](https://github.com/legacyfighter/cabs-php) | [Jakub Pilimon](https://github.com/pilloPl), [Arkadiusz Kondas](https://github.com/akondas) |
+| [cabs-csharp](https://github.com/legacyfighter/cabs-csharp) | [Jakub Pilimon](https://github.com/pilloPl), [Grzegorz Gałęzowski](https://github.com/grzesiek-galezowski) |
+| [cabs-typescript](https://github.com/legacyfighter/cabs-typescript) | [Andrzej Hanusek](https://github.com/ahanusek) |
