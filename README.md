@@ -10,6 +10,13 @@
   <a href="https://github.com/legacyfighter">Github Projects</a>
 </h2>
 
+## Table of Contents
+
+- [Getting started](#getting-started)
+- [Disclaimer](#disclaimer)
+- [Cabs project in other languages](#cabs-project-in-other-languages)
+- [Licence](#licence)
+
 # Getting started
 
 1. Clone repository:
@@ -54,7 +61,7 @@ All rights reserved by `DEVSTYLE` company. I'm not an author of the course. I do
 | [cabs-csharp](https://github.com/legacyfighter/cabs-csharp) | [Jakub Pilimon](https://github.com/pilloPl), [Grzegorz Gałęzowski](https://github.com/grzesiek-galezowski) |
 | [cabs-typescript](https://github.com/legacyfighter/cabs-typescript) | [Andrzej Hanusek](https://github.com/ahanusek) |
 
-# Why reinvent a wheel once again if typescript project already exist?
+# Why reinvent a wheel?
 
 I have only two sensible reasons:
 
