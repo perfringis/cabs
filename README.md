@@ -10,9 +10,40 @@
   <a href="https://github.com/legacyfighter">Github Projects</a>
 </h2>
 
+# Getting started
+
+1. Clone repository:
+
+```sh
+git clone git@github.com:perfringis/cabs.git
+```
+
+2. Go to a project and install packages.
+
+```sh
+pnpm install
+```
+
+3. Configure `.env` file based on `.env.dev` template.
+
+```sh
+DATABASE_NAME=<YOUR_DB_NAME>
+DATABASE_PORT=<YOUR_PORT>
+DATABASE_USERNAME=<YOUR_DB_USERNAME>
+DATABASE_PASSWORD=<YOUR_DB_PASS>
+```
+
+4. Run project in `dev` mode. List of all commands you will find in the `package.json` file.
+
+```sh
+pnpm run start:dev
+```
+
+5. Happy coding!
+
 # Disclaimer
 
-All rights reserved by `DEVSTYLE` company. I'm not an author of the course. I don't have rights to the logo and content of the course. All information you will find [here](https://legacyfighter.pl/). For learning purposes I rewrote the original cab-java project to Typescript.
+All rights reserved by `DEVSTYLE` company. I'm not an author of the course. I don't have rights to the logo and content of the course. All information you will find [here](https://legacyfighter.pl/). For learning purposes, I rewrote the original cab-java project to Typescript.
 
 # Cabs project in other languages
 
