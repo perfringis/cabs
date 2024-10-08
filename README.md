@@ -15,6 +15,7 @@
 - [Getting started](#getting-started)
 - [Cabs project in other languages](#cabs-project-in-other-languages)
 - [Why reinvent a wheel?](#why-reinvent-a-wheel)
+- [Event storming session](#event-storming-session)
 - [Disclaimer](#disclaimer)
 - [Licence](#licence)
 
@@ -64,6 +65,10 @@ I have only two sensible reasons:
 
 1. For learning purposes.
 2. Keep up-to-date packages for cabs project.
+
+# Event storming session
+
+[miro board](https://miro.com/app/board/uXjVLV5A7hs=/)
 
 # Disclaimer
 
