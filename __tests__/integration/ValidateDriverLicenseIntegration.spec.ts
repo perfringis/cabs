@@ -1,6 +1,6 @@
 import { NotAcceptableException } from '@nestjs/common';
-import { Driver, DriverStatus, DriverType } from '../src/entity/Driver';
-import { DriverService } from '../src/service/DriverService';
+import { Driver, DriverStatus, DriverType } from '../../src/entity/Driver';
+import { DriverService } from '../../src/service/DriverService';
 import { Test } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { DriverDTO } from 'src/dto/DriverDTO';
