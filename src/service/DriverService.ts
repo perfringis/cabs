@@ -46,7 +46,7 @@ export class DriverService {
       if (
         license === null ||
         license.length === 0 ||
-        license.match(DriverService.DRIVER_LICENSE_REGEX)
+        !license.match(DriverService.DRIVER_LICENSE_REGEX)
       ) {
         throw new NotAcceptableException('Illegal license no = ' + license);
       }
@@ -116,7 +116,7 @@ export class DriverService {
       if (
         license === null ||
         license.length === 0 ||
-        license.match(DriverService.DRIVER_LICENSE_REGEX)
+        !license.match(DriverService.DRIVER_LICENSE_REGEX)
       ) {
         throw new NotAcceptableException(
           'Status cannot be ACTIVE. Illegal license no = ' + license,
