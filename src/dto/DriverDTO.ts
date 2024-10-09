@@ -17,7 +17,7 @@ export class DriverDTO {
     this.firstName = driver.getFirstName();
     this.lastName = driver.getLastName();
     this.photo = driver.getPhoto();
-    this.driverLicense = driver.getDriverLicense();
+    this.driverLicense = driver.getDriverLicense().asString();
     this.isOccupied = driver.getIsOccupied();
   }
 

@@ -11,6 +11,7 @@ import { DriverAttribute } from './DriverAttribute';
 import { DriverFee } from './DriverFee';
 import { Transit } from './Transit';
 import { DriverPosition } from './DriverPosition';
+import { DriverLicense } from './DriverLicense';
 
 export enum DriverStatus {
   INACTIVE = 'inactive',
@@ -39,13 +40,10 @@ export class Driver extends BaseEntity {
   @Column({ nullable: true, type: 'varchar', length: 255 })
   private photo: string | null;
 
-  @Column({
-    name: 'driver_license',
-    nullable: false,
-    type: 'varchar',
-    length: 255,
+  @Column(() => DriverLicense, {
+    prefix: false,
   })
-  private driverLicense: string;
+  private driverLicense: DriverLicense;
 
   @Column({ name: 'is_occupied', nullable: true, type: 'boolean' })
   private isOccupied: boolean;
@@ -111,11 +109,11 @@ export class Driver extends BaseEntity {
     this.photo = photo;
   }
 
-  public getDriverLicense(): string {
+  public getDriverLicense(): DriverLicense {
     return this.driverLicense;
   }
 
-  public setDriverLicense(driverLicense: string): void {
+  public setDriverLicense(driverLicense: DriverLicense): void {
     this.driverLicense = driverLicense;
   }
 

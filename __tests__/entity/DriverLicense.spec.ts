@@ -5,11 +5,11 @@ describe('DriverLicenseTest', () => {
   test('cannot create invalid license', () => {
     // expect
     expect(() => DriverLicense.withLicense('invalid_license')).toThrow(
-      new NotAcceptableException('Illegal new license no = invalid_license'),
+      new NotAcceptableException('Illegal license no = invalid_license'),
     );
 
     expect(() => DriverLicense.withLicense('')).toThrow(
-      new NotAcceptableException('Illegal new license no = '),
+      new NotAcceptableException('Illegal license no = '),
     );
   });
 

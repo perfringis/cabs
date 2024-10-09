@@ -73,7 +73,7 @@ describe('ValidateDriverLicenseIntegrationTest', () => {
 
     // expect
     await expect(changeLicenseTo('invalid_license', driver)).rejects.toThrow(
-      new NotAcceptableException('Illegal new license no = invalid_license'),
+      new NotAcceptableException('Illegal license no = invalid_license'),
     );
   });
 
