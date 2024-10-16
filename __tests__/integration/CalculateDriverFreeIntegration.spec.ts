@@ -12,7 +12,7 @@ import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 
-describe('CalculateDriverFreeIntegration.spec', () => {
+describe('CalculateDriverFreeIntegration', () => {
   let driverFeeService: DriverFeeService;
   let feeRepository: DriverFeeRepository;
   let transitRepository: TransitRepository;

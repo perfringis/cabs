@@ -11,7 +11,7 @@ import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 
-describe('CalculateDriverPeriodicPaymentsIntegration.spec', () => {
+describe('CalculateDriverPeriodicPaymentsIntegration', () => {
   let transitRepository: TransitRepository;
   let feeRepository: DriverFeeRepository;
   let driverService: DriverService;
