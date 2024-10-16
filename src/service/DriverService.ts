@@ -156,8 +156,6 @@ export class DriverService {
         to,
       );
 
-    console.log('MK transitsList ' + transitsList.length);
-
     const sum: number = (
       await Promise.all(
         transitsList.map(
