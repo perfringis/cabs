@@ -38,7 +38,7 @@ export class TransitDTO {
     this.id = transit.getId();
     this.distance = transit.getKm();
     this.factor = transit.factor;
-    this.price = transit.getPrice() || null;
+    this.price = transit.getPrice().toInt() || null;
     this.date = transit.getDateTime();
     this.status = transit.getStatus();
 
@@ -183,7 +183,7 @@ export class TransitDTO {
   }
 
   public setClientDTO(clientDTO: ClientDTO): void {
-    this.clientDTO = this.clientDTO;
+    this.clientDTO = clientDTO;
   }
 
   public getId(): string {

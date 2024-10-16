@@ -13,6 +13,7 @@ import { Address } from './Address';
 import { CarClass } from './CarType';
 import { Client, PaymentType } from './Client';
 import { Driver } from './Driver';
+import { Money } from './Money';
 
 export enum Status {
   DRAFT = 'draft',
@@ -120,8 +121,10 @@ export class Transit extends BaseEntity {
   private km: number;
 
   // https://stackoverflow.com/questions/37107123/sould-i-store-price-as-decimal-or-integer-in-mysql
-  @Column({ nullable: true, type: 'int' })
-  private price: number | null;
+  @Column(() => Money, {
+    prefix: true,
+  })
+  private price: Money | null;
 
   @Column({ name: 'estimated_price', nullable: true, type: 'int' })
   private estimatedPrice: number | null;
@@ -265,12 +268,12 @@ export class Transit extends BaseEntity {
     this.estimateCost();
   }
 
-  public getPrice(): number | null {
+  public getPrice(): Money | null {
     return this.price;
   }
 
   //just for testing
-  public setPrice(price: number): void {
+  public setPrice(price: Money): void {
     this.price = price;
   }
 
@@ -377,15 +380,15 @@ export class Transit extends BaseEntity {
       );
     }
 
-    const estimated: number = this.calculateCost();
+    const estimated: Money = this.calculateCost();
 
-    this.estimatedPrice = estimated;
+    this.estimatedPrice = estimated.toInt();
     this.price = null;
 
     return this.estimatedPrice;
   }
 
-  public calculateFinalCosts(): number {
+  public calculateFinalCosts(): Money {
     if (this.status === Status.COMPLETED) {
       return this.calculateCost();
     } else {
@@ -395,7 +398,7 @@ export class Transit extends BaseEntity {
     }
   }
 
-  private calculateCost(): number {
+  private calculateCost(): Money {
     let baseFee = Transit.BASE_FEE;
     let factorToCalculate = this.factor;
     if (factorToCalculate == null) {
@@ -446,7 +449,7 @@ export class Transit extends BaseEntity {
     const priceBigDecimal = Number(
       (this.km * kmRate * factorToCalculate + baseFee).toFixed(2),
     );
-    this.price = priceBigDecimal;
+    this.price = new Money(priceBigDecimal);
     return this.price;
   }
 }

@@ -2,6 +2,7 @@ import { ForbiddenException } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { Status, Transit } from 'src/entity/Transit';
 import utc from 'dayjs/plugin/utc';
+import { Money } from 'src/entity/Money';
 
 dayjs.extend(utc);
 
@@ -33,10 +34,10 @@ describe('CalculateTransitPrice', () => {
     // friday
     transitWasOnDoneOnFriday(transit);
     // when
-    const price: number = transit.calculateFinalCosts();
+    const price: Money = transit.calculateFinalCosts();
 
     // then
-    expect(price).toEqual(29);
+    expect(price).toEqual(new Money(29));
   });
 
   test('estimate price on regular day', () => {
@@ -65,7 +66,7 @@ describe('CalculateTransitPrice', () => {
 
   const transitWasOnDoneOnFriday = (transit: Transit): void => {
     transit.setDateTime(
-      dayjs.utc('16-04-2021T08:30', 'DD-MM-YYYYTHH:mm').toDate(),
+      dayjs.utc('16-04-2021 08:30', 'DD-MM-YYYY HH:mm').toDate(),
     );
   };
 });

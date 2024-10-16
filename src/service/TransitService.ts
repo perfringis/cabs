@@ -633,7 +633,7 @@ export class TransitService {
       await this.transitRepository.save(transit);
 
       await this.invoiceGenerator.generate(
-        transit.getPrice(),
+        transit.getPrice().toInt(),
         transit.getClient().getName() + ' ' + transit.getClient().getLastName(),
       );
     } else {

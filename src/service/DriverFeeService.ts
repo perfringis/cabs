@@ -22,7 +22,7 @@ export class DriverFeeService {
       return transit.getDriversFee();
     }
 
-    const transitPrice: number = transit.getPrice();
+    const transitPrice: number = transit.getPrice().toInt();
     const driverFee: DriverFee = await this.driverFeeRepository.findByDriver(
       transit.getDriver(),
     );

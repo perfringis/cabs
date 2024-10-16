@@ -9,6 +9,7 @@ import { TransitRepository } from 'src/repository/TransitRepository';
 import { DriverFeeService } from 'src/service/DriverFeeService';
 import { DriverService } from 'src/service/DriverService';
 import utc from 'dayjs/plugin/utc';
+import { Money } from 'src/entity/Money';
 
 dayjs.extend(utc);
 
@@ -113,7 +114,7 @@ describe('CalculateDriverFreeIntegration', () => {
 
   const aTransit = async (driver: Driver, price: number) => {
     const transit: Transit = new Transit();
-    transit.setPrice(price);
+    transit.setPrice(new Money(price));
     transit.setDriver(driver);
     transit.setDateTime(
       dayjs.utc('20-10-2020', 'DD-MM-YYYY').startOf('day').toDate(),

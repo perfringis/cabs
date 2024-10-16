@@ -8,6 +8,7 @@ import { DriverFeeRepository } from 'src/repository/DriverFeeRepository';
 import { TransitRepository } from 'src/repository/TransitRepository';
 import { DriverService } from 'src/service/DriverService';
 import utc from 'dayjs/plugin/utc';
+import { Money } from 'src/entity/Money';
 
 dayjs.extend(utc);
 
@@ -118,7 +119,7 @@ describe('CalculateDriverPeriodicPaymentsIntegration', () => {
   ): Promise<Transit> => {
     const transit: Transit = new Transit();
 
-    transit.setPrice(price);
+    transit.setPrice(new Money(price));
     transit.setDriver(driver);
     transit.setDateTime(when);
 

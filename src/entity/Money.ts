@@ -1,5 +1,13 @@
+import { Column } from 'typeorm';
+
 export class Money {
   public static readonly ZERO: Money = new Money(0);
+
+  @Column({
+    name: 'value',
+    nullable: true,
+    type: 'int',
+  })
   private value: number;
 
   constructor(value: number) {
