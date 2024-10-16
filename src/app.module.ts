@@ -77,7 +77,7 @@ import { TransitController } from './ui/TransitController';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [
         Address,
         AwardedMiles,

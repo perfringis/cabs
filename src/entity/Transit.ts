@@ -116,7 +116,7 @@ export class Transit extends BaseEntity {
   @Column({ nullable: true, type: 'int' })
   public factor: number | null;
 
-  @Column({ nullable: false, type: 'float' })
+  @Column({ nullable: false, type: 'float', default: 0 })
   private km: number;
 
   // https://stackoverflow.com/questions/37107123/sould-i-store-price-as-decimal-or-integer-in-mysql
@@ -371,7 +371,7 @@ export class Transit extends BaseEntity {
   }
 
   public estimateCost(): number {
-    if (this.status === Status.CANCELLED) {
+    if (this.status === Status.COMPLETED) {
       throw new ForbiddenException(
         `Estimating cost for completed transit is forbidden, id = ${this.getId()}`,
       );

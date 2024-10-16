@@ -145,9 +145,9 @@ export class DriverService {
       throw new NotFoundException('Driver does not exists, id = ' + driverId);
     }
 
-    const yearMonth: Dayjs = dayjs(`${year}-${month}`, 'YYYY-M');
-    const from: Date = yearMonth.startOf('month').add(1, 'day').toDate();
-    const to: Date = yearMonth.endOf('month').add(1, 'day').toDate();
+    const yearMonth: Dayjs = dayjs(`${year}-${month}`, 'YYYY-MM');
+    const from: Date = yearMonth.startOf('month').toDate();
+    const to: Date = yearMonth.endOf('month').toDate();
 
     const transitsList: Transit[] =
       await this.transitRepository.findAllByDriverAndDateTimeBetween(
@@ -155,6 +155,8 @@ export class DriverService {
         from,
         to,
       );
+
+    console.log('MK transitsList ' + transitsList.length);
 
     const sum: number = (
       await Promise.all(
