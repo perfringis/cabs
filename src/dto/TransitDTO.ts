@@ -53,7 +53,7 @@ export class TransitDTO {
     this.carClass = transit.getCarType();
     this.clientDTO = new ClientDTO(transit.getClient());
     this.driverFee = transit.getDriversFee() || null;
-    this.estimatedPrice = transit.getEstimatedPrice() || null;
+    this.estimatedPrice = transit.getEstimatedPrice().toInt() || null;
 
     this.dateTime = transit.getDateTime();
     this.published = transit.getPublished();

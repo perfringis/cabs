@@ -126,8 +126,10 @@ export class Transit extends BaseEntity {
   })
   private price: Money | null;
 
-  @Column({ name: 'estimated_price', nullable: true, type: 'int' })
-  private estimatedPrice: number | null;
+  @Column(() => Money, {
+    prefix: true,
+  })
+  private estimatedPrice: Money | null;
 
   @Column({ name: 'drivers_fee', nullable: true, type: 'int' })
   private driversFee: number | null;
@@ -277,11 +279,11 @@ export class Transit extends BaseEntity {
     this.price = price;
   }
 
-  public getEstimatedPrice(): number | null {
+  public getEstimatedPrice(): Money | null {
     return this.estimatedPrice;
   }
 
-  public setEstimatedPrice(estimatedPrice: number): void {
+  public setEstimatedPrice(estimatedPrice: Money): void {
     this.estimatedPrice = estimatedPrice;
   }
 
@@ -373,7 +375,7 @@ export class Transit extends BaseEntity {
     this.completeAt = completeAt;
   }
 
-  public estimateCost(): number {
+  public estimateCost(): Money {
     if (this.status === Status.COMPLETED) {
       throw new ForbiddenException(
         `Estimating cost for completed transit is forbidden, id = ${this.getId()}`,
@@ -382,7 +384,7 @@ export class Transit extends BaseEntity {
 
     const estimated: Money = this.calculateCost();
 
-    this.estimatedPrice = estimated.toInt();
+    this.estimatedPrice = estimated;
     this.price = null;
 
     return this.estimatedPrice;

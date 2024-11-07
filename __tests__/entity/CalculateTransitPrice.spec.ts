@@ -33,6 +33,7 @@ describe('CalculateTransitPrice', () => {
 
     // friday
     transitWasOnDoneOnFriday(transit);
+
     // when
     const price: Money = transit.calculateFinalCosts();
 
@@ -46,11 +47,12 @@ describe('CalculateTransitPrice', () => {
 
     // friday
     transitWasOnDoneOnFriday(transit);
+
     // when
-    const price: number = transit.estimateCost();
+    const price: Money = transit.estimateCost();
 
     // then
-    expect(price).toEqual(29);
+    expect(price).toEqual(new Money(29));
   });
 
   const _transit = (status: Status, km: number): Transit => {
