@@ -38,7 +38,9 @@ export class TransitDTO {
     this.id = transit.getId();
     this.distance = transit.getKm();
     this.factor = transit.factor;
-    this.price = transit.getPrice().toInt() || null;
+    if (transit.getPrice() !== null) {
+      this.price = transit.getPrice().toInt();
+    }
     this.date = transit.getDateTime();
     this.status = transit.getStatus();
 
@@ -52,9 +54,12 @@ export class TransitDTO {
     this.from = new AddressDTO(transit.getFrom());
     this.carClass = transit.getCarType();
     this.clientDTO = new ClientDTO(transit.getClient());
-    this.driverFee = transit.getDriversFee() || null;
-    this.estimatedPrice = transit.getEstimatedPrice().toInt() || null;
-
+    if (transit.getDriversFee() !== null) {
+      this.driverFee = transit.getDriversFee().toInt();
+    }
+    if (transit.getEstimatedPrice() !== null) {
+      this.estimatedPrice = transit.getEstimatedPrice().toInt();
+    }
     this.dateTime = transit.getDateTime();
     this.published = transit.getPublished();
     this.acceptedAt = transit.getAcceptedAt();

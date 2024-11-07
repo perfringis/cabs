@@ -41,12 +41,12 @@ describe('CalculateDriverFreeIntegration', () => {
     await driverHasFee(driver, FeeType.FLAT, 10);
 
     // when
-    const fee: number = await driverFeeService.calculateDriverFee(
+    const fee: Money = await driverFeeService.calculateDriverFee(
       transit.getId(),
     );
 
     // then
-    expect(fee).toEqual(50);
+    expect(fee).toEqual(new Money(50));
   });
 
   test('should calculate drivers percentage fee', async () => {
@@ -58,12 +58,12 @@ describe('CalculateDriverFreeIntegration', () => {
     await driverHasFee(driver, FeeType.PERCENTAGE, 50);
 
     // when
-    const fee: number = await driverFeeService.calculateDriverFee(
+    const fee: Money = await driverFeeService.calculateDriverFee(
       transit.getId(),
     );
 
     // then
-    expect(fee).toEqual(40);
+    expect(fee).toEqual(new Money(40));
   });
 
   test('should use minimum fee', async () => {
@@ -75,12 +75,12 @@ describe('CalculateDriverFreeIntegration', () => {
     await _driverHasFee(driver, FeeType.PERCENTAGE, 7, 5);
 
     // when
-    const fee: number = await driverFeeService.calculateDriverFee(
+    const fee: Money = await driverFeeService.calculateDriverFee(
       transit.getId(),
     );
 
     // then
-    expect(fee).toEqual(5);
+    expect(fee).toEqual(new Money(5));
   });
 
   const _driverHasFee = async (

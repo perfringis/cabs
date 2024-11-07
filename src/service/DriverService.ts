@@ -16,6 +16,7 @@ import {
   DriverAttributeName,
 } from 'src/entity/DriverAttribute';
 import { DriverLicense } from 'src/entity/DriverLicense';
+import { Money } from 'src/entity/Money';
 
 @Injectable()
 export class DriverService {
@@ -138,7 +139,7 @@ export class DriverService {
     driverId: string,
     year: number,
     month: number,
-  ): Promise<number> {
+  ): Promise<Money> {
     const driver: Driver = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
@@ -156,14 +157,15 @@ export class DriverService {
         to,
       );
 
-    const sum: number = (
+    const sum: Money = (
       await Promise.all(
-        transitsList.map(
-          async (transit: Transit) =>
-            await this.driverFeeService.calculateDriverFee(transit.getId()),
-        ),
+        transitsList.map(async (transit: Transit) => {
+          return await this.driverFeeService.calculateDriverFee(
+            transit.getId(),
+          );
+        }),
       )
-    ).reduce((prev, curr) => prev + curr, 0);
+    ).reduce((acc, driverFee) => acc.add(driverFee), Money.ZERO);
 
     return sum;
   }
@@ -171,8 +173,8 @@ export class DriverService {
   public async calculateDriverYearlyPayment(
     driverId: string,
     year: number,
-  ): Promise<Map<number, number>> {
-    const payments: Map<number, number> = new Map<number, number>();
+  ): Promise<Map<number, Money>> {
+    const payments: Map<number, Money> = new Map<number, Money>();
 
     for (let month = 1; month <= 12; month++) {
       payments.set(

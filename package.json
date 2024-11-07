@@ -17,7 +17,7 @@
     "test": "jest --config ./__tests__/jest.config.json",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:debug": "NODE_OPTIONS='-r ts-node/register' node --nolazy --inspect-brk -r tsconfig-paths/register ./node_modules/jest/bin/jest.js --runInBand --colors --verbose --config ./__tests__/jest.config.json ./__tests__",
     "test:e2e": "jest --config ./e2e/jest-e2e.json"
   },
   "dependencies": {

@@ -47,34 +47,34 @@ describe('CalculateDriverPeriodicPaymentsIntegration', () => {
     await driverHasFee(driver, FeeType.FLAT, 10);
 
     // when
-    const feeOctober: number =
-      await driverService.calculateDriverMonthlyPayment(
-        driver.getId(),
-        2000,
-        10,
-      );
+    const feeOctober: Money = await driverService.calculateDriverMonthlyPayment(
+      driver.getId(),
+      2000,
+      10,
+    );
+
     // then
-    expect(feeOctober).toEqual(180);
+    expect(feeOctober).toEqual(new Money(180));
 
     // when
-    const feeNovember: number =
+    const feeNovember: Money =
       await driverService.calculateDriverMonthlyPayment(
         driver.getId(),
         2000,
         11,
       );
     // then
-    expect(feeNovember).toEqual(70);
+    expect(feeNovember).toEqual(new Money(70));
 
     // when
-    const feeDecember: number =
+    const feeDecember: Money =
       await driverService.calculateDriverMonthlyPayment(
         driver.getId(),
         2000,
         12,
       );
     // then
-    expect(feeDecember).toEqual(5);
+    expect(feeDecember).toEqual(new Money(5));
   });
 
   test('should calculate yearly payment', async () => {
@@ -94,22 +94,22 @@ describe('CalculateDriverPeriodicPaymentsIntegration', () => {
     await driverHasFee(driver, FeeType.FLAT, 10);
 
     // when
-    const payments: Map<number, number> =
+    const payments: Map<number, Money> =
       await driverService.calculateDriverYearlyPayment(driver.getId(), 2000);
 
     // then
-    expect(payments.get(1)).toEqual(0); // January
-    expect(payments.get(2)).toEqual(0); // February
-    expect(payments.get(3)).toEqual(0); // March
-    expect(payments.get(4)).toEqual(0); // April
-    expect(payments.get(5)).toEqual(0); // May
-    expect(payments.get(6)).toEqual(0); // June
-    expect(payments.get(7)).toEqual(0); // July
-    expect(payments.get(8)).toEqual(0); // August
-    expect(payments.get(9)).toEqual(0); // September
-    expect(payments.get(10)).toEqual(180); // October
-    expect(payments.get(11)).toEqual(70); // November
-    expect(payments.get(12)).toEqual(5); // December
+    expect(payments.get(1)).toEqual(new Money(0)); // January
+    expect(payments.get(2)).toEqual(new Money(0)); // February
+    expect(payments.get(3)).toEqual(new Money(0)); // March
+    expect(payments.get(4)).toEqual(new Money(0)); // April
+    expect(payments.get(5)).toEqual(new Money(0)); // May
+    expect(payments.get(6)).toEqual(new Money(0)); // June
+    expect(payments.get(7)).toEqual(new Money(0)); // July
+    expect(payments.get(8)).toEqual(new Money(0)); // August
+    expect(payments.get(9)).toEqual(new Money(0)); // September
+    expect(payments.get(10)).toEqual(new Money(180)); // October
+    expect(payments.get(11)).toEqual(new Money(70)); // November
+    expect(payments.get(12)).toEqual(new Money(5)); // December
   });
 
   const aTransit = async (

@@ -131,8 +131,10 @@ export class Transit extends BaseEntity {
   })
   private estimatedPrice: Money | null;
 
-  @Column({ name: 'drivers_fee', nullable: true, type: 'int' })
-  private driversFee: number | null;
+  @Column(() => Money, {
+    prefix: true,
+  })
+  private driversFee: Money | null;
 
   @Column({ name: 'date_time', nullable: true, type: 'datetime' })
   public dateTime: Date | null;
@@ -287,11 +289,11 @@ export class Transit extends BaseEntity {
     this.estimatedPrice = estimatedPrice;
   }
 
-  public getDriversFee(): number | null {
+  public getDriversFee(): Money | null {
     return this.driversFee;
   }
 
-  public setDriversFee(driversFee: number): void {
+  public setDriversFee(driversFee: Money): void {
     this.driversFee = driversFee;
   }
 
@@ -448,10 +450,14 @@ export class Transit extends BaseEntity {
         }
       }
     }
-    const priceBigDecimal = Number(
+    const priceBigDecimal: number = parseInt(
       (this.km * kmRate * factorToCalculate + baseFee).toFixed(2),
+      10,
     );
-    this.price = new Money(priceBigDecimal);
+    const finalPrice: Money = new Money(
+      parseInt(priceBigDecimal.toString().replace(/\./gi, ''), 10),
+    );
+    this.price = finalPrice;
     return this.price;
   }
 }
