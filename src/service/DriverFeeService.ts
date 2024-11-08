@@ -36,18 +36,6 @@ export class DriverFeeService {
       );
     }
 
-    let finalFee: Money;
-    if (driverFee.getFeeType() === FeeType.FLAT) {
-      finalFee = transitPrice.subtract(new Money(driverFee.getAmount()));
-    } else {
-      finalFee = transitPrice.percentage(driverFee.getAmount());
-    }
-
-    return new Money(
-      Math.max(
-        finalFee.toInt(),
-        driverFee.getMin() === null ? 0 : driverFee.getMin().toInt(),
-      ),
-    );
+    return driverFee.calculateDriverFee(transitPrice);
   }
 }
