@@ -14,6 +14,7 @@ import { CarClass } from './CarType';
 import { Client, PaymentType } from './Client';
 import { Driver } from './Driver';
 import { Money } from './Money';
+import { Distance } from './Distance';
 
 export enum Status {
   DRAFT = 'draft',
@@ -263,12 +264,12 @@ export class Transit extends BaseEntity {
     this.awaitingDriversResponses = awaitingDriversResponses;
   }
 
-  public getKm(): number {
-    return this.km;
+  public getKm(): Distance {
+    return Distance.ofKm(this.km);
   }
 
-  public setKm(km: number): void {
-    this.km = km;
+  public setKm(distance: Distance): void {
+    this.km = distance.toKmInFloat();
     this.estimateCost();
   }
 

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { TransitDTO } from 'src/dto/TransitDTO';
 import { Address } from 'src/entity/Address';
 import { Client } from 'src/entity/Client';
+import { Distance } from 'src/entity/Distance';
 import { Money } from 'src/entity/Money';
 import { Status, Transit } from 'src/entity/Transit';
 
@@ -43,7 +44,7 @@ describe('CalculateTransitDistanceTest', () => {
     transit.setTo(new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 31));
     transit.setFrom(new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 20));
     transit.setStatus(Status.DRAFT);
-    transit.setKm(km);
+    transit.setKm(Distance.ofKm(km));
     transit.setClient(new Client());
 
     return new TransitDTO(transit);

@@ -27,6 +27,7 @@ import { DriverPositionDTOV2 } from 'src/dto/DriverPositionDTOV2';
 import { DriverSession } from 'src/entity/DriverSession';
 import { Driver, DriverStatus } from 'src/entity/Driver';
 import { Money } from 'src/entity/Money';
+import { Distance } from 'src/entity/Distance';
 
 @Injectable()
 export class TransitService {
@@ -96,11 +97,13 @@ export class TransitService {
     transit.setStatus(Status.DRAFT);
     transit.setDateTime(dayjs().toDate());
     transit.setKm(
-      this.distanceCalculator.calculateByMap(
-        geoFrom[0],
-        geoFrom[1],
-        geoTo[0],
-        geoTo[1],
+      Distance.ofKm(
+        this.distanceCalculator.calculateByMap(
+          geoFrom[0],
+          geoFrom[1],
+          geoTo[0],
+          geoTo[1],
+        ),
       ),
     );
 
@@ -164,11 +167,13 @@ export class TransitService {
 
     transit.setFrom(newAddress);
     transit.setKm(
-      this.distanceCalculator.calculateByMap(
-        geoFromNew[0],
-        geoFromNew[1],
-        geoFromOld[0],
-        geoFromOld[1],
+      Distance.ofKm(
+        this.distanceCalculator.calculateByMap(
+          geoFromNew[0],
+          geoFromNew[1],
+          geoFromOld[0],
+          geoFromOld[1],
+        ),
       ),
     );
     transit.setPickupAddressChangeCounter(
@@ -228,11 +233,13 @@ export class TransitService {
 
     transit.setTo(newAddress);
     transit.setKm(
-      this.distanceCalculator.calculateByMap(
-        geoFrom[0],
-        geoFrom[1],
-        geoTo[0],
-        geoTo[1],
+      Distance.ofKm(
+        this.distanceCalculator.calculateByMap(
+          geoFrom[0],
+          geoFrom[1],
+          geoTo[0],
+          geoTo[1],
+        ),
       ),
     );
 
@@ -274,7 +281,7 @@ export class TransitService {
 
     transit.setStatus(Status.CANCELLED);
     transit.setDriver(null);
-    transit.setKm(0);
+    transit.setKm(Distance.ofKm(0));
     transit.setAwaitingDriversResponses(0);
 
     await this.transitRepository.save(transit);
@@ -323,7 +330,7 @@ export class TransitService {
           ) {
             transit.setStatus(Status.DRIVER_ASSIGNMENT_FAILED);
             transit.setDriver(null);
-            transit.setKm(0);
+            transit.setKm(Distance.ofKm(0));
             transit.setAwaitingDriversResponses(0);
 
             await this.transitRepository.save(transit);
@@ -608,11 +615,13 @@ export class TransitService {
 
       transit.setTo(destinationAddress);
       transit.setKm(
-        this.distanceCalculator.calculateByMap(
-          geoFrom[0],
-          geoFrom[1],
-          geoTo[0],
-          geoTo[1],
+        Distance.ofKm(
+          this.distanceCalculator.calculateByMap(
+            geoFrom[0],
+            geoFrom[1],
+            geoTo[0],
+            geoTo[1],
+          ),
         ),
       );
       transit.setStatus(Status.COMPLETED);

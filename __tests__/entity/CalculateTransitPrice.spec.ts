@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { Status, Transit } from 'src/entity/Transit';
 import utc from 'dayjs/plugin/utc';
 import { Money } from 'src/entity/Money';
+import { Distance } from 'src/entity/Distance';
 
 dayjs.extend(utc);
 
@@ -60,7 +61,7 @@ describe('CalculateTransitPrice', () => {
 
     transit.setDateTime(dayjs().toDate());
     transit.setStatus(Status.DRAFT);
-    transit.setKm(km);
+    transit.setKm(Distance.ofKm(km));
     transit.setStatus(status);
 
     return transit;
