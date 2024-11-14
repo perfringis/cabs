@@ -13,7 +13,7 @@ import { Money } from 'src/entity/Money';
 
 dayjs.extend(utc);
 
-describe('CalculateDriverFreeIntegration', () => {
+describe('CalculateDriverFreeIntegrationTest', () => {
   let driverFeeService: DriverFeeService;
   let feeRepository: DriverFeeRepository;
   let transitRepository: TransitRepository;

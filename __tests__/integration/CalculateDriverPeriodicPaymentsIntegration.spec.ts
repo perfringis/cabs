@@ -12,7 +12,7 @@ import { Money } from 'src/entity/Money';
 
 dayjs.extend(utc);
 
-describe('CalculateDriverPeriodicPaymentsIntegration', () => {
+describe('CalculateDriverPeriodicPaymentsIntegrationTest', () => {
   let transitRepository: TransitRepository;
   let feeRepository: DriverFeeRepository;
   let driverService: DriverService;

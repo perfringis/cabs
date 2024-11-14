@@ -55,6 +55,10 @@ export class Client extends BaseEntity {
   @OneToMany(() => Transit, (transit) => transit.client)
   public transits: Transit[];
 
+  constructor() {
+    super();
+  }
+
   public getType(): Type {
     return this.type;
   }

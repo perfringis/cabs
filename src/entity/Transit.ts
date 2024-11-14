@@ -183,7 +183,7 @@ export class Transit extends BaseEntity {
     joinColumn: { name: 'transit_id' },
     inverseJoinColumn: { name: 'proposed_drivers_id' },
   })
-  public proposedDrivers: Driver[];
+  public proposedDrivers: Driver[] = [];
 
   public getDriverPaymentStatus(): DriverPaymentStatus | null {
     return this.driverPaymentStatus;
