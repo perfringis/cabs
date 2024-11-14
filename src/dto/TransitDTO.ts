@@ -6,6 +6,7 @@ import { DriverDTO } from './DriverDTO';
 import { ClaimDTO } from './ClaimDTO';
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
+import { NotAcceptableException } from '@nestjs/common';
 
 dayjs.extend(dayOfYear);
 
@@ -138,9 +139,43 @@ export class TransitDTO {
   }
 
   public getDistance(unit: string): string {
-    // TODO: finish it
+    this.distanceUnit = unit;
 
-    return '';
+    if (unit === 'km') {
+      if (this.distance === Math.ceil(this.distance)) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'unit',
+          unit: 'length-kilometer',
+        }).format(Math.round(this.distance));
+      }
+      return new Intl.NumberFormat('en-US', {
+        style: 'unit',
+        unit: 'length-kilometer',
+      }).format(parseInt(this.distance.toFixed(3), 10));
+    }
+
+    if (unit === 'miles') {
+      const distance = this.distance / 1.609344;
+      if (distance === Math.ceil(distance)) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'unit',
+          unit: 'length-mile',
+        }).format(Math.round(distance));
+      }
+      return new Intl.NumberFormat('en-US', {
+        style: 'unit',
+        unit: 'length-kilometer',
+      }).format(distance);
+    }
+
+    if (unit === 'm') {
+      return new Intl.NumberFormat('en-US', {
+        style: 'unit',
+        unit: 'length-meter',
+      }).format(Math.round(this.distance * 1000));
+    }
+
+    throw new NotAcceptableException('Invalid unit ' + unit);
   }
 
   public getProposedDrivers(): DriverDTO[] {
