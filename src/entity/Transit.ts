@@ -16,6 +16,13 @@ import { Driver } from './Driver';
 import { Money } from './Money';
 import { Distance } from './Distance';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export enum Status {
   DRAFT = 'draft',
   CANCELLED = 'cancelled',
@@ -410,37 +417,40 @@ export class Transit extends BaseEntity {
       factorToCalculate = 1;
     }
     let kmRate: number;
-    const day = new Date();
+
+    const day = dayjs(this.dateTime).tz(dayjs.tz.guess());
+    const month = day.month();
+    const dayOfMonth = day.date();
+    const hour = day.hour();
+    const dayOfWeek = day.day();
+    const year = day.year();
+
     // wprowadzenie nowych cennikow od 1.01.2019
-    if (day.getFullYear() <= 2018) {
+    if (year <= 2018) {
       kmRate = 1.0;
       baseFee++;
     } else {
       if (
-        (day.getMonth() == Month.DECEMBER && day.getDate() == 31) ||
-        (day.getMonth() == Month.JANUARY &&
-          day.getDate() == 1 &&
-          day.getHours() <= 6)
+        (month === Month.DECEMBER && dayOfMonth === 31) ||
+        (month === Month.JANUARY && dayOfMonth === 1 && hour <= 6)
       ) {
         kmRate = 3.5;
         baseFee += 3;
       } else {
         // piątek i sobota po 17 do 6 następnego dnia
         if (
-          (day.getDay() == DayOfWeek.FRIDAY && day.getHours() >= 17) ||
-          (day.getDay() == DayOfWeek.SATURDAY && day.getHours() <= 6) ||
-          (day.getDay() == DayOfWeek.SATURDAY && day.getHours() >= 17) ||
-          (day.getDay() == DayOfWeek.SUNDAY && day.getHours() <= 6)
+          (dayOfWeek === DayOfWeek.FRIDAY && hour >= 17) ||
+          (dayOfWeek === DayOfWeek.SATURDAY && hour <= 6) ||
+          (dayOfWeek === DayOfWeek.SATURDAY && hour >= 17) ||
+          (dayOfWeek === DayOfWeek.SUNDAY && hour <= 6)
         ) {
           kmRate = 2.5;
           baseFee += 2;
         } else {
           // pozostałe godziny weekendu
           if (
-            (day.getDay() == DayOfWeek.SATURDAY &&
-              day.getHours() > 6 &&
-              day.getHours() < 17) ||
-            (day.getDay() == DayOfWeek.SUNDAY && day.getHours() > 6)
+            (dayOfWeek === DayOfWeek.SATURDAY && hour > 6 && hour < 17) ||
+            (dayOfWeek === DayOfWeek.SUNDAY && hour > 6)
           ) {
             kmRate = 1.5;
           } else {
