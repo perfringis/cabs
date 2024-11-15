@@ -26,9 +26,6 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.13
-      dayjs-plugin-utc:
-        specifier: ^0.1.2
-        version: 0.1.2
       mysql2:
         specifier: ^3.9.8
         version: 3.11.4
@@ -1154,9 +1151,6 @@ packages:
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
-
-  dayjs-plugin-utc@0.1.2:
-    resolution: {integrity: sha512-ExERH5o3oo6jFOdkvMP3gytTCQ9Ksi5PtylclJWghr7k7m3o2U5QrwtdiJkOxLOH4ghr0EKhpqGefzGz1VvVJg==}
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
@@ -4353,8 +4347,6 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
-
-  dayjs-plugin-utc@0.1.2: {}
 
   dayjs@1.11.13: {}
 

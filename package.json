@@ -29,7 +29,6 @@
     "@nestjs/platform-express": "^10.4.5",
     "@nestjs/typeorm": "^9.0.1",
     "dayjs": "^1.11.10",
-    "dayjs-plugin-utc": "^0.1.2",
     "mysql2": "^3.9.8",
     "object-hash": "^3.0.0",
     "reflect-metadata": "^0.2.2",

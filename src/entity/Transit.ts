@@ -15,13 +15,10 @@ import { Client, PaymentType } from './Client';
 import { Driver } from './Driver';
 import { Money } from './Money';
 import { Distance } from './Distance';
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(utc);
-dayjs.extend(timezone);
 
 export enum Status {
   DRAFT = 'draft',
@@ -191,7 +188,7 @@ export class Transit extends BaseEntity {
     joinColumn: { name: 'transit_id' },
     inverseJoinColumn: { name: 'proposed_drivers_id' },
   })
-  public proposedDrivers: Driver[] = [];
+  public proposedDrivers: Driver[];
 
   public getDriverPaymentStatus(): DriverPaymentStatus | null {
     return this.driverPaymentStatus;
@@ -418,7 +415,7 @@ export class Transit extends BaseEntity {
     }
     let kmRate: number;
 
-    const day = dayjs(this.dateTime).tz(dayjs.tz.guess());
+    const day = dayjs.utc(this.dateTime);
     const month = day.month();
     const dayOfMonth = day.date();
     const hour = day.hour();

@@ -6,9 +6,10 @@ import { DriverDTO } from './DriverDTO';
 import { ClaimDTO } from './ClaimDTO';
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
-import { NotAcceptableException } from '@nestjs/common';
+import utc from 'dayjs/plugin/utc';
 import { Distance } from 'src/entity/Distance';
 
+dayjs.extend(utc);
 dayjs.extend(dayOfYear);
 
 export class TransitDTO {
@@ -48,8 +49,10 @@ export class TransitDTO {
 
     this.setTariff(transit);
 
-    for (const driver of transit.getProposedDrivers()) {
-      this.proposedDrivers.push(new DriverDTO(driver));
+    if (transit.getProposedDrivers()) {
+      for (const driver of transit.getProposedDrivers()) {
+        this.proposedDrivers.push(new DriverDTO(driver));
+      }
     }
 
     this.to = new AddressDTO(transit.getTo());
@@ -74,61 +77,64 @@ export class TransitDTO {
   }
 
   private setTariff(transit: Transit): void {
-    const day = dayjs();
+    const day = dayjs.utc(this.date);
+    const hour = day.hour();
+    const year = day.year();
+    const dayOfYear = day.dayOfYear();
+    const dayOfWeek = day.day();
 
     // wprowadzenie nowych cennikow od 1.01.2019
-    if (day.year() <= 2018) {
+    if (year <= 2018) {
       this.kmRate = 1.0;
-      this.tariff = 'standard';
+      this.tariff = 'Standard';
 
       return;
     }
 
-    const year: number = day.year();
     const leap: boolean =
       (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 
     if (
-      (leap && day.dayOfYear() === 366) ||
-      (!leap && day.dayOfYear() === 365) ||
-      (day.dayOfYear() === 1 && day.hour() <= 6)
+      (leap && dayOfYear === 366) ||
+      (!leap && dayOfYear === 365) ||
+      (dayOfYear === 1 && hour <= 6)
     ) {
-      this.tariff = 'sylwester';
+      this.tariff = 'Sylwester';
       this.kmRate = 3.5;
     } else {
-      switch (day.day()) {
+      switch (dayOfWeek) {
         case 1: // Monday
         case 2: // Tuesday
         case 3: // Wednesday
         case 4: // Thursday
           this.kmRate = 1.0;
-          this.tariff = 'standard';
+          this.tariff = 'Standard';
           break;
         case 5: // Friday
-          if (day.hour() < 17) {
-            this.tariff = 'standard';
+          if (hour < 17) {
+            this.tariff = 'Standard';
             this.kmRate = 1.0;
           } else {
-            this.tariff = 'weekend+';
+            this.tariff = 'Weekend+';
             this.kmRate = 2.5;
           }
           break;
         case 6: // Saturday
-          if (day.hour() < 6 || day.hour() >= 17) {
+          if (hour < 6 || hour >= 17) {
             this.kmRate = 2.5;
-            this.tariff = 'weekend+';
-          } else if (day.hour() < 17) {
+            this.tariff = 'Weekend+';
+          } else if (hour < 17) {
             this.kmRate = 1.5;
-            this.tariff = 'weekend';
+            this.tariff = 'Weekend';
           }
           break;
         case 0: // Sunday
-          if (day.hour() < 6) {
+          if (hour < 6) {
             this.kmRate = 2.5;
-            this.tariff = 'weekend';
+            this.tariff = 'Weekend';
           } else {
             this.kmRate = 1.5;
-            this.tariff = 'weekend';
+            this.tariff = 'Weekend';
           }
           break;
       }
