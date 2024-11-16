@@ -102,23 +102,6 @@ describe('TariffRecognizingIntegrationTest', () => {
     expect(transitDTO.getKmRate()).toEqual(1.0);
   });
 
-  test('standard tariff should be displayed before 2019', async () => {
-    // given
-    const transit: Transit = await aCompletedTransitAt(
-      60,
-      dayjs.utc('2018-12-31 22:30', 'YYYY-MM-DD HH:mm').toDate(),
-    );
-
-    // when
-    const transitDTO: TransitDTO = await transitController.getTransit(
-      transit.getId(),
-    );
-
-    // then
-    expect(transitDTO.getTariff()).toEqual('Standard');
-    expect(transitDTO.getKmRate()).toEqual(1.0);
-  });
-
   const aCompletedTransitAt = async (
     price: number,
     when: Date,

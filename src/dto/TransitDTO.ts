@@ -24,6 +24,7 @@ export class TransitDTO {
   public price: number | null;
   public driverFee: number | null;
   public estimatedPrice: number | null;
+  public baseFee: number;
   public date: Date | null;
   public dateTime: Date | null;
   public published: Date | null;
@@ -40,7 +41,7 @@ export class TransitDTO {
   constructor(transit: Transit) {
     this.id = transit.getId();
     this.distance = transit.getKm();
-    this.factor = transit.factor;
+    this.factor = 1;
     if (transit.getPrice() !== null) {
       this.price = transit.getPrice().toInt();
     }
@@ -77,68 +78,10 @@ export class TransitDTO {
   }
 
   private setTariff(transit: Transit): void {
-    const day = dayjs.utc(this.date);
-    const hour = day.hour();
-    const year = day.year();
-    const dayOfYear = day.dayOfYear();
-    const dayOfWeek = day.day();
-
     // wprowadzenie nowych cennikow od 1.01.2019
-    if (year <= 2018) {
-      this.kmRate = 1.0;
-      this.tariff = 'Standard';
-
-      return;
-    }
-
-    const leap: boolean =
-      (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-
-    if (
-      (leap && dayOfYear === 366) ||
-      (!leap && dayOfYear === 365) ||
-      (dayOfYear === 1 && hour <= 6)
-    ) {
-      this.tariff = 'Sylwester';
-      this.kmRate = 3.5;
-    } else {
-      switch (dayOfWeek) {
-        case 1: // Monday
-        case 2: // Tuesday
-        case 3: // Wednesday
-        case 4: // Thursday
-          this.kmRate = 1.0;
-          this.tariff = 'Standard';
-          break;
-        case 5: // Friday
-          if (hour < 17) {
-            this.tariff = 'Standard';
-            this.kmRate = 1.0;
-          } else {
-            this.tariff = 'Weekend+';
-            this.kmRate = 2.5;
-          }
-          break;
-        case 6: // Saturday
-          if (hour < 6 || hour >= 17) {
-            this.kmRate = 2.5;
-            this.tariff = 'Weekend+';
-          } else if (hour < 17) {
-            this.kmRate = 1.5;
-            this.tariff = 'Weekend';
-          }
-          break;
-        case 0: // Sunday
-          if (hour < 6) {
-            this.kmRate = 2.5;
-            this.tariff = 'Weekend';
-          } else {
-            this.kmRate = 1.5;
-            this.tariff = 'Weekend';
-          }
-          break;
-      }
-    }
+    this.tariff = transit.getTariff().getName();
+    this.kmRate = transit.getTariff().getKmRate();
+    this.baseFee = transit.getTariff().getBaseFee();
   }
 
   public getTariff(): string {

@@ -113,19 +113,6 @@ describe('CalculateTransitPriceTest', () => {
     expect(price).toEqual(new Money(60));
   });
 
-  test('should use standard price before 2019', () => {
-    // given
-    const transit: Transit = _transit(Status.COMPLETED, 20);
-
-    // 2018
-    transitWasDoneIn2018(transit);
-    // when
-    const price: Money = transit.calculateFinalCosts();
-
-    // then
-    expect(price).toEqual(new Money(29));
-  });
-
   const _transit = (status: Status, km: number): Transit => {
     const transit: Transit = new Transit();
 

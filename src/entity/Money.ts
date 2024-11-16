@@ -4,7 +4,7 @@ export class Money {
   public static readonly ZERO: Money = new Money(0);
 
   @Column({
-    name: 'value',
+    name: '_value',
     nullable: true,
     type: 'int',
   })

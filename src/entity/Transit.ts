@@ -17,6 +17,7 @@ import { Money } from './Money';
 import { Distance } from './Distance';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Tariff } from './Tariff';
 
 dayjs.extend(utc);
 
@@ -70,8 +71,6 @@ export enum DayOfWeek {
 
 @Entity({ name: 'transit' })
 export class Transit extends BaseEntity {
-  public static readonly BASE_FEE: number = 8;
-
   @Column({
     name: 'driver_payment_status',
     nullable: true,
@@ -119,10 +118,12 @@ export class Transit extends BaseEntity {
   })
   public awaitingDriversResponses: number | null;
 
-  @Column({ nullable: true, type: 'int' })
-  public factor: number | null;
+  @Column(() => Tariff, {
+    prefix: true,
+  })
+  public tariff: Tariff;
 
-  @Column({ nullable: false, type: 'float', default: 0 })
+  @Column({ name: 'km', nullable: false, type: 'float', default: 0 })
   private km: number;
 
   // https://stackoverflow.com/questions/37107123/sould-i-store-price-as-decimal-or-integer-in-mysql
@@ -307,6 +308,7 @@ export class Transit extends BaseEntity {
   }
 
   public setDateTime(dateTime: Date): void {
+    this.tariff = Tariff.ofTime(dateTime);
     this.dateTime = dateTime;
   }
 
@@ -382,6 +384,10 @@ export class Transit extends BaseEntity {
     this.completeAt = completeAt;
   }
 
+  getTariff(): Tariff {
+    return this.tariff;
+  }
+
   public estimateCost(): Money {
     if (this.status === Status.COMPLETED) {
       throw new ForbiddenException(
@@ -408,64 +414,6 @@ export class Transit extends BaseEntity {
   }
 
   private calculateCost(): Money {
-    let baseFee = Transit.BASE_FEE;
-    let factorToCalculate = this.factor;
-    if (factorToCalculate == null) {
-      factorToCalculate = 1;
-    }
-    let kmRate: number;
-
-    const day = dayjs.utc(this.dateTime);
-    const month = day.month();
-    const dayOfMonth = day.date();
-    const hour = day.hour();
-    const dayOfWeek = day.day();
-    const year = day.year();
-
-    // wprowadzenie nowych cennikow od 1.01.2019
-    if (year <= 2018) {
-      kmRate = 1.0;
-      baseFee++;
-    } else {
-      if (
-        (month === Month.DECEMBER && dayOfMonth === 31) ||
-        (month === Month.JANUARY && dayOfMonth === 1 && hour <= 6)
-      ) {
-        kmRate = 3.5;
-        baseFee += 3;
-      } else {
-        // piątek i sobota po 17 do 6 następnego dnia
-        if (
-          (dayOfWeek === DayOfWeek.FRIDAY && hour >= 17) ||
-          (dayOfWeek === DayOfWeek.SATURDAY && hour <= 6) ||
-          (dayOfWeek === DayOfWeek.SATURDAY && hour >= 17) ||
-          (dayOfWeek === DayOfWeek.SUNDAY && hour <= 6)
-        ) {
-          kmRate = 2.5;
-          baseFee += 2;
-        } else {
-          // pozostałe godziny weekendu
-          if (
-            (dayOfWeek === DayOfWeek.SATURDAY && hour > 6 && hour < 17) ||
-            (dayOfWeek === DayOfWeek.SUNDAY && hour > 6)
-          ) {
-            kmRate = 1.5;
-          } else {
-            // tydzień roboczy
-            kmRate = 1.0;
-            baseFee++;
-          }
-        }
-      }
-    }
-    const priceBigDecimal: number = parseInt(
-      (this.km * kmRate * factorToCalculate + baseFee).toFixed(2),
-      10,
-    );
-    const finalPrice: Money = new Money(
-      parseInt(priceBigDecimal.toString().replace(/\./gi, ''), 10),
-    );
-    this.price = finalPrice;
-    return this.price;
+    return this.tariff.calculateCost(this.getKm());
   }
 }
