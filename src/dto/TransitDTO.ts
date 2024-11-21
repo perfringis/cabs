@@ -38,39 +38,41 @@ export class TransitDTO {
   public carClass: CarClass;
   public clientDTO: ClientDTO;
 
-  constructor(transit: Transit) {
-    this.id = transit.getId();
-    this.distance = transit.getKm();
-    this.factor = 1;
-    if (transit.getPrice() !== null) {
-      this.price = transit.getPrice().toInt();
-    }
-    this.date = transit.getDateTime();
-    this.status = transit.getStatus();
-
-    this.setTariff(transit);
-
-    if (transit.getProposedDrivers()) {
-      for (const driver of transit.getProposedDrivers()) {
-        this.proposedDrivers.push(new DriverDTO(driver));
+  constructor(transit?: Transit) {
+    if (transit) {
+      this.id = transit.getId();
+      this.distance = transit.getKm();
+      this.factor = 1;
+      if (transit.getPrice() !== null) {
+        this.price = transit.getPrice().toInt();
       }
-    }
+      this.date = transit.getDateTime();
+      this.status = transit.getStatus();
 
-    this.to = new AddressDTO(transit.getTo());
-    this.from = new AddressDTO(transit.getFrom());
-    this.carClass = transit.getCarType();
-    this.clientDTO = new ClientDTO(transit.getClient());
-    if (transit.getDriversFee()) {
-      this.driverFee = transit.getDriversFee().toInt();
+      this.setTariff(transit);
+
+      if (transit.getProposedDrivers()) {
+        for (const driver of transit.getProposedDrivers()) {
+          this.proposedDrivers.push(new DriverDTO(driver));
+        }
+      }
+
+      this.to = new AddressDTO(transit.getTo());
+      this.from = new AddressDTO(transit.getFrom());
+      this.carClass = transit.getCarType();
+      this.clientDTO = new ClientDTO(transit.getClient());
+      if (transit.getDriversFee()) {
+        this.driverFee = transit.getDriversFee().toInt();
+      }
+      if (transit.getEstimatedPrice()) {
+        this.estimatedPrice = transit.getEstimatedPrice().toInt();
+      }
+      this.dateTime = transit.getDateTime();
+      this.published = transit.getPublished();
+      this.acceptedAt = transit.getAcceptedAt();
+      this.started = transit.getStarted();
+      this.completeAt = transit.getCompleteAt();
     }
-    if (transit.getEstimatedPrice()) {
-      this.estimatedPrice = transit.getEstimatedPrice().toInt();
-    }
-    this.dateTime = transit.getDateTime();
-    this.published = transit.getPublished();
-    this.acceptedAt = transit.getAcceptedAt();
-    this.started = transit.getStarted();
-    this.completeAt = transit.getCompleteAt();
   }
 
   public getKmRate(): number {

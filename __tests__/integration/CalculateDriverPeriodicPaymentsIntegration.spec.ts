@@ -29,7 +29,6 @@ describe('CalculateDriverPeriodicPaymentsIntegrationTest', () => {
     driverService = app.get<DriverService>(DriverService);
   });
 
-  // TODO: fix this text!
   test('should calculate monthly payment', async () => {
     // given
     const driver: Driver = await aDriver();
