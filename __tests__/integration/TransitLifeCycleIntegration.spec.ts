@@ -5,6 +5,7 @@ import { AddressDTO } from 'src/dto/AddressDTO';
 import { CarTypeDTO } from 'src/dto/CarTypeDTO';
 import { ClientDTO } from 'src/dto/ClientDTO';
 import { TransitDTO } from 'src/dto/TransitDTO';
+import { Address } from 'src/entity/Address';
 import { CarClass, CarType } from 'src/entity/CarType';
 import { Client } from 'src/entity/Client';
 import { Driver, DriverStatus, DriverType } from 'src/entity/Driver';
@@ -16,6 +17,7 @@ import { CarTypeService } from 'src/service/CarTypeService';
 import { DriverService } from 'src/service/DriverService';
 import { DriverSessionService } from 'src/service/DriverSessionService';
 import { DriverTrackingService } from 'src/service/DriverTrackingService';
+import { GeocodingService } from 'src/service/GeocodingService';
 import { TransitService } from 'src/service/TransitService';
 
 describe('TariffRecognizingIntegrationTest', () => {
@@ -26,6 +28,7 @@ describe('TariffRecognizingIntegrationTest', () => {
   let driverSessionService: DriverSessionService;
   let driverTrackingService: DriverTrackingService;
   let carTypeService: CarTypeService;
+  let geocodingService: GeocodingService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -43,6 +46,7 @@ describe('TariffRecognizingIntegrationTest', () => {
       DriverTrackingService,
     );
     carTypeService = app.get<CarTypeService>(CarTypeService);
+    geocodingService = app.get<GeocodingService>(GeocodingService);
 
     await anActiveCarCategory(CarClass.VAN);
   });
@@ -207,10 +211,224 @@ describe('TariffRecognizingIntegrationTest', () => {
       ),
     ).rejects.toThrow(NotAcceptableException);
   });
-  // test('can change pickup place', () => {});
-  // test('cannot change pickup place after transit is accepted', () => {});
-  // test('cannot change pickup place more than three times', () => {});
-  // test('cannot change pickup place when it is far away from original', () => {});
+
+  test('can change pickup place', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+
+    // when
+    await transitService.changeTransitAddressFrom(
+      transit.getId(),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Puławska',
+        buildingNumber: 28,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+
+    // then
+    const loaded: TransitDTO = await transitService.loadTransit(
+      transit.getId(),
+    );
+
+    expect(loaded.getFrom().getBuildingNumber()).toEqual(28);
+    expect(loaded.getFrom().getStreet()).toEqual('Puławska');
+  });
+
+  test('cannot change pickup place after transit is accepted', async () => {
+    // given
+    const destination: AddressDTO = new AddressDTO({
+      country: 'Polska',
+      district: null,
+      city: 'Warszawa',
+      street: 'Żytnia',
+      buildingNumber: 25,
+      additionalNumber: null,
+      postalCode: null,
+      name: null,
+    });
+    // and
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      destination,
+    );
+    // and
+    const changeTo: AddressDTO = new AddressDTO({
+      country: 'Polska',
+      district: null,
+      city: 'Warszawa',
+      street: 'Żytnia',
+      buildingNumber: 27,
+      additionalNumber: null,
+      postalCode: null,
+      name: null,
+    });
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+    // and
+    await transitService.acceptTransit(driverId, transit.getId());
+
+    // expect
+    await expect(
+      transitService.changeTransitAddressFrom(transit.getId(), changeTo),
+    ).rejects.toThrow(NotAcceptableException);
+  });
+
+  test('cannot change pickup place more than three times', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    await transitService.changeTransitAddressFrom(
+      transit.getId(),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 26,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    await transitService.changeTransitAddressFrom(
+      transit.getId(),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 27,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    await transitService.changeTransitAddressFrom(
+      transit.getId(),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 28,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+
+    await expect(
+      transitService.changeTransitAddressFrom(
+        transit.getId(),
+        new AddressDTO({
+          country: 'Polska',
+          district: null,
+          city: 'Warszawa',
+          street: 'Żytnia',
+          buildingNumber: 29,
+          additionalNumber: null,
+          postalCode: null,
+          name: null,
+        }),
+      ),
+    ).rejects.toThrow(NotAcceptableException);
+  });
+
+  test('cannot change pickup place when it is far away from original', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+
+    // expect
+    await expect(
+      transitService.changeTransitAddressFrom(
+        transit.getId(),
+        farAwayAddress(transit),
+      ),
+    ).rejects.toThrow(NotAcceptableException);
+  });
+
   // test('can cancel transit', () => {});
   // test('cannot cancel transit after it was started', () => {});
   // test('can publish transit', () => {});
@@ -314,5 +532,30 @@ describe('TariffRecognizingIntegrationTest', () => {
     await carTypeService.activate(carType.getId());
 
     return carType;
+  };
+
+  const farAwayAddress = (transit: Transit) => {
+    const addressDTO: AddressDTO = new AddressDTO({
+      country: 'Dania',
+      district: null,
+      city: 'Kopenhaga',
+      street: 'Mylve',
+      buildingNumber: 2,
+      additionalNumber: null,
+      postalCode: null,
+      name: null,
+    });
+
+    jest
+      .spyOn(geocodingService, 'geocodeAddress')
+      .mockImplementation((address: Address) => {
+        if (transit.getFrom().getId() === address.getId()) {
+          return [1, 1];
+        } else {
+          return [1000, 1000];
+        }
+      });
+
+    return addressDTO;
   };
 });
