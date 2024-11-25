@@ -9,14 +9,16 @@ export class CarTypeDTO {
   public minNoOfCarsToActivateClass: number;
   public activeCarsCounter: number;
 
-  constructor(carType: CarType) {
-    this.id = carType.getId();
-    this.carClass = carType.getCarClass();
-    this.description = carType.getDescription();
-    this.status = carType.getStatus();
-    this.carsCounter = carType.getCarsCounter();
-    this.minNoOfCarsToActivateClass = carType.getMinNoOfCarsToActivateClass();
-    this.activeCarsCounter = carType.getActiveCarsCounter();
+  constructor(carType?: CarType) {
+    if (carType) {
+      this.id = carType.getId();
+      this.carClass = carType.getCarClass();
+      this.description = carType.getDescription();
+      this.status = carType.getStatus();
+      this.carsCounter = carType.getCarsCounter();
+      this.minNoOfCarsToActivateClass = carType.getMinNoOfCarsToActivateClass();
+      this.activeCarsCounter = carType.getActiveCarsCounter();
+    }
   }
 
   public getId(): string {

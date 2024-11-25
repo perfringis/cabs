@@ -37,7 +37,7 @@ export class Driver extends BaseEntity {
   @Column({ name: 'last_name', nullable: true, type: 'varchar', length: 255 })
   private lastName: string | null;
 
-  @Column({ nullable: true, type: 'varchar', length: 255 })
+  @Column({ name: 'photo', nullable: true, type: 'varchar', length: 255 })
   private photo: string | null;
 
   @Column(() => DriverLicense, {
@@ -45,7 +45,12 @@ export class Driver extends BaseEntity {
   })
   private driverLicense: DriverLicense;
 
-  @Column({ name: 'is_occupied', nullable: true, type: 'boolean' })
+  @Column({
+    name: 'is_occupied',
+    nullable: false,
+    type: 'boolean',
+    default: false,
+  })
   private isOccupied: boolean;
 
   @OneToOne(() => DriverFee, (driverFee) => driverFee.driver)

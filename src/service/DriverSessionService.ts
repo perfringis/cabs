@@ -5,6 +5,7 @@ import { CarTypeService } from './CarTypeService';
 import { CarClass } from 'src/entity/CarType';
 import { DriverSession } from 'src/entity/DriverSession';
 import dayjs from 'dayjs';
+import { Driver } from 'src/entity/Driver';
 
 @Injectable()
 export class DriverSessionService {
@@ -22,7 +23,9 @@ export class DriverSessionService {
   ) {
     const session: DriverSession = new DriverSession();
 
-    session.setDriver(await this.driverRepository.getOne(driverId));
+    const driver: Driver = await this.driverRepository.getOne(driverId);
+
+    session.setDriver(driver);
     session.setLoggedAt(dayjs().toDate());
     session.setCarClass(carClass);
     session.setPlatesNumber(plateNumber);

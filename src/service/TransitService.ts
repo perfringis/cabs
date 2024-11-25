@@ -25,7 +25,7 @@ import {
 import dayjs from 'dayjs';
 import { DriverPositionDTOV2 } from 'src/dto/DriverPositionDTOV2';
 import { DriverSession } from 'src/entity/DriverSession';
-import { Driver, DriverStatus } from 'src/entity/Driver';
+import { Driver as T, DriverStatus, Driver } from 'src/entity/Driver';
 import { Money } from 'src/entity/Money';
 import { Distance } from 'src/entity/Distance';
 
@@ -306,7 +306,7 @@ export class TransitService {
   public async findDriversForTransit(transitId: string): Promise<Transit> {
     const transit: Transit = await this.transitRepository.getOne(transitId);
 
-    if (transit !== null) {
+    if (transit) {
       if (transit.getStatus() === Status.WAITING_FOR_DRIVER_ASSIGNMENT) {
         let distanceToCheck = 0;
 
@@ -377,7 +377,7 @@ export class TransitService {
               dayjs().subtract(5, 'minute').toDate(),
             );
 
-          if (!(driversAvgPositions.length === 0)) {
+          if (!this._isEmpty(driversAvgPositions)) {
             const comparator = (
               d1: DriverPositionDTOV2,
               d2: DriverPositionDTOV2,
@@ -402,11 +402,11 @@ export class TransitService {
             const activeCarClasses: CarClass[] =
               await this.carTypeService.findActiveCarClasses();
 
-            if (activeCarClasses.length === 0) {
+            if (this._isEmpty(activeCarClasses)) {
               return transit;
             }
 
-            if (transit.getCarType() !== null) {
+            if (transit.getCarType()) {
               if (activeCarClasses.includes(transit.getCarType())) {
                 carClasses.push(transit.getCarType());
               } else {
@@ -416,10 +416,8 @@ export class TransitService {
               carClasses.push(...activeCarClasses);
             }
 
-            const drivers: Driver[] = await Promise.all(
-              driversAvgPositions.map(async (d) => {
-                return d.getDriver();
-              }),
+            const drivers: T[] = driversAvgPositions.map(
+              (d: DriverPositionDTOV2) => d.getDriver(),
             );
 
             const driverSessions: DriverSession[] =
@@ -428,29 +426,23 @@ export class TransitService {
                 carClasses,
               );
 
-            const activeDriverIdsInSpecificCar: string[] = await Promise.all(
-              driverSessions.map(async (ds) => {
-                return ds.getDriver().getId();
-              }),
+            const activeDriverIdsInSpecificCar: string[] = driverSessions.map(
+              (ds) => ds.getDriver().getId(),
             );
 
-            driversAvgPositions = await Promise.all(
-              driversAvgPositions.filter((dp) => {
-                return activeDriverIdsInSpecificCar.includes(
-                  dp.getDriver().getId(),
-                );
-              }),
+            driversAvgPositions = driversAvgPositions.filter((dp) =>
+              activeDriverIdsInSpecificCar.includes(dp.getDriver().getId()),
             );
 
             // Iterate across average driver positions
             for (const driverAvgPosition of driversAvgPositions) {
-              const driver: Driver = driverAvgPosition.getDriver();
+              const driver: T = driverAvgPosition.getDriver();
 
               if (
                 driver.getStatus() === DriverStatus.ACTIVE &&
-                driver.getIsOccupied() === false
+                driver.getIsOccupied() == false
               ) {
-                if (!transit.getDriversRejections().includes(driver)) {
+                if (!this._contains(transit.getDriversRejections(), driver)) {
                   transit.getProposedDrivers().push(driver);
                   transit.setAwaitingDriversResponses(
                     transit.getAwaitingDriversResponses() + 1,
@@ -460,7 +452,7 @@ export class TransitService {
                 // Not implemented yet!
               }
             }
-
+            console.log('MK ' + transit.getProposedDrivers().length);
             await this.transitRepository.save(transit);
           } else {
             // Next iteration, no drivers at specified area
@@ -496,12 +488,12 @@ export class TransitService {
             'Transit already accepted, id = ' + transitId,
           );
         } else {
-          if (!this._includes(transit.getProposedDrivers(), driver)) {
+          if (!this._contains(transit.getProposedDrivers(), driver)) {
             throw new NotAcceptableException(
               'Driver out of possible drivers, id = ' + transitId,
             );
           } else {
-            if (this._includes(transit.getProposedDrivers(), driver)) {
+            if (this._contains(transit.getDriversRejections(), driver)) {
               throw new NotAcceptableException(
                 'Driver out of possible drivers, id = ' + transitId,
               );
@@ -525,7 +517,7 @@ export class TransitService {
     driverId: string,
     transitId: string,
   ): Promise<void> {
-    const driver: Driver = await this.driverRepository.getOne(driverId);
+    const driver: T = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
@@ -553,7 +545,7 @@ export class TransitService {
     driverId: string,
     transitId: string,
   ): Promise<void> {
-    const driver: Driver = await this.driverRepository.getOne(driverId);
+    const driver: T = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
@@ -592,7 +584,7 @@ export class TransitService {
   ) {
     destinationAddress = await this.addressRepository.save(destinationAddress);
 
-    const driver: Driver = await this.driverRepository.getOne(driverId);
+    const driver: T = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
@@ -657,9 +649,14 @@ export class TransitService {
     return new TransitDTO(await this.transitRepository.getOne(id));
   }
 
-  private _includes(proposedDrivers: Driver[], driver: Driver): boolean {
-    return (
-      proposedDrivers.filter((d) => d.getId() === driver.getId()).length > 0
-    );
+  private _contains<T extends { getId(): string }>(
+    array: T[],
+    elem: T,
+  ): boolean {
+    return array.map((arrElem) => arrElem.getId()).includes(elem.getId());
+  }
+
+  private _isEmpty<T>(array: T[]): boolean {
+    return array.length === 0;
   }
 }

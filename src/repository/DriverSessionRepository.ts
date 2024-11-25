@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CarClass } from 'src/entity/CarType';
 import { Driver } from 'src/entity/Driver';
 import { DriverSession } from 'src/entity/DriverSession';
-import { DataSource, IsNull, MoreThan, Repository } from 'typeorm';
+import { DataSource, In, IsNull, MoreThan, Repository } from 'typeorm';
 
 @Injectable()
 export class DriverSessionRepository extends Repository<DriverSession> {
@@ -16,11 +16,16 @@ export class DriverSessionRepository extends Repository<DriverSession> {
   ): Promise<DriverSession[]> {
     const driverIds: string[] = drivers.map((driver) => driver.getId());
 
-    return await this.createQueryBuilder('driver_session')
-      .where('driver_session.driver_id IN (:...driverIds)', { driverIds })
-      .andWhere('driver_session.car_class IN (:...carClasses)', { carClasses })
-      .andWhere('driver_session.logged_out_at IS NULL')
-      .getMany();
+    return await this.find({
+      where: {
+        loggedOutAt: IsNull(),
+        driver: In(driverIds),
+        carClass: In(carClasses),
+      },
+      relations: {
+        driver: true,
+      },
+    });
   }
 
   public async findTopByDriverAndLoggedOutAtIsNullOrderByLoggedAtDesc(

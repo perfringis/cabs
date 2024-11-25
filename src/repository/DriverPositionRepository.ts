@@ -31,9 +31,8 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
     longitudeMax: number,
     date: Date,
   ): Promise<DriverPositionDTOV2[]> {
-    // TODO in future fix this implementation
     const results = await this.createQueryBuilder('p')
-      .leftJoinAndSelect('p.driver', 'driver')
+      .innerJoinAndSelect('p.driver', 'driver')
       .select('AVG(p.latitude)', 'latitude')
       .addSelect('AVG(p.longitude)', 'longitude')
       .addSelect('MAX(p.seenAt)', 'seen_at')
@@ -54,7 +53,8 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
 
     return results.map((result) => {
       const driver: Driver = new Driver();
-      // TODO add set for id
+
+      driver.id = result.driver_id;
       driver.setType(result.driver_type);
       driver.setStatus(result.driver_status);
       driver.setFirstName(result.driver_first_name);
@@ -63,15 +63,12 @@ export class DriverPositionRepository extends Repository<DriverPosition> {
       driver.setDriverLicense(result.driver_driver_license);
       driver.setIsOccupied(result.driver_is_occupied);
 
-      const driverPositionDTOV2: DriverPositionDTOV2 = new DriverPositionDTOV2(
-        // TODO in php implementation driverId
+      return new DriverPositionDTOV2(
         driver,
         result.latitude,
         result.longitude,
         result.seen_at,
       );
-
-      return driverPositionDTOV2;
     });
   }
 
