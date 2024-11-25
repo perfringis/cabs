@@ -176,18 +176,22 @@ describe('TariffRecognizingIntegrationTest', () => {
       destination,
     );
     // and
-    const driver: string = await aNearbyDriver('WU1212');
+    const driverId: string = await aNearbyDriver('WU1212');
     // and
     await transitService.publishTransit(transit.getId());
     // and
-    await transitService.acceptTransit(driver, transit.getId());
+    await transitService.acceptTransit(driverId, transit.getId());
     // and
-    await transitService.startTransit(driver, transit.getId());
+    await transitService.startTransit(driverId, transit.getId());
     // and
-    await transitService.completeTransit(driver, transit.getId(), destination);
+    await transitService.completeTransit(
+      driverId,
+      transit.getId(),
+      destination,
+    );
 
     // expect
-    expect(() => {
+    await expect(
       transitService.changeTransitAddressTo(
         transit.getId(),
         new AddressDTO({
@@ -200,8 +204,8 @@ describe('TariffRecognizingIntegrationTest', () => {
           postalCode: null,
           name: null,
         }),
-      );
-    }).toThrow(NotAcceptableException);
+      ),
+    ).rejects.toThrow(NotAcceptableException);
   });
   // test('can change pickup place', () => {});
   // test('cannot change pickup place after transit is accepted', () => {});

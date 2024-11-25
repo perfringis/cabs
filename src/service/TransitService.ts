@@ -211,7 +211,9 @@ export class TransitService {
     transitId: string,
     newAddress: Address,
   ): Promise<void> {
-    newAddress = await this.addressRepository.save(newAddress);
+    const createdNewAddress: Address = await this.addressRepository.save(
+      newAddress,
+    );
 
     const transit: Transit = await this.transitRepository.getOne(transitId);
 
@@ -229,9 +231,10 @@ export class TransitService {
     const geoFrom: number[] = this.geocodingService.geocodeAddress(
       transit.getFrom(),
     );
-    const geoTo: number[] = this.geocodingService.geocodeAddress(newAddress);
+    const geoTo: number[] =
+      this.geocodingService.geocodeAddress(createdNewAddress);
 
-    transit.setTo(newAddress);
+    transit.setTo(createdNewAddress);
     transit.setKm(
       Distance.ofKm(
         this.distanceCalculator.calculateByMap(
@@ -436,7 +439,7 @@ export class TransitService {
 
             // Iterate across average driver positions
             for (const driverAvgPosition of driversAvgPositions) {
-              const driver: T = driverAvgPosition.getDriver();
+              const driver: Driver = driverAvgPosition.getDriver();
 
               if (
                 driver.getStatus() === DriverStatus.ACTIVE &&
@@ -452,7 +455,7 @@ export class TransitService {
                 // Not implemented yet!
               }
             }
-            console.log('MK ' + transit.getProposedDrivers().length);
+
             await this.transitRepository.save(transit);
           } else {
             // Next iteration, no drivers at specified area
@@ -517,7 +520,7 @@ export class TransitService {
     driverId: string,
     transitId: string,
   ): Promise<void> {
-    const driver: T = await this.driverRepository.getOne(driverId);
+    const driver: Driver = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
@@ -545,7 +548,7 @@ export class TransitService {
     driverId: string,
     transitId: string,
   ): Promise<void> {
-    const driver: T = await this.driverRepository.getOne(driverId);
+    const driver: Driver = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
@@ -584,7 +587,7 @@ export class TransitService {
   ) {
     destinationAddress = await this.addressRepository.save(destinationAddress);
 
-    const driver: T = await this.driverRepository.getOne(driverId);
+    const driver: Driver = await this.driverRepository.getOne(driverId);
 
     if (driver === null) {
       throw new NotFoundException('Driver does not exist, id = ' + driverId);
