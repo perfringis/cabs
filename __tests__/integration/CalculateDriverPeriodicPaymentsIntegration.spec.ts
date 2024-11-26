@@ -9,6 +9,7 @@ import { TransitRepository } from 'src/repository/TransitRepository';
 import { DriverService } from 'src/service/DriverService';
 import utc from 'dayjs/plugin/utc';
 import { Money } from 'src/entity/Money';
+import { Distance } from 'src/entity/Distance';
 
 dayjs.extend(utc);
 
@@ -116,11 +117,19 @@ describe('CalculateDriverPeriodicPaymentsIntegrationTest', () => {
     price: number,
     when: Date,
   ): Promise<Transit> => {
-    const transit: Transit = new Transit();
+    const transit: Transit = new Transit(
+      null,
+      null,
+      null,
+      null,
+      when,
+      Distance.ofKm(0),
+      null,
+    );
 
     transit.setPrice(new Money(price));
-    transit.setDriver(driver);
-    transit.setDateTime(when);
+    transit.proposeTo(driver);
+    transit.acceptBy(driver, dayjs().toDate());
 
     return await transitRepository.save(transit);
   };

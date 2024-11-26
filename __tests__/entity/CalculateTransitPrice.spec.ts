@@ -114,14 +114,15 @@ describe('CalculateTransitPriceTest', () => {
   });
 
   const _transit = (status: Status, km: number): Transit => {
-    const transit: Transit = new Transit();
-
-    transit.setDateTime(dayjs().toDate());
-    transit.setStatus(Status.DRAFT);
-    transit.setKm(Distance.ofKm(km));
-    transit.setStatus(status);
-
-    return transit;
+    return new Transit(
+      null,
+      null,
+      null,
+      null,
+      dayjs().toDate(),
+      Distance.ofKm(km),
+      status,
+    );
   };
 
   const transitWasOnDoneOnFriday = (transit: Transit): void => {

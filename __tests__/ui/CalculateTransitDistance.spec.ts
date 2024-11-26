@@ -38,14 +38,17 @@ describe('CalculateTransitDistanceTest', () => {
   });
 
   const transitForDistance = (km: number): TransitDTO => {
-    const transit: Transit = new Transit();
+    const transit: Transit = new Transit(
+      new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 20),
+      new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 31),
+      new Client(),
+      null,
+      dayjs().toDate(),
+      Distance.ofKm(km),
+      null,
+    );
+
     transit.setPrice(new Money(10));
-    transit.setDateTime(dayjs().toDate());
-    transit.setTo(new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 31));
-    transit.setFrom(new Address('Poland', 'Warszawa', 'ul. Świętokrzyska', 20));
-    transit.setStatus(Status.DRAFT);
-    transit.setKm(Distance.ofKm(km));
-    transit.setClient(new Client());
 
     return new TransitDTO(transit);
   };

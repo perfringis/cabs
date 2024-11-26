@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { Address } from 'src/entity/Address';
 import { Client } from 'src/entity/Client';
-import { Driver } from 'src/entity/Driver';
 import { Money } from 'src/entity/Money';
 import { Transit } from 'src/entity/Transit';
 import { AddressRepository } from 'src/repository/AddressRepository';
@@ -12,6 +11,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { TransitDTO } from 'src/dto/TransitDTO';
 import { TransitController } from 'src/ui/TransitController';
+import { Distance } from 'src/entity/Distance';
 
 dayjs.extend(utc);
 
@@ -106,36 +106,23 @@ describe('TariffRecognizingIntegrationTest', () => {
     price: number,
     when: Date,
   ): Promise<Transit> => {
-    const now: Date = dayjs().toDate();
-    const transit: Transit = await aTransit(null, price, now);
-    transit.setDateTime(when);
-
-    const addressTo: Address = await addressRepository.save(
-      new Address('Polska', 'Warszawa', 'Zytnia', 20),
-    );
-    transit.setTo(addressTo);
-
-    const addressFrom: Address = await addressRepository.save(
-      new Address('Polska', 'Warszawa', 'Młynarska', 20),
-    );
-    transit.setFrom(addressFrom);
-
     const client: Client = await aClient();
-    transit.setClient(client);
 
-    return await transitRepository.save(transit);
-  };
+    const transit: Transit = new Transit(
+      await addressRepository.save(
+        new Address('Polska', 'Warszawa', 'Młynarska', 20),
+      ),
+      await addressRepository.save(
+        new Address('Polska', 'Warszawa', 'Zytnia', 20),
+      ),
+      client,
+      null,
+      when,
+      Distance.ofKm(0),
+    );
 
-  const aTransit = async (
-    driver: Driver,
-    price: number,
-    when: Date,
-  ): Promise<Transit> => {
-    const transit: Transit = new Transit();
-
+    transit.publishAt(when);
     transit.setPrice(new Money(price));
-    transit.setDriver(driver);
-    transit.setDateTime(when);
 
     return await transitRepository.save(transit);
   };
