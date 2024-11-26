@@ -1,6 +1,5 @@
-import { NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { NotAcceptableException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { loadESLint } from 'eslint';
 import { AppModule } from 'src/app.module';
 import { AddressDTO } from 'src/dto/AddressDTO';
 import { CarTypeDTO } from 'src/dto/CarTypeDTO';
@@ -20,7 +19,6 @@ import { DriverSessionService } from 'src/service/DriverSessionService';
 import { DriverTrackingService } from 'src/service/DriverTrackingService';
 import { GeocodingService } from 'src/service/GeocodingService';
 import { TransitService } from 'src/service/TransitService';
-import { Not } from 'typeorm';
 
 describe('TariffRecognizingIntegrationTest', () => {
   let transitService: TransitService;
@@ -311,6 +309,24 @@ describe('TariffRecognizingIntegrationTest', () => {
     await expect(
       transitService.changeTransitAddressFrom(transit.getId(), changeTo),
     ).rejects.toThrow(NotAcceptableException);
+
+    // and
+    await transitService.startTransit(driverId, transit.getId());
+    // expect
+    await expect(
+      transitService.changeTransitAddressFrom(transit.getId(), changeTo),
+    ).rejects.toThrow(NotAcceptableException);
+
+    // and
+    await transitService.completeTransit(
+      driverId,
+      transit.getId(),
+      destination,
+    );
+    // expect
+    await expect(
+      transitService.changeTransitAddressFrom(transit.getId(), changeTo),
+    ).rejects.toThrow(NotAcceptableException);
   });
 
   test('cannot change pickup place more than three times', async () => {
@@ -586,6 +602,13 @@ describe('TariffRecognizingIntegrationTest', () => {
 
     // when
     await transitService.acceptTransit(driverId, transit.getId());
+
+    // then
+    const loaded: TransitDTO = await transitService.loadTransit(
+      transit.getId(),
+    );
+    expect(loaded.getStatus()).toEqual(Status.TRANSIT_TO_PASSENGER);
+    expect(loaded.getAcceptedAt()).not.toBeNull();
   });
 
   test('only one driver can accept transit', async () => {
@@ -615,7 +638,7 @@ describe('TariffRecognizingIntegrationTest', () => {
     // and
     const driverId: string = await aNearbyDriver('WU1212');
     // and
-    const secondDriverId: string = await aNearbyDriver('WU1212');
+    const secondDriverId: string = await aNearbyDriver('DW MARIO');
     // and
     await transitService.publishTransit(transit.getId());
     // and
@@ -699,11 +722,214 @@ describe('TariffRecognizingIntegrationTest', () => {
       transitService.acceptTransit(farAwayDriver, transit.getId()),
     ).rejects.toThrow(NotAcceptableException);
   });
-  // test('can start transit', () => {});
-  // test('cannot start not accepted transit', () => {});
-  // test('can complete transit', () => {});
-  // test('cannot complete not started transit', () => {});
-  // test('can reject transit', () => {});
+
+  test('can start transit', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+    // and
+    await transitService.acceptTransit(driverId, transit.getId());
+    // when
+    await transitService.startTransit(driverId, transit.getId());
+
+    // then
+    const loaded: TransitDTO = await transitService.loadTransit(
+      transit.getId(),
+    );
+    expect(loaded.getStatus()).toEqual(Status.IN_TRANSIT);
+    expect(loaded.getStarted()).not.toBeNull();
+  });
+
+  test('cannot start not accepted transit', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+
+    // expect
+    await expect(
+      transitService.startTransit(driverId, transit.getId()),
+    ).rejects.toThrow(NotAcceptableException);
+  });
+
+  test('can complete transit', async () => {
+    // given
+    const destination: AddressDTO = new AddressDTO({
+      country: 'Polska',
+      district: null,
+      city: 'Warszawa',
+      street: 'Żytnia',
+      buildingNumber: 25,
+      additionalNumber: null,
+      postalCode: null,
+      name: null,
+    });
+    // and
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      destination,
+    );
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+    // and
+    await transitService.acceptTransit(driverId, transit.getId());
+    // and
+    await transitService.startTransit(driverId, transit.getId());
+
+    // when
+    await transitService.completeTransit(
+      driverId,
+      transit.getId(),
+      destination,
+    );
+
+    // then
+    const loaded: TransitDTO = await transitService.loadTransit(
+      transit.getId(),
+    );
+    expect(loaded.getStatus()).toEqual(Status.COMPLETED);
+    expect(loaded.getTariff()).not.toBeNull();
+    expect(loaded.getPrice()).toBeNull();
+    expect(loaded.getDriverFee()).not.toBeNull();
+    expect(loaded.getCompleteAt()).not.toBeNull();
+  });
+
+  test('cannot complete not started transit', async () => {
+    // given
+    const addressTo: AddressDTO = new AddressDTO({
+      country: 'Polska',
+      district: null,
+      city: 'Warszawa',
+      street: 'Żytnia',
+      buildingNumber: 25,
+      additionalNumber: null,
+      postalCode: null,
+      name: null,
+    });
+    // and
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      addressTo,
+    );
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+    // and
+    await transitService.acceptTransit(driverId, transit.getId());
+
+    // expect
+    await expect(
+      transitService.completeTransit(driverId, transit.getId(), addressTo),
+    ).rejects.toThrow(NotAcceptableException);
+  });
+
+  test('can reject transit', async () => {
+    // given
+    const transit: Transit = await requestTransitFromTo(
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Młynarska',
+        buildingNumber: 20,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+      new AddressDTO({
+        country: 'Polska',
+        district: null,
+        city: 'Warszawa',
+        street: 'Żytnia',
+        buildingNumber: 25,
+        additionalNumber: null,
+        postalCode: null,
+        name: null,
+      }),
+    );
+    // and
+    const driverId: string = await aNearbyDriver('WU1212');
+    // and
+    await transitService.publishTransit(transit.getId());
+
+    // when
+    await transitService.rejectTransit(driverId, transit.getId());
+
+    // then
+    const loaded: TransitDTO = await transitService.loadTransit(
+      transit.getId(),
+    );
+    expect(loaded.getStatus()).toEqual(Status.WAITING_FOR_DRIVER_ASSIGNMENT);
+    expect(loaded.getAcceptedAt()).toBeNull();
+  });
 
   const _driverHasFee = async (
     driver: Driver,

@@ -585,7 +585,8 @@ export class TransitService {
     transitId: string,
     destinationAddress: Address,
   ) {
-    destinationAddress = await this.addressRepository.save(destinationAddress);
+    const createdDestinationAddress: Address =
+      await this.addressRepository.save(destinationAddress);
 
     const driver: Driver = await this.driverRepository.getOne(driverId);
 
@@ -608,7 +609,7 @@ export class TransitService {
         transit.getTo(),
       );
 
-      transit.setTo(destinationAddress);
+      transit.setTo(createdDestinationAddress);
       transit.setKm(
         Distance.ofKm(
           this.distanceCalculator.calculateByMap(
