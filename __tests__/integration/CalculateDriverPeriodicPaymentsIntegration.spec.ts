@@ -115,17 +115,21 @@ describe('CalculateDriverPeriodicPaymentsIntegrationTest', () => {
   const aTransit = async (
     driver: Driver,
     price: number,
-    when: Date,
+    when: Date = dayjs().toDate(),
   ): Promise<Transit> => {
     const transit: Transit = new Transit(
       null,
       null,
       null,
       null,
-      when,
-      Distance.ofKm(0),
+      dayjs.utc(when).toDate(),
+      Distance.ZERO,
       null,
     );
+
+    // INFO: It has to be initialized in that way bcs of TypeORM
+    transit.driversRejections = new Array<Driver>();
+    transit.proposedDrivers = new Array<Driver>();
 
     transit.setPrice(new Money(price));
     transit.proposeTo(driver);

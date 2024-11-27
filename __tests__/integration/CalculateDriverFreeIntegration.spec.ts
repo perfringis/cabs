@@ -37,7 +37,7 @@ describe('CalculateDriverFreeIntegrationTest', () => {
     // given
     const driver: Driver = await aDriver();
     // and
-    const transit: Transit = await aTransit(driver, 60);
+    const transit: Transit = await aTransit(driver, 60, null);
     // and
     await driverHasFee(driver, FeeType.FLAT, 10);
 
@@ -54,7 +54,7 @@ describe('CalculateDriverFreeIntegrationTest', () => {
     // given
     const driver: Driver = await aDriver();
     // and
-    const transit: Transit = await aTransit(driver, 80);
+    const transit: Transit = await aTransit(driver, 80, null);
     // and
     await driverHasFee(driver, FeeType.PERCENTAGE, 50);
 
@@ -71,7 +71,7 @@ describe('CalculateDriverFreeIntegrationTest', () => {
     // given
     const driver: Driver = await aDriver();
     // and
-    const transit: Transit = await aTransit(driver, 10);
+    const transit: Transit = await aTransit(driver, 10, null);
     // and
     await _driverHasFee(driver, FeeType.PERCENTAGE, 7, 5);
 
@@ -113,20 +113,30 @@ describe('CalculateDriverFreeIntegrationTest', () => {
     );
   };
 
-  const aTransit = async (driver: Driver, price: number): Promise<Transit> => {
-    const when = dayjs.utc('20-10-2020', 'DD-MM-YYYY').startOf('day').toDate();
+  const aTransit = async (
+    driver: Driver,
+    price: number,
+    when: Date = dayjs().toDate(),
+  ): Promise<Transit> => {
     const transit: Transit = new Transit(
       null,
       null,
       null,
       null,
-      when,
-      Distance.ofKm(0),
+      dayjs.utc(when).toDate(),
+      Distance.ZERO,
       null,
     );
+
+    // INFO: It has to be initialized in that way bcs of TypeORM
+    transit.driversRejections = new Array<Driver>();
+    transit.proposedDrivers = new Array<Driver>();
+
     transit.setPrice(new Money(price));
     transit.proposeTo(driver);
-    transit.acceptBy(driver, dayjs().toDate());
+
+    const now = dayjs().toDate();
+    transit.acceptBy(driver, now);
 
     return await transitRepository.save(transit);
   };

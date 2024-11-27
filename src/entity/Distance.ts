@@ -3,6 +3,7 @@ import objectHash from 'object-hash';
 
 export class Distance {
   private static readonly MILES_TO_KILOMETERS_RATIO = 1.609344;
+  public static readonly ZERO = Distance.ofKm(0);
 
   private km: number;
 

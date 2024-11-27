@@ -455,7 +455,7 @@ export class Transit extends BaseEntity {
 
     this.status = Status.CANCELLED;
     this.driver = null;
-    this.km = Distance.ofKm(0).toKmInFloat();
+    this.km = Distance.ZERO.toKmInFloat();
     this.awaitingDriversResponses = 0;
   }
 
@@ -469,7 +469,7 @@ export class Transit extends BaseEntity {
   public failDriverAssignment(): void {
     this.status = Status.DRIVER_ASSIGNMENT_FAILED;
     this.driver = null;
-    this.km = Distance.ofKm(0).toKmInFloat();
+    this.km = Distance.ZERO.toKmInFloat();
     this.awaitingDriversResponses = 0;
   }
 
@@ -485,7 +485,7 @@ export class Transit extends BaseEntity {
   }
 
   public acceptBy(driver: Driver, when: Date): void {
-    if (this.driver !== null) {
+    if (this.driver) {
       throw new NotAcceptableException(
         'Transit already accepted, id = ' + this.getId(),
       );
@@ -529,10 +529,7 @@ export class Transit extends BaseEntity {
     }
   }
 
-  private _contains<T extends { getId(): string }>(
-    array: T[],
-    elem: T,
-  ): boolean {
+  private _contains<T extends BaseEntity>(array: T[], elem: T): boolean {
     return array.map((arrElem) => arrElem.getId()).includes(elem.getId());
   }
 }

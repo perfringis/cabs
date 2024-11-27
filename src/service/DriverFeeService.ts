@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DriverFee, FeeType } from 'src/entity/DriverFee';
+import { DriverFee } from 'src/entity/DriverFee';
 import { Money } from 'src/entity/Money';
 import { Transit } from 'src/entity/Transit';
 import { DriverFeeRepository } from 'src/repository/DriverFeeRepository';

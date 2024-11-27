@@ -118,7 +118,7 @@ describe('TariffRecognizingIntegrationTest', () => {
       client,
       null,
       when,
-      Distance.ofKm(0),
+      Distance.ZERO,
     );
 
     transit.publishAt(when);
