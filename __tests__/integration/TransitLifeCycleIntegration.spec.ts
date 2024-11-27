@@ -20,7 +20,7 @@ import { DriverTrackingService } from 'src/service/DriverTrackingService';
 import { GeocodingService } from 'src/service/GeocodingService';
 import { TransitService } from 'src/service/TransitService';
 
-describe('TariffRecognizingIntegrationTest', () => {
+describe('TransitLifeCycleIntegrationTest', () => {
   let transitService: TransitService;
   let clientRepository: ClientRepository;
   let driverService: DriverService;

@@ -102,7 +102,7 @@ export class Transit extends BaseEntity {
   private date: Date | null;
 
   @Column({ name: 'pickup_address_change_counter', nullable: true, default: 0 })
-  private pickupAddressChangeCounter: number | null;
+  public pickupAddressChangeCounter: number | null;
 
   @Column({ name: 'accepted_at', nullable: true, type: 'datetime' })
   private acceptedAt: Date | null;
@@ -422,6 +422,7 @@ export class Transit extends BaseEntity {
 
     this.from = newAddress;
     this.pickupAddressChangeCounter++;
+    console.log(this.pickupAddressChangeCounter);
     this.km = newDistance.toKmInFloat();
     this.estimateCost();
   }

@@ -114,7 +114,9 @@ export class TransitService {
     transitId: string,
     newAddress: Address,
   ): Promise<void> {
-    newAddress = await this.addressRepository.save(newAddress);
+    const createdNewAddress: Address = await this.addressRepository.save(
+      newAddress,
+    );
     const transit: Transit = await this.transitRepository.getOne(transitId);
 
     if (transit === null) {
@@ -122,10 +124,9 @@ export class TransitService {
     }
 
     // FIXME later: add some exceptions handling
-    const geoFromNew: number[] = await this.geocodingService.geocodeAddress(
-      newAddress,
-    );
-    const geoFromOld: number[] = await this.geocodingService.geocodeAddress(
+    const geoFromNew: number[] =
+      this.geocodingService.geocodeAddress(createdNewAddress);
+    const geoFromOld: number[] = this.geocodingService.geocodeAddress(
       transit.getFrom(),
     );
 
@@ -223,7 +224,7 @@ export class TransitService {
 
     transit.changeDestinationTo(createdNewAddress, newDistance);
 
-    if (transit.getDriver() !== null) {
+    if (transit.getDriver()) {
       this.notificationService.notifyAboutChangedTransitAddress(
         transit.getDriver().getId(),
         transitId,
@@ -242,7 +243,7 @@ export class TransitService {
 
     transit.cancel();
 
-    if (transit.getDriver() !== null) {
+    if (transit.getDriver()) {
       this.notificationService.notifyAboutCancelledTransit(
         transit.getDriver().getId(),
         transitId,
