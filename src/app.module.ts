@@ -62,6 +62,8 @@ import { DriverTrackingController } from './ui/DriverTrackingController';
 import { TransitAnalyzerController } from './ui/TransitAnalyzerController';
 import { TransitAnalyzer } from './service/TransitAnalyzer';
 import { TransitController } from './ui/TransitController';
+import { CarTypeActiveCounterRepository } from './repository/CarTypeActiveCounterRepository';
+import { CarTypeEntityRepository } from './repository/CarTypeEntityRepository';
 
 @Module({
   imports: [
@@ -116,6 +118,8 @@ import { TransitController } from './ui/TransitController';
     AddressRepository,
     AwardedMilesRepository,
     AwardsAccountRepository,
+    CarTypeActiveCounterRepository,
+    CarTypeEntityRepository,
     CarTypeRepository,
     ClaimAttachmentRepository,
     ClaimRepository,

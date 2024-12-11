@@ -20,7 +20,7 @@ export class CarTypeController {
   public async create(@Body() carTypeDTO: CarTypeDTO): Promise<CarTypeDTO> {
     const created: CarType = await this.carTypeService.create(carTypeDTO);
 
-    return new CarTypeDTO(created);
+    return await this.carTypeService.loadDto(created.getId());
   }
 
   @Post('/cartypes/:carClass/registerCar')

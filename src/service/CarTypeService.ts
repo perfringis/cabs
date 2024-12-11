@@ -3,6 +3,7 @@ import { AppProperties } from 'src/config/AppProperties';
 import { CarTypeDTO } from 'src/dto/CarTypeDTO';
 import { CarClass, CarStatus, CarType } from 'src/entity/CarType';
 import { CarTypeRepository } from 'src/repository/CarTypeRepository';
+import { CarTypeActiveCounter } from '../entity/CarTypeActiveCounter';
 
 @Injectable()
 export class CarTypeService {
@@ -22,7 +23,12 @@ export class CarTypeService {
   }
 
   public async loadDto(carTypeId: string): Promise<CarTypeDTO> {
-    return new CarTypeDTO(await this.load(carTypeId));
+    const loaded: CarType = await this.load(carTypeId);
+
+    const carTypeActiveCounter: CarTypeActiveCounter =
+      await this.carTypeRepository.findActiveCounter(loaded.getCarClass());
+
+    return new CarTypeDTO(loaded, carTypeActiveCounter.getActiveCarsCounter());
   }
 
   public async create(carTypeDTO: CarTypeDTO): Promise<CarType> {
@@ -74,17 +80,11 @@ export class CarTypeService {
   }
 
   public async unregisterActiveCar(carClass: CarClass): Promise<void> {
-    const carType: CarType = await this.findByCarClass(carClass);
-    carType.unregisterActiveCar();
-
-    await this.carTypeRepository.save(carType);
+    await this.carTypeRepository.decrementCounter(carClass);
   }
 
   public async registerActiveCar(carClass: CarClass): Promise<void> {
-    const carType: CarType = await this.findByCarClass(carClass);
-    carType.registerActiveCar();
-
-    await this.carTypeRepository.save(carType);
+    await this.carTypeRepository.incrementCounter(carClass);
   }
 
   public async findActiveCarClasses(): Promise<CarClass[]> {

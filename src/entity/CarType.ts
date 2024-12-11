@@ -30,7 +30,6 @@ export class CarType extends BaseEntity {
   })
   public status: CarStatus | null;
 
-  // default is added to fix the logic
   @Column({ name: 'cars_counter', nullable: false, type: 'int', default: 0 })
   private carsCounter: number;
 
@@ -40,15 +39,6 @@ export class CarType extends BaseEntity {
     type: 'int',
   })
   private minNoOfCarsToActivateClass: number;
-
-  // default is added to fix the logic
-  @Column({
-    name: 'active_cars_counter',
-    nullable: false,
-    type: 'int',
-    default: 0,
-  })
-  private activeCarsCounter: number;
 
   @VersionColumn({ type: 'int', nullable: true })
   private version: number | null;
@@ -116,17 +106,5 @@ export class CarType extends BaseEntity {
 
   public getMinNoOfCarsToActivateClass(): number {
     return this.minNoOfCarsToActivateClass;
-  }
-
-  public getActiveCarsCounter(): number {
-    return this.activeCarsCounter;
-  }
-
-  public registerActiveCar(): void {
-    this.activeCarsCounter++;
-  }
-
-  public unregisterActiveCar(): void {
-    this.activeCarsCounter--;
   }
 }

@@ -422,7 +422,6 @@ export class Transit extends BaseEntity {
 
     this.from = newAddress;
     this.pickupAddressChangeCounter++;
-    console.log(this.pickupAddressChangeCounter);
     this.km = newDistance.toKmInFloat();
     this.estimateCost();
   }
