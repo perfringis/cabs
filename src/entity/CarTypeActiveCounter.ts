@@ -1,5 +1,4 @@
-import { Entity } from 'typeorm/decorator/entity/Entity';
-import { Column, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { CarClass } from './CarType';
 import objectHash from 'object-hash';
 
