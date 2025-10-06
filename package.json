@@ -34,7 +34,7 @@
     "reflect-metadata": "^0.2.2",
     "rimraf": "^4.3.1",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.26"
   },
   "devDependencies": {
     "@johanblumenberg/ts-mockito": "^1.0.45",
